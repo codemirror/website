@@ -1,0 +1,53 @@
+<<head {title: "CodeMirror 6 Reference Manual", type: "docs"}>>
+
+<style>
+  section { margin-bottom: 10em }
+</style>
+
+<h1>Reference Manual</h1>
+
+<p>For the time being, CodeMirror 6 is published as a single package,
+<code>@codemirror/next</code>, of which the modules listed here are
+subdirectories. So to, for example, load
+the <a href="#text"><code>text</code> module</a>, you'd import or
+require <code>"@codemirror/next/text"</code>.</p>
+
+<p>(In the future, these will most likely be published as separate npm
+packages.)</p>
+
+<p>The each package contains
+<a href="http://eloquentjavascript.net/10_modules.html#h_N33QHgUxbG">CommonJS</a>
+and
+<a href="http://eloquentjavascript.net/10_modules.html#h_hF2FmOVxw7">ECMAScript</a>
+modules. You'll have to use some kind of
+<a href="https://www.freecodecamp.org/news/javascript-modules-part-2-module-bundling-5020383cf306/">bundler</a>
+to run them in the browser.</p>
+
+<p>The main modules you'll interact with
+are <a href="#view"><code>view</code></a>, which provides the UI
+component for an editor, and <a href="#state"><code>state</code></a>,
+which implements the data structure that tracks the editor state.</p>
+
+<p>A minimal editor might look like this:</p>
+
+<pre><code type=javascript>import {EditorView} from "@codemirror/next/view"
+import {EditorState} from "@codemirror/next/state"
+
+let myView = new EditorView({state: EditorState.create({doc: "hello"})})
+document.body.appendChild(myView.dom)</code></pre>
+
+<p>To get functionality
+like <a href="#theme.highlight">highlighting</a>,
+a <a href="#gutter.lineNumbers">line number gutter</a>, or
+an <a href="#history">undo history</a>, you need
+to <a href="#state.EditorStateConfig.extensions">add</a> various
+extensions to such a basic editor.</p>
+
+<<for mod $in.modules>>
+  <section id="<<t mod.name>>">
+    <h2><<t mod.name>> module</h2>
+    <<h mod.content>>
+  </section>
+<</for>>
+
+<<foot>>

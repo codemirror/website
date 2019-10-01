@@ -1,0 +1,157 @@
+<<head {
+  type: "frontpage",
+  title: "CodeMirror 6",
+  meta: {"og:title": "CodeMirror",
+         "og:type": "website",
+         "og:url": "http://codemirror.net/6/",
+         "og:image": "http://codemirror.net/6/logo.svg",
+         "og:description": "In-browser code editor"},
+}>>
+
+<h1>Extensible Code Editor</h1>
+
+<p>CodeMirror 6 is an in-progress rewrite of
+the <a href="https://codemirror.net">CodeMirror</a> code editor. The
+new system aims to provide solid accessibility, touchscreen support,
+better content analysis, and a modern programming interface, while
+matching the existing code in features and performance. It will not be
+API-compatible with the old code.</p>
+
+<p>The project is at a point where the core code is in good shape, but
+the documentation is incomplete and several essential extensions have
+not been implemented yet.</p>
+
+<h2 class=hr id=features>Features</h2>
+
+<ul class=grid-list>
+  <li>
+    <h3>Full Parsing</h3>
+    <p>The recommended way to write language integration for
+    CodeMirror 6 involves
+    a <a href="https://lezer.codemirror.net">full parse tree</a>,
+    which makes code analysis easier and more powerful.</p>
+  </li>
+  <li>
+    <h3>Accessible</h3>
+    <p>This version leaves more to the browser, instead of “faking”
+    the editing process in JavaScript. This makes it more transparent
+    to screen readers and other accessibility tools.</p>
+  </li>
+  <li>
+    <h3>Touchscreen Support</h3>
+    <p>Using a native editable control allows you to use the editor on
+    a phone or tablet with the platform's native selection and editing
+    behavior.</p>
+  </li>
+  <li>
+    <h3>Extensible</h3>
+    <p>A more structured extension interface allows you to implement
+    complicated extensions in a robust way, without the race
+    conditions and complexity they would involve in the old
+    system.</p>
+  </li>
+  <li>
+    <h3>Modular</h3>
+    <p>The system's core is extremely generic, and even basic features
+    like syntax highlighting and line number gutters are implemented
+    as extensions, allowing you to omit or replace them if you need
+    to.</p>
+  </li>
+  <li>
+    <h3>Fast</h3>
+    <p>By carefully doing only the work that needs to be done, the
+    library manages to be fast even with gigantic documents and
+    ridiculously long lines.</p>
+  </li>
+</ul>
+
+<h2 class=hr id=about>About</h2>
+
+<p>CodeMirror is open source
+(<a href="https://github.com/codemirror/codemirror.next/blob/master/LICENSE-MIT">MIT</a>
+or <a href="https://github.com/codemirror/codemirror.next/blob/master/LICENSE-GPL3">GPL3</a>).
+It is being developed
+on <a href="https://github.com/lezer-parser/">GitHub</a>.
+Contributions are welcome.</p>
+
+<p>Discussing the project, or asking questions, is best done on
+the <a href="https://discuss.codemirror.net/">forum</a>. Bugs should
+be reported through
+the <a href="https://github.com/codemirror/codemirror.next/issues">issue
+tracker</a>. We aim to be an inclusive, welcoming community. To make
+that explicit, we have
+a <a href="http://contributor-covenant.org/version/1/1/0/">code of
+conduct</a> that applies to communication around the project.</p>
+
+<h2 class=hr id=sponsors>Sponsors</h2>
+
+<p>These wonderful companies and organizations helped fund the work on CodeMirror 6.</p>
+
+<style>
+
+div.sponsors h3 {
+  color: #777;
+  font-size: 15px;
+  text-align: right;
+  margin: 0;
+  min-width: 6em;
+  margin-bottom: 4px;
+}
+div.sponsors img { vertical-align: middle }
+
+div.sponsors.diamond img, div.sponsors.gold img {
+  max-width: calc(100% - 2em);
+  margin: 10px 0;
+}
+div.sponsors.diamond h3, div.sponsors.gold h3 {
+  margin-bottom: -5px;
+}
+div.sponsors.silver img {
+  border-radius: 6px;
+  height: 60px;
+}
+div.sponsors.bronze img {
+  height: 38px;
+  border: 1px solid silver;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+div.sponsors.bronze a.textual {
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 18px;
+  line-height: 38px;
+  margin-right: 5px;
+  border-radius: 4px;
+  border: 1px solid silver;
+  padding: 0 5px;
+}
+</style>
+
+<div class="sponsors diamond">
+  <h3>Diamond</h3>
+  <a href="https://automattic.com/"><img src="style/logo/automattic-logo-2x.png" alt="Automattic"></a>
+  <a href="https://www.mozilla.org/en-US/moss/"><img src="style/logo/mozilla.png" alt="Mozilla"></a>
+  <a href="https://prototypefund.de/"><img src="style/logo/bmbf.jpg" alt="Bundesministerium für Bildung und Forschung"></a>
+</div>
+<div class="sponsors gold">
+  <h3>Gold</h3>
+  <a href="https://wikimediafoundation.org/"><img src="style/logo/wikimedia.png" alt="Wikimedia Foundation"></a>
+</div>
+<div class="sponsors silver">
+  <h3>Silver</h3>
+  <a href="https://cargocollective.com/"><img src="style/logo/cargocollective.png" alt="Cargo"></a>
+  <a href="https://www.dataiku.com/"><img src="style/logo/dataiku.png" alt="Dataiku"></a>
+  <a href="https://www.overleaf.com/"><img src="style/logo/overleaf.png" alt="Overleaf"></a>
+</div>
+<div class="sponsors bronze">
+  <h3>Bronze</h3>
+  <a href="https://startupandrew.com/" class=textual>Andrew Lee</a>
+  <a href="https://buildkite.com/"><img src="style/logo/buildkite.png" alt="Buildkite"></a>
+  <a href="https://www.nuclino.com/"><img src="style/logo/nuclino.png" alt="Nuclino"></a>
+  <a href="https://www.pobox.com/"><img src="style/logo/pobox.png" alt="Pobox"></a>
+  <a href="https://www.superhi.com/"><img src="style/logo/superhi.png" alt="superhi"></a>
+</div>
+
+<<foot>>
