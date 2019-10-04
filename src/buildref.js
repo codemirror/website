@@ -27,7 +27,7 @@ exports.buildRef = function buildRef() {
     new Mod("matchbrackets", "src/matchbrackets.ts"),
     new Mod("keymap", "src/keymap.ts"),
     new Mod("multiple-selections", "src/multiple-selections.ts"),
-    new Mod("theme"),
+    new Mod("highlight", "src/highlight.ts"),
     new Mod("stream-syntax", "src/stream-syntax.ts"),
     new Mod("lang-javascript", "src/javascript.ts"),
     new Mod("lang-css", "src/css.ts"),
