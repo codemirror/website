@@ -38,6 +38,13 @@ mapDir(siteDir, join(base, "output"), (fullPath, name) => {
   currentRoot = backToRoot(dirname(name))
   if (name == "docs/ref/index.html") {
     return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef()})}
+  } else if (name == "demo.js") {
+    return require("rollup").rollup({
+      input: fullPath,
+      plugins: [require("rollup-plugin-commonjs")(), require("rollup-plugin-node-resolve")()]
+    }).then(bundle => bundle.generate({file: "demo.js", format: "umd"})).then(result => {
+      return {content: result.output[0].code}
+    })
   } else if (/\.md$/.test(name)) {
     let text = readFileSync(fullPath, "utf8")
     let meta = /^!(\{[^]*?\})\n\n/.exec(text)

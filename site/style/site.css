@@ -236,6 +236,7 @@ ul.grid-list p {
 }
 
 p, dl, dd, ul, ol, pre { margin-bottom: 23px }
+li ul, li ol { margin-bottom: 0px }
 
 p, dl { margin-top: 1em; }
 
@@ -285,7 +286,7 @@ dt {
 
 code { margin: 0 2px }
 
-.kind, .extends {
+.kind, .extends, .implements {
   font-weight: 600;
   font-family: "Source Sans Pro";
   font-size: 14px;
@@ -300,3 +301,6 @@ div.figure { margin: 1em; }
   width: 400px;
   max-width: 90%;
 }
+
+.cm-wrap { max-height: 200px; border: 1px solid silver; font-size: 14px }
+.cm-scroller { overflow: auto; }

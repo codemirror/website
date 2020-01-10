@@ -12,21 +12,22 @@ subdirectories. So to, for example, load
 the <a href="#text"><code>text</code> module</a>, you'd import or
 require <code>"@codemirror/next/text"</code>.</p>
 
-<p>(In the future, these will most likely be published as separate npm
+<p>(In the future, these will be published as separate npm
 packages.)</p>
 
-<p>The each package contains
+<p>Each package exposes both a
 <a href="http://eloquentjavascript.net/10_modules.html#h_N33QHgUxbG">CommonJS</a>
-and
+and an
 <a href="http://eloquentjavascript.net/10_modules.html#h_hF2FmOVxw7">ECMAScript</a>
-modules. You'll have to use some kind of
+module. You'll have to use some kind of
 <a href="https://www.freecodecamp.org/news/javascript-modules-part-2-module-bundling-5020383cf306/">bundler</a>
 to run them in the browser.</p>
 
-<p>The main modules you'll interact with
-are <a href="#view"><code>view</code></a>, which provides the UI
-component for an editor, and <a href="#state"><code>state</code></a>,
-which implements the data structure that tracks the editor state.</p>
+<p>The most interesting modules
+are <a href="#state"><code>state</code></a>, which contains the data
+structures that model the editor state,
+and <a href="#view"><code>view</code></a>, which provides the UI
+component for an editor.</p>
 
 <p>A minimal editor might look like this:</p>
 
@@ -36,8 +37,9 @@ import {EditorState} from "@codemirror/next/state"
 let myView = new EditorView({state: EditorState.create({doc: "hello"})})
 document.body.appendChild(myView.dom)</code></pre>
 
-<p>To get functionality
-like <a href="#theme.highlight">highlighting</a>,
+<p>But such an editor is too primitive for real use. To get
+functionality like <a href="#commands.baseKeymap">key
+bindings</a>, <a href="#highlight.defaultHighlighter">highlighting</a>,
 a <a href="#gutter.lineNumbers">line number gutter</a>, or
 an <a href="#history">undo history</a>, you need
 to <a href="#state.EditorStateConfig.extensions">add</a> various
