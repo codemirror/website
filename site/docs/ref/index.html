@@ -4,6 +4,10 @@
   section { margin-bottom: 10em }
 </style>
 
+<<toc $in.modules.map(mod => ({name: mod.name, link: "#" + mod.name}))>>
+
+<article>
+
 <h1>Reference Manual</h1>
 
 <p>For the time being, CodeMirror 6 is published as a single package,
@@ -51,5 +55,7 @@ extensions to such a basic editor.</p>
     <<h mod.content>>
   </section>
 <</for>>
+
+</article>
 
 <<foot>>

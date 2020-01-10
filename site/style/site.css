@@ -146,8 +146,6 @@ nav#toc > * {
   direction: ltr;
 }
 
-.toc-toggle { display: none }
-
 nav#toc input {
   border: none;
   width: 100%;
@@ -300,6 +298,43 @@ div.figure { margin: 1em; }
 .figure img {
   width: 400px;
   max-width: 90%;
+}
+
+nav#toc {
+  position: absolute;
+  top: 140px;
+  right: calc(50% + 360px);
+  color: #888;
+  min-width: 150px;
+  max-width: 200px;
+  width: fit-content;
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  padding: 10px 40px 30px 10px;
+  direction: rtl;
+  font-size: 14px;
+  line-height: 23.2px;
+  font-weight: 600;
+}
+
+nav#toc.fixed {
+  position: fixed;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+nav#toc > * {
+  direction: ltr;
+}
+
+nav#toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav#toc ul ul {
+  padding-left: 20px;
 }
 
 .cm-wrap { max-height: 200px; border: 1px solid silver; font-size: 14px }
