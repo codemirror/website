@@ -15,9 +15,8 @@ import {autocomplete, sortAndFilterCompletion} from "../../autocomplete"
 import {javascript} from "../../lang-javascript"
 import {defaultHighlighter} from "../../highlight"
 
-let items = "break case catch class const continue debugger default delete do else enum export extends false finally for function if implements import interface in instanceof let new package private protected public return static super switch this throw true try typeof var void while with yield".split(" ")
+let jsCompletions = "break case catch class const continue debugger default delete do else enum export extends false finally for function if implements import interface in instanceof let new package private protected public return static super switch this throw true try typeof var void while with yield".split(" ")
     .concat(Object.getOwnPropertyNames(window))
-    .map(s => ({label: s, insertText: s}))
 
 let isMac = /Mac/.test(navigator.platform)
 let state = EditorState.create({doc: `function hello(who = "world") {
@@ -36,7 +35,9 @@ let state = EditorState.create({doc: `function hello(who = "world") {
   autocomplete({completeAt(state, pos) {
     let prefix = /[\w$]*$/.exec(state.doc.slice(Math.max(0, pos - 30), pos))[0]
     if (!prefix) return {start: pos, items: []}
-    return {start: pos - prefix.length, items: sortAndFilterCompletion(prefix, items)}
+    return {items: sortAndFilterCompletion(prefix, jsCompletions.map(n => (
+      {label: n, insertText: n, start: pos - prefix.length, end: pos}
+    )))}
   }}),
   keymap({
     "Mod-z": undo,
