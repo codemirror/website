@@ -10,7 +10,7 @@ import {closeBrackets} from "../../closebrackets"
 import {specialChars} from "../../special-chars"
 import {multipleSelections} from "../../multiple-selections"
 import {search, defaultSearchKeymap} from "../../search"
-import {autocomplete, sortAndFilterCompletion} from "../../autocomplete"
+import {autocomplete} from "../../autocomplete"
 
 import {javascript} from "../../lang-javascript"
 import {defaultHighlighter} from "../../highlight"
@@ -32,13 +32,14 @@ let state = EditorState.create({doc: `function hello(who = "world") {
   defaultHighlighter,
   bracketMatching(),
   closeBrackets,
-  autocomplete({completeAt(state, pos) {
-    let prefix = /[\w$]*$/.exec(state.doc.slice(Math.max(0, pos - 30), pos))[0]
-    if (!prefix) return {start: pos, items: []}
-    return {items: sortAndFilterCompletion(prefix, jsCompletions.map(n => (
-      {label: n, insertText: n, start: pos - prefix.length, end: pos}
-    )))}
-  }}),
+  autocomplete({
+    override(state, pos, cx) {
+      let prefix = /[\w$]*$/.exec(state.doc.slice(Math.max(0, pos - 30), pos))[0]
+      if (!prefix) return []
+      return jsCompletions.filter(str => cx.filter(str, prefix))
+        .map(str => ({label: str, start: pos - prefix.length, end: pos}))
+    }
+  }),
   keymap({
     "Mod-z": undo,
     "Mod-Shift-z": redo,
