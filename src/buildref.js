@@ -3,40 +3,14 @@ const {build, browserImports} = require("builddocs")
 const {join, relative} = require("path")
 const {existsSync} = require("fs")
 
-class Mod {
-  constructor(name, main = "src/index.ts") {
-    this.name = name
-    this.base = "../" + name
-    this.main = this.base + "/" + main
-    this.relative = relative(process.cwd(), this.base) + "/"
-  }
-}
+let root = join(__dirname, "../..")
 
 exports.buildRef = function buildRef() {
-  let modules = [
-    new Mod("state"),
-    new Mod("text"),
-    new Mod("view"),
-    new Mod("commands", "src/commands.ts"),
-    new Mod("history", "src/history.ts"),
-    new Mod("gutter"),
-    new Mod("rangeset", "src/rangeset.ts"),
-    new Mod("special-chars", "src/special-chars.ts"),
-    new Mod("syntax"),
-    new Mod("matchbrackets", "src/matchbrackets.ts"),
-    new Mod("keymap", "src/keymap.ts"),
-    new Mod("multiple-selections", "src/multiple-selections.ts"),
-    new Mod("search", "src/search.ts"),
-    new Mod("lint", "src/lint.ts"),
-    new Mod("autocomplete"),
-    new Mod("panel", "src/panel.ts"),
-    new Mod("tooltip", "src/tooltip.ts"),
-    new Mod("highlight", "src/highlight.ts"),
-    new Mod("stream-syntax", "src/stream-syntax.ts"),
-    new Mod("lang-javascript", "src/javascript.ts"),
-    new Mod("lang-css", "src/css.ts"),
-    new Mod("lang-html", "src/html.ts")
-  ]
+  let modules = Object.keys(require(join(root, "package.json")).exports).map(pth => {
+    let name = /^\.\/(.+)/.exec(pth)[1]
+    let base = join(root, name), main = join(base, require(join(base, "package.json")).types + ".ts")
+    return {name, base, main, relative: relative(process.cwd(), base)}
+  })
 
   return modules.map(mod => {
     let items = gather({filename: mod.main, basedir: mod.base})
