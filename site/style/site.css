@@ -283,6 +283,7 @@ dt {
 }
 
 code { margin: 0 2px }
+pre code { margin: 0 }
 
 .kind, .extends, .implements {
   font-weight: 600;
