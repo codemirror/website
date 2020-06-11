@@ -1,15 +1,15 @@
 import {EditorState} from "../../state"
 import {EditorView} from "../../view"
 import {keymap} from "../../keymap"
-import {history, redo, redoSelection, undo, undoSelection} from "../../history"
-import {foldCode, unfoldCode, codeFolding, foldGutter} from "../../fold"
+import {historyKeymap, history} from "../../history"
+import {foldKeymap, foldGutter} from "../../fold"
 import {lineNumbers} from "../../gutter"
-import {baseKeymap, indentSelection} from "../../commands"
+import {defaultKeymap} from "../../commands"
 import {bracketMatching} from "../../matchbrackets"
 import {closeBrackets} from "../../closebrackets"
 import {specialChars} from "../../special-chars"
 import {multipleSelections} from "../../multiple-selections"
-import {search, defaultSearchKeymap} from "../../search"
+import {searchKeymap} from "../../search"
 import {autocomplete} from "../../autocomplete"
 
 import {javascript} from "../../lang-javascript"
@@ -28,7 +28,6 @@ let state = EditorState.create({doc: `function hello(who = "world") {
   foldGutter(),
   multipleSelections(),
   javascript(),
-  search({keymap: defaultSearchKeymap}),
   defaultHighlighter,
   bracketMatching(),
   closeBrackets,
@@ -40,17 +39,12 @@ let state = EditorState.create({doc: `function hello(who = "world") {
         .map(str => ({label: str, start: pos - prefix.length, end: pos}))
     }
   }),
-  keymap({
-    "Mod-z": undo,
-    "Mod-Shift-z": redo,
-    "Mod-u": view => undoSelection(view) || true,
-    [isMac ? "Mod-Shift-u" : "Alt-u"]: redoSelection,
-    "Ctrl-y": isMac ? undefined : redo,
-    "Shift-Tab": indentSelection,
-    "Mod-Alt-[": foldCode,
-    "Mod-Alt-]": unfoldCode
-  }),
-  keymap(baseKeymap),
+  keymap([
+    ...defaultKeymap,
+    ...historyKeymap,
+    ...foldKeymap,
+    ...searchKeymap
+  ])
 ]})
 
 let view = window.view = new EditorView({state})
