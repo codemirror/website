@@ -3,11 +3,15 @@ const markdown = require("markdown-it")({html: true}).use(require("markdown-it-d
 const {join, dirname} = require("path")
 const {readFileSync, readdirSync} = require("fs")
 const {mapDir} = require("./mapdir")
-const {buildRef, linkRef} = require("./buildref")
+const {buildRef} = require("./buildref")
 
 let base = join(__dirname, "..")
 
 let currentRoot = ""
+
+function resolveRefLinks(markdown, root) {
+  return markdown.replace(/\]\(#(#.*?)\)/g, `](${root}docs/ref/$1)`)
+}
 
 function loadTemplates(dir, env) {
   let mold = new Mold(env)
@@ -17,12 +21,8 @@ function loadTemplates(dir, env) {
   }
   mold.defs.markdown = function(options) {
     if (typeof options == "string") options = {text: options}
-    return markdown.render(linkRef(options.text))
-  }
-  mold.defs.markdownFile = function(options) {
-    if (typeof options == "string") options = {file: options}
-    options.text = readFileSync(join(base, options.file + ".md"), "utf8")
-    return mold.defs.markdown(options)
+    let text = resolveRefLinks(options.text, currentRoot)
+    return markdown.render(text)
   }
   mold.defs.root = function() {
     return currentRoot
@@ -37,7 +37,7 @@ let siteDir = join(base, "site")
 mapDir(siteDir, join(base, "output"), (fullPath, name) => {
   currentRoot = backToRoot(dirname(name))
   if (name == "docs/ref/index.html") {
-    return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef()})}
+    return {content: "foo" || mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef()})}
   } else if (name == "demo.js") {
     return require("rollup").rollup({
       input: fullPath,
