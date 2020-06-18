@@ -78,12 +78,13 @@ let view = new EditorView({
 })
 ```
 
-The packages are distributed as [ES6 modules](FIXME). This means that
-it is not currently practical to run the library without some kind of
-bundler (which packages up a modular program into a single big
-JavaScript file) or module loader. If you are new to bundling, I
-recommend looking into [rollup](https://rollupjs.org/) or
-[Webpack](FIXME).
+The packages are distributed as [ES6
+modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+This means that it is not currently practical to run the library
+without some kind of bundler (which packages up a modular program into
+a single big JavaScript file) or module loader. If you are new to
+bundling, I recommend looking into [rollup](https://rollupjs.org/) or
+[Webpack](https://webpack.js.org/).
 
 ### Functional Core, Imperative Shell
 
@@ -122,8 +123,9 @@ state.doc = Text.of("abc") // <- DON'T DO THIS
 ### State and Updates
 
 The library handles updates in a way inspired by approaches like
-[Redux](FIXME) or [Elm](FIXME). With a few exceptions (like
-composition and drag-drop handling), the state of the
+[Redux](https://redux.js.org/) or
+[Elm](https://guide.elm-lang.org/architecture/). With a few exceptions
+(like composition and drag-drop handling), the state of the
 [view](##view.EditorView) is entirely determined by the
 [`EditorState`](##state.EditorState) value in its
 [`state`](##view.EditorView.state) property.
@@ -459,7 +461,154 @@ around.
 
 ## The View
 
+The view tries to be as transparent a layer around the state as
+possible. Unfortunately, there are some aspects of working with an
+editor that can't be handled purely with the data in the state.
 
+ - When dealing with screen coordinates (to [figure
+   out](##view.EditorView.posAtCoords) where the user clicked, or to
+   find the [coordinates](##view.EditorView.coordsAtPos) of a given
+   position), you need access to the layout, and thus the brower DOM.
+
+ - The editor takes the [text
+   direction](##view.EditorView.textDirection) from the surrounding
+   document (or its own CSS style, if overridden).
+
+ - Cursor motion can depend on layout and text direction. Thus, the
+   view provides a number of helper methods for computing
+   [different](##view.EditorView.moveByChar)
+   [types](##view.EditorView.moveByGroup)
+   [of](##view.EditorView.moveToLineBoundary)
+   [motion](##view.EditorView.moveVertically).
+
+ - Some state, such as [focus](##view.EditorView.hasFocus) and [scroll
+   position](##view.EditorView.scrollPosIntoView), isn't stored in the
+   functional state, but left in the DOM.
+
+The library does not expect user code to manipulate its the DOM
+structure it manages. When you do try that, you'll probably just see
+the library revert your changes right away. See the section on
+[decorations](FIXME) for the proper way to affect the way the content
+is displayed.
+
+### Viewport
+
+One thing to be aware of is that CodeMirror doesn't render the entire
+document, when that document is big. To avoid doing some work, it
+will, when updating, detect which part of the content is currently
+visible (not scrolled out of view), and only render that plus a margin
+around it. This is called the [viewport](##view.EditorView.viewport).
+
+Querying coordinates for positions outside of the current viewport
+will not work (since they are not rendered, and thus have no layout).
+The view does track [height
+information](##view.EditorView.blockAtHeight) (initially estimated,
+measured accurately when content is drawn) for the entire document,
+even the parts outside of the viewport.
+
+Long lines (when not wrapped) or chunks of folded code can still make
+the viewport rather huge. The editor also provides a list of [visible
+ranges](##view.EditorView.visibleRanges), which won't include such
+invisible content. This can be useful when, for example, highlighting
+code, where you don't want to do work for text that isn't visible
+anyway.
+
+### Update Cycle
+
+CodeMirror's view makes a serious effort to minimize the amount of DOM
+[reflows](https://sites.google.com/site/getsnippet/javascript/dom/repaints-and-reflows-manipulating-the-dom-responsibly)
+it causes. [Dispatching](##view.EditorView.dispatch) a transaction
+will generally only cause the editor to write to the DOM, without
+reading layout information. The reading (to check whether the viewport
+is still valid, whether the cursor needs to be scrolled into view, and
+so on) is done in a separate _measure_ phase, scheduled using
+[`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame).
+This phase will, if necessary, follow up with another write phase.
+
+You can schedule your own measure code using the
+[`requestMeasure`](##view.EditorView.requestMeasure) method.
+
+To avoid weird reentrancy situations, the view will raise an error
+when a new update is initiated while another update is in the process
+of being (synchronously) applied. Multiple updates applied while a
+measure phase is still pending are not a problem—those will just cause
+their measure phases to be combined.
+
+When you are done with a view instance, you can call its
+[`destroy`](##view.EditorView.destroy) method to dispose of it.
+
+### DOM Structure
+
+The editor's DOM structure looks something like this:
+
+```html
+<div class="cm-wrap [theme scope classes]">
+  <div class="cm-scroller">
+    <div class="cm-content" contenteditable="true">
+      <div class="cm-line">Content goes here</div>
+      <div class="cm-line">...</div>
+    </div>
+  </div>
+</div>
+```
+
+The outer (`wrap`) element is a vertical flexbox. Things like
+[panels](##panel) and [tooltips](##tooltip) can be put here by
+extensions.
+
+Inside of that is the `scroller` element. If the editor has its own
+scrollbar, this one should be styled with `overflow: auto`. But it
+doesn't have to—the editor also supports growing to accomodate its
+content, or growing up to a certain `max-height` and then scrolling.
+
+The `scroller` is a horizontal flexbox element. When there are
+gutters, they are added to its start.
+
+Inside that is the `content` element, which is editable. This has a
+DOM [mutation
+observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
+registered on it, and any changes made in there will result in the
+editor parsing them as document changes and redrawing the affected
+nodes. This container holds a `line` element for each line in the
+viewport, which in turn hold the document text (possibly
+[decorated](##view.Decoration) with styles or widgets).
+
+### Styles and Themes
+
+To manage editor-related styles, CodeMirror uses a
+[system](https://github.com/marijnh/style-mod) to inject styles from
+JavaScript. Styles can be [registered](##view.EditorView^styleModule)
+with a facet, which will cause the view to make sure they are
+available.
+
+Many elements in the editor are assigned classes prefixed with `cm-`.
+These can be styled directly in your local CSS. But they can also be
+targeted by themes. A theme is an extension created with
+[`EditorView.theme`](##view.EditorView^theme). It consists of a unique
+(generated) CSS class (which will be added to the editor when the
+theme extension is active) and styles (scoped by that class) that
+target parts of the editor.
+
+This code creates a crude theme that makes the default text color in
+the editor orange:
+
+```javascript
+import {EditorView} from "@codemirror/next/view"
+
+let view = new EditorView({
+  extensions: EditorView.theme({
+    content: {color: "orange"}
+  })
+})
+```
+
+Themes assign styles to _theme selectors_, which roughly correspond to
+the class names used in the editor, minus the `cm-` prefix (though
+they can also be [extended](##view.themeClass) to produce more
+specific variants).
+
+Extensions can define [base themes](##view.EditorView^baseTheme) to
+provide default styles for the elements they create.
 
 ## Extending the System
 
