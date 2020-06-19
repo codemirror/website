@@ -39,7 +39,7 @@ hard to set up an editor at all, are:
    state to the user, and translates basic editing actions into state
    updates.
 
- - [`@codemirror/next/commands](##commands) defines a lot of editing
+ - [`@codemirror/next/commands`](##commands) defines a lot of editing
    commands and some [key bindings](##commands.defaultKeymap) for
    them.
 
@@ -221,8 +221,8 @@ keymap is tagged with a higher precedence. If that weren't the case,
 keymap `"A"` would be the first one to get a chance to handle the key
 combination, since it occurs before the others.
 
-A [later section](FIXME) of the guide goes into more detail on the
-kinds of extensions that exist, and how to use them.
+A [later section](#extending-codemirror) of the guide goes into more
+detail on the kinds of extensions that exist, and how to use them.
 
 ### Document Offsets
 
@@ -408,7 +408,7 @@ Facets are explicitly [defined](##state.Facet^defined), producing a
 facet value. Such a value can be exported, to allow other code to
 provide and read it, or it can be kept module-private, in which case
 only that module can access it. We'll come back to that in the section
-on [writing extensions](FIXME).
+on [writing extensions](#extending-codemirror).
 
 In a given configuration, most facets tend to be static, provided only
 directly as part of the configuration. But it is also possible to have
@@ -488,8 +488,8 @@ editor that can't be handled purely with the data in the state.
 The library does not expect user code to manipulate its the DOM
 structure it manages. When you do try that, you'll probably just see
 the library revert your changes right away. See the section on
-[decorations](FIXME) for the proper way to affect the way the content
-is displayed.
+[decorations](#decorating-the-document) for the proper way to affect
+the way the content is displayed.
 
 ### Viewport
 
@@ -608,9 +608,38 @@ they can also be [extended](##view.themeClass) to produce more
 specific variants).
 
 Extensions can define [base themes](##view.EditorView^baseTheme) to
-provide default styles for the elements they create.
+provide default styles for the elements they create. Base themes can
+specify light (default) and dark (enabled when there's a dark theme
+active) variants, so that even when they aren't overridden, they don't
+look too out of place.
 
-## Extending the System
+### Commands
+
+[Commands](##view.Command) are function with a specific signature.
+Their main use is [key bindings](##view.KeyBinding), but they could
+also be used for things like menu items or command palettes. A command
+function represents a user action. It takes a
+[view](##view.EditorView) and returns a boolean, `false` to indicate
+it doesn't apply in the current situation, and `true` to indicate that
+it successfully executed. The effect of the command is produced
+imperatively, usually by [dispatching](##view.EditorState.dispath) a
+transaction.
+
+When multiple commands are bound to a given key, they are tried one at
+a time until one of them returns `true`.
+
+Commands that only act on the state, not the entire view, can use the
+[`StateCommand`](##state.StateCommand) type instead, which is a
+subtype of [`Command`](##view.Command) that just expects its argument
+to have `state` and `dispatch` properties. This is mostly useful for
+being able to test such commands without creating a view.
+
+## Extending CodeMirror
+
+There are a number of different ways to extend CodeMirror, and picking
+the proper way for a given use case isn't always obvious. This section
+goes over the various concepts you'll need to be familiar with to
+write editor extensions.
 
 ### State Fields
 
@@ -624,8 +653,157 @@ fields](##state.StateField). State fields, living inside the purely
 functional [state](##state.EditorState) data structure, must store
 immutable values.
 
+State fields are kept in sync with the rest of the state using
+something like a [reducer](https://redux.js.org/basics/reducers/).
+Every time the state updates, a function is called with the field's
+current value and the transaction, which should return the field's new
+value.
+
+```javascript
+import {EditorState, StateField} from "@codemirror/next/state"
+
+let countDocChanges = StateField.define({
+  create() { return 0 },
+  update(value, tr) { return tr.docChanged ? value + 1 : value }
+})
+
+let state = EditorState.create({extensions: countDocChanges})
+state = state.update({changes: {from: 0, insert: "."}}).state
+console.log(state.field(countDocChanges)) // 1
+```
+
+You will often want to use [annotations](##state.Annotation) or
+[effects](##state.StateEffect) to communicate what is happening to
+your state field.
+
+It can be tempting to try to avoid taking the step of putting state in
+an actual state field—there's a bit of verbosity involved in declaring
+one, and firing off a whole transaction for every state change may
+feel a bit heavyweight. But in almost all cases, it _really_ helps to
+tie your state into the editor-wide state update cycle, because it
+makes it a lot easier to keep everything in sync.
+
 ### Affecting the View
+
+[View plugins](##view.ViewPlugin) provide a way for extensions to run
+an imperative component inside the view. This is useful for things
+like event handlers, adding and managing DOM elements, and doing
+things that depend on the current viewport.
+
+This simple plugin displays the document size in the editor's corner.
+
+```javascript
+import {ViewPlugin} from "@codemirror/next/view"
+
+const docSizePlugin = ViewPlugin.fromClass(class {
+  constructor(view) {
+    this.dom = view.dom.appendChild(document.createElement("div"))
+    this.dom.style.cssText =
+      "position: absolute; inset-block-start: 2px; inset-inline-end: 5px"
+    this.dom.textContent = view.state.doc.length
+  }
+
+  update(update) {
+    if (update.docChanged)
+      this.dom.textContent = update.state.doc.length
+  }
+
+  destroy() { this.dom.remove() }
+})
+```
+
+View plugins should generally not hold (non-derived) state. They work
+best as shallow views over the data kept in the editor state.
+
+When the state is reconfigured, view plugins that aren't part of the
+new configuration will be destroyed (which is why, if they made
+changes to the editor, they should define a `destroy` method that
+undoes those changes).
+
+When a view plugin crashes, it is automatically disabled to avoid
+taking down the entire view.
+
+It is possible for view plugins to
+[_provide_](##view.ViewPlugin.provide) [fields](##view.PluginField),
+which are a bit like facets on the view level, in that multiple
+plugins can contribute a given plugin field. This is mostly used for
+[document decorations](##view.ViewPlugin.decorations).
 
 ### Decorating the Document
 
-## Working with Syntax
+When not told otherwise, CodeMirror will draw the document as plain
+text. _Decorations_ are the mechanism through which extensions can
+influence what the document looks like. They come in four types:
+
+ - [Mark decorations](##view.Decoration^range) add style or DOM
+   attributes to the text in a given range.
+
+ - [Widget decorations](##view.Decoration^widget) insert a DOM element
+   at a given position in the document.
+
+ - [Replace decorations](##view.Decoration^replace) hide part of the
+   document or replace it with a given DOM node.
+
+ - [Line decorations](##view.Decoration^line) can add attributes to a
+   line's wrapping element.
+
+Decorations can be provided in two ways. There is a [state
+facet](##view.EditorView^decorations) that allows you to provide
+decorations at the level of the editor state, usually in a way
+[derived](##state.StateField^define^config.provide) from a state
+field. This doesn't allow you to decorate only the viewport (because
+the state doesn't know about that), so it is mostly useful for things
+like folded regions or lint annotations.
+
+The other way to decorate is from a [view
+plugin](##view.ViewPlugin.decorations). This is used by features like
+syntax or search-match highlighting, since view plugins can read the
+current viewport to avoid doing work for currently-invisible content.
+
+Decorations are kept in [sets](##rangeset.RangeSet), which are again
+immutable data structures. Such sets can be
+[mapped](##rangeset.RangeSet.map) across changes (adjusting the
+positions of their content to compensate for the change) or
+[rebuilt](##rangeset.RangeSetBuilder) on updates, depending on the use
+case.
+
+### Extension Architecture
+
+To create a given piece of editor functionality you often need to
+combine different kinds of extension: a state field to keep state, a
+base theme to provide styling, a view plugin to manage in- and output,
+some commands, maybe a facet for configuration.
+
+A common pattern is to export a function that returns the extension
+values necessary for your feature to work. Making this a function,
+even if it doesn't (yet) take parameters is a good idea—it makes it
+possible to add configuration options later, without breaking
+backwards compatiblity.
+
+Since extensions can pull in other extensions, it can be useful to
+consider what happens when your extension is included multiple times.
+For some kinds of extensions, for example keymaps, it is appropriate
+to just do the thing it's doing multiple times. But often that would
+be wasteful or even break something.
+
+It is usually possible to make multiple uses of an extension just do
+the right thing by relying on the deduplication of identical extension
+values—if you make sure you create your static extension values
+(themes, state fields, view plugins, etc) only once, and always return
+the same instance from your extension constructor function, you'll
+only get one copy of them in the editor.
+
+But when your extension allows configuration, your other logic will
+probably need access to that. And what do you do when the different
+instances of the extension got different configurations?
+
+Sometimes, that's just an error. But often, it is possible to define a
+strategy for reconciling them. Facets work well for this. You can put
+the configuration in a module-private facet, and have its
+[combining](##state.Facet^define^config.combine) function either
+reconcile configurations or thow an error when this is impossible.
+Then code that needs access to the current configuration can read that
+facet.
+
+<!-- FIXME See the [zebra stripes](../../examples/zebra) example for
+an illustration of this approach. -->
