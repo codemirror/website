@@ -5,7 +5,7 @@ const {existsSync} = require("fs")
 
 let root = join(__dirname, "../..")
 
-exports.buildRef = function buildRef() {
+exports.buildRef = function buildRef(highlight) {
   let modules = Object.keys(require(join(root, "package.json")).exports).map(pth => {
     let name = /^\.\/(.+)/.exec(pth)[1]
     let base = join(root, name), main = join(base, require(join(base, "package.json")).types + ".ts")
@@ -22,6 +22,7 @@ exports.buildRef = function buildRef() {
         anchorPrefix: mod.name + ".",
         main: existsSync(main) ? main : null,
         allowUnresolvedTypes: false,
+        markdownOptions: {highlight},
         imports: [type => {
           let sibling = type.typeSource && modules.find(m => type.typeSource.startsWith(m.relative))
           if (sibling) return "#" + sibling.name + "." + type.type

@@ -1,9 +1,26 @@
 const Mold = require("mold-template")
-const markdown = require("markdown-it")({html: true}).use(require("markdown-it-deflist")).use(require("markdown-it-anchor"))
+const markdownIt = require("markdown-it")
 const {join, dirname} = require("path")
 const {readFileSync, readdirSync} = require("fs")
 const {mapDir} = require("./mapdir")
 const {buildRef} = require("./buildref")
+
+const CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
+require("codemirror/mode/javascript/javascript.js")
+require("codemirror/mode/xml/xml.js")
+const escapeHtml = markdownIt().utils.escapeHtml
+
+function highlight(str, lang) {
+  if (lang == "html") lang = "text/html"
+  let result = ""
+  CodeMirror.runMode(str, lang, (text, style) => {
+    let esc = escapeHtml(text)
+    result += style ? `<span class="${style.replace(/^|\s+/g, "$&hl-")}">${esc}</span>` : esc
+  })
+  return result
+}
+
+const markdown = markdownIt({html: true, highlight}).use(require("markdown-it-deflist")).use(require("markdown-it-anchor"))
 
 let base = join(__dirname, "..")
 
@@ -37,7 +54,7 @@ let siteDir = join(base, "site")
 mapDir(siteDir, join(base, "output"), (fullPath, name) => {
   currentRoot = backToRoot(dirname(name))
   if (name == "docs/ref/index.html") {
-    return {content: "foo" || mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef()})}
+    return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef(highlight)})}
   } else if (name == "demo.js") {
     return require("rollup").rollup({
       input: fullPath,

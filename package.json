@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "builddocs": "git://github.com/marijnh/builddocs.git#v1",
+    "codemirror": "^5.54.0",
     "gettypes": "git://github.com/adrianheine/gettypes.git",
     "markdown-it": "^8.4.2",
     "markdown-it-anchor": "^5.2.4",
