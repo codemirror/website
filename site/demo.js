@@ -15,7 +15,7 @@ let state = EditorState.create({doc: `function hello(who = "world") {
       let prefix = /[\w$]*$/.exec(state.doc.slice(Math.max(0, pos - 30), pos))[0]
       if (!prefix) return []
       return jsCompletions.filter(str => cx.filter(str, prefix))
-        .map(str => ({label: str, start: pos - prefix.length, end: pos}))
+        .map(str => ({label: str, from: pos - prefix.length, to: pos}))
     }
   })
 ]})
