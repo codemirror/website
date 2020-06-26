@@ -66,7 +66,6 @@ function injectCode(content, code, fileName) {
 
 let siteDir = join(base, "site")
 mapDir(siteDir, join(base, "output"), (fullPath, name) => {
-  console.log(name)
   currentRoot = backToRoot(dirname(name))
   if (name == "docs/ref/index.html") {
     return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef(highlight)})}

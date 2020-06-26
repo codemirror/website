@@ -1,4 +1,4 @@
-!{"type": "docs", "title": "CodeMirror Zebra Stipes Example", "injectCode": "./zebra.ts"}
+!{"type": "examples", "title": "CodeMirror Zebra Stipes Example", "injectCode": "./zebra.ts"}
 
 # Example: Zebra Stripes
 
@@ -6,8 +6,8 @@ This example defines an extension that styles every Nth line with a
 background.
 
 To style the stripes in a way that allows
-[themes](##view.EditorView.theme) to override them, we start by
-defining a [base theme](##view.EditorView.baseTheme). It styles the
+[themes](##view.EditorView^theme) to override them, we start by
+defining a [base theme](##view.EditorView^baseTheme). It styles the
 `zebraStripe` theme selector (which will show up as the
 `cm-zebraStripe` CSS class in the DOM), with different backgrounds for
 light and dark base themes.
