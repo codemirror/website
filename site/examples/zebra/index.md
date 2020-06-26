@@ -76,3 +76,5 @@ document or the [viewport](##view.EditorView.viewport) changes.
 The result looks like this:
 
 <div id=editor></div>
+<script defer src="../../codemirror.js"></script>
+<script defer src="zebra.js"></script>

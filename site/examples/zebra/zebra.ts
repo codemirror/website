@@ -40,7 +40,7 @@ function stripeDeco(view: EditorView) {
   let step = view.state.facet(stepSize)
   let builder = new RangeSetBuilder<Decoration>()
   for (let {from, to} of view.visibleRanges) {
-    for (let pos = from; pos < to;) {
+    for (let pos = from; pos <= to;) {
       let line = view.state.doc.lineAt(pos)
       if ((line.number % step) == 0)
         builder.add(line.from, line.from, stripe)
@@ -62,7 +62,8 @@ const showStripes = ViewPlugin.fromClass(class {
   }
 
   update(update: ViewUpdate) {
-    if (update.docChanged || update.viewportChanged) this.decorations = stripeDeco(update.view)
+    if (update.docChanged || update.viewportChanged)
+      this.decorations = stripeDeco(update.view)
   }
 }).decorations()
 
@@ -72,10 +73,13 @@ import {EditorState} from "@codemirror/next/basic-setup"
 import {keymap} from "@codemirror/next/view"
 import {defaultKeymap} from "@codemirror/next/commands"
 
-globalThis.view = new EditorView({
+let text = []
+for (let i = 1; i <= 100; i++) text.push("line " + i)
+
+;(window as any).view = new EditorView({
   state: EditorState.create({
     extensions: [zebraStripes(), keymap(defaultKeymap)],
-    doc: "line\n".repeat(100)
+    doc: text.join("\n")
   }),
   parent: document.querySelector("#editor")
 })

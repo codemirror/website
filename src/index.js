@@ -4,6 +4,7 @@ const {join, dirname} = require("path")
 const {readFileSync, readdirSync} = require("fs")
 const {mapDir} = require("./mapdir")
 const {buildRef} = require("./buildref")
+const {buildLibrary, linkLibrary} = require("./library")
 
 const CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
 require("codemirror/mode/javascript/javascript.js")
@@ -65,16 +66,12 @@ function injectCode(content, code, fileName) {
 
 let siteDir = join(base, "site")
 mapDir(siteDir, join(base, "output"), (fullPath, name) => {
+  console.log(name)
   currentRoot = backToRoot(dirname(name))
   if (name == "docs/ref/index.html") {
     return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef(highlight)})}
-  } else if (name == "demo.js") {
-    return require("rollup").rollup({
-      input: fullPath,
-      plugins: [require("rollup-plugin-commonjs")(), require("rollup-plugin-node-resolve")()]
-    }).then(bundle => bundle.generate({file: "demo.js", format: "umd"})).then(result => {
-      return {content: result.output[0].code}
-    })
+  } else if (name == "codemirror.js") {
+    return buildLibrary().then(code => ({content: code}))
   } else if (/\.md$/.test(name)) {
     let text = readFileSync(fullPath, "utf8")
     let meta = /^!(\{[^]*?\})\n\n/.exec(text)
@@ -88,6 +85,9 @@ mapDir(siteDir, join(base, "output"), (fullPath, name) => {
             content: mold.defs[data.template || "page"](data)}
   } else if (/\.html$/.test(name)) {
     return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name})}
+  } else if (/\.[jt]s$/.test(name)) {
+    return linkLibrary(readFileSync(fullPath, "utf8"), /\.ts$/.test(name))
+      .then(code => ({content: code, name: name.replace(/\.ts$/, ".js")}))
   } else {
     return null
   }
