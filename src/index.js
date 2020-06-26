@@ -50,6 +50,19 @@ function loadTemplates(dir, env) {
 
 let mold = loadTemplates(join(base, "template"), {})
 
+function injectCode(content, code, fileName) {
+  let mime = /\.ts$/.test(fileName) ? "text/typescript" : "text/javascript"
+  while (m = /\n!(\w+)\n/.exec(content)) {
+    let start = code.indexOf("//!" + m[1] + "\n")
+    if (start < 0) throw new Error("Reference to missing code snippet " + m[1])
+    let end = code.indexOf("//!", start + 4)
+    content = content.slice(0, m.index + 1) + "```" + mime +
+      code.slice(start + 4 + m[1].length, end < 0 ? code.length : end - 1).trimEnd() + "\n```\n" +
+      content.slice(m.index + m[0].length + 1)
+  }
+  return content
+}
+
 let siteDir = join(base, "site")
 mapDir(siteDir, join(base, "output"), (fullPath, name) => {
   currentRoot = backToRoot(dirname(name))
@@ -66,7 +79,10 @@ mapDir(siteDir, join(base, "output"), (fullPath, name) => {
     let text = readFileSync(fullPath, "utf8")
     let meta = /^!(\{[^]*?\})\n\n/.exec(text)
     let data = meta ? JSON.parse(meta[1]) : {}
-    data.content = meta ? text.slice(meta[0].length) : text
+    let content = meta ? text.slice(meta[0].length) : text
+    if (data.injectCode)
+      content = injectCode(content, readFileSync(join(dirname(fullPath), data.injectCode), "utf8"), data.injectCode)
+    data.content = content
     data.fileName = name
     return {name: name.replace(/\.md$/, ".html"),
             content: mold.defs[data.template || "page"](data)}
