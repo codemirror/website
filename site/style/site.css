@@ -345,11 +345,10 @@ nav#toc ul ul {
 .hl-keyword, .fn {color: #708;}
 .hl-atom {color: #219;}
 .hl-number {color: #164;}
-.hl-def {color: #00f;}
+.hl-def, .hl-attribute {color: #30b;}
 .hl-variable-2, .hl-type {color: #05a;}
 .hl-comment {color: #a50;}
 .hl-string, .string {color: #a11;}
 .hl-string-2 {color: #f50;}
 .hl-meta {color: #555;}
 .hl-tag {color: #170;}
-.hl-attribute {color: #00c;}
