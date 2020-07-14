@@ -141,7 +141,7 @@ its DOM representation with the new state.
 
 ```javascript
 // (Assume view is an EditorView instance holding the document "123".)
-let transaction = view.state.update({changes: {at: 0, insert: "0"}})
+let transaction = view.state.update({changes: {from: 0, insert: "0"}})
 console.log(transaction.state.doc.toString()) // "0123"
 // At this point the view still shows the old state.
 view.dispatch(transaction)
@@ -242,7 +242,7 @@ It is sometimes necessary to figure out where a position in a start
 document ends up in a changed document. For this purpose, the library
 provides a [position mapping](##state.ChangeDesc.mapPos) feature,
 which, given a [transaction](##state.Transaction) (or just a [change
-set](##state.ChangeSet) and a start position), can give you the
+set](##state.ChangeSet)) and a start position, can give you the
 corresponding new position.
 
 ```javascript
@@ -287,7 +287,7 @@ implemented outside the library core.
 When creating a change set, all changes are described in terms of the
 _original_ document—they conceptually all happen at once. (If you
 really need to combine lists of changes where later changes refer to
-the document created by earlier ones, you can use the changes set
+the document created by earlier ones, you can use the change set
 [`compose`](##state.ChangeSet.compose) method.)
 
 ### Selection
@@ -368,9 +368,10 @@ with [facets](##state.Facet) for that state.
 
 A _facet_ is an extension point. Different extension values can
 [_provide_](##state.Facet.of) values for the facet. And anyone with
-access to the state can [read](##state.EditorState.facet) its combined
-value. Depending on the facet, that may just be an array of provided
-values, or some value computed from those.
+access to the state and the facet can
+[read](##state.EditorState.facet) its combined value. Depending on the
+facet, that may just be an array of provided values, or some value
+computed from those.
 
 The idea behind facets is that most types of extension allow multiple
 inputs, but want to compute some coherent combined value from those.
@@ -449,9 +450,9 @@ effect (all optional):
    state (such as folding code or starting an autocompletion).
 
  - It can influence the state's configuration, either by providing a
-   [completely new](##state.TransactionSpec.reconfigure) set of
+   [completely new](##state.TransactionSpec.reconfigure.full) set of
    extensions, or by
-   [replacing](##state.TransactionSpec.replaceExtensions) specific
+   [replacing](##state.TransactionSpec.reconfigure) specific
    [tagged](##state.tagExtension) parts of the configuration.
 
 To completely reset a state—for example to load a new document—it is
@@ -615,7 +616,7 @@ look too out of place.
 
 ### Commands
 
-[Commands](##view.Command) are function with a specific signature.
+[Commands](##view.Command) are functions with a specific signature.
 Their main use is [key bindings](##view.KeyBinding), but they could
 also be used for things like menu items or command palettes. A command
 function represents a user action. It takes a
