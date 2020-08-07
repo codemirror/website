@@ -1,7 +1,14 @@
 <nav id=toc>
   <ul>
     <<for item $in>>
-      <li><a href="<<t item.link>>"><<t item.name>></a></li>
+      <li>
+        <a href="<<t item.link>>"><<t item.name>></a>
+        <<if item.children && item.children.length>><ul>
+          <<for sub item.children>>
+            <li><a href="<<t sub.link>>"><<t sub.name>></a>
+          <</for>>
+        </ul><</if>>
+      </li>
     <</for>>
   </ul>
 </nav>
@@ -17,7 +24,8 @@ addEventListener("load", function() {
         footRect = footer.getBoundingClientRect()
     if (state == "top" && headRect.bottom <= -40 ||
         state == "bottom" && toc.getBoundingClientRect().top >= 0) {
-      toc.style.top = toc.style.bottom = "0"
+      toc.style.top = "0"
+      toc.style.bottom = ""
       toc.classList.add("fixed")
       state = "fixed"
     } else if (state == "fixed" && headRect.bottom > -40) {
@@ -25,6 +33,7 @@ addEventListener("load", function() {
       toc.classList.remove("fixed")
       state = "top"
     } else if (state == "fixed" && footRect.top < tocRect.bottom) {
+      toc.style.top = ""
       toc.style.bottom = footRect.height + "px"
       toc.style.top = "auto"
       toc.classList.remove("fixed")

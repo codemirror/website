@@ -25,11 +25,11 @@
 
 html {
   overflow-y: scroll;
-  overflow-x: hidden;
   font-family: 'Source Sans Pro';
 }
 
 body {
+  overflow-x: hidden;
   margin: 0 0 5px;
   line-height: 1.45;
   background: white;
@@ -121,6 +121,7 @@ footer .navlinks {
 
 nav#toc {
   position: absolute;
+  box-sizing: border-box;
   top: 140px;
   right: calc(50% + 360px);
   color: #888;
@@ -262,7 +263,6 @@ ul.grid-list h3 {
   nav#toc {
     position: static;
     max-width: 720px;
-    box-sizing: border-box;
     padding: 15px 3px 0;
     width: auto;
     margin: 0 auto;
