@@ -6,12 +6,12 @@ import {javascript} from "@codemirror/next/lang-javascript"
 
 const languageTag = Symbol("language")
 
-const autoLanguage = EditorState.transactionFilter.of((spec, prev) => {
-  if (!spec.changes) return spec
-  let docIsHTML = /^\s*</.test(spec.doc.sliceString(0, 100))
-  let stateIsHTML = prev.facet(EditorState.syntax)[0] == htmlSyntax
-  if (docIsHTML == stateIsHTML) return spec
-  return [spec, {
+const autoLanguage = EditorState.transactionFilter.of(tr => {
+  if (!tr.docChanged) return tr
+  let docIsHTML = /^\s*</.test(tr.newDoc.sliceString(0, 100))
+  let stateIsHTML = tr.startState.facet(EditorState.syntax)[0] == htmlSyntax
+  if (docIsHTML == stateIsHTML) return tr
+  return [tr, {
     reconfigure: {[languageTag]: docIsHTML ? html() : javascript()}
   }]
 })
