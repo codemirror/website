@@ -8,7 +8,9 @@
     "build": "node src/index.js"
   },
   "dependencies": {
-    "@rollup/plugin-buble": "^0.21.3",
+    "@babel/core": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "babel-plugin-transform-for-of-as-array": "^1.1.1",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "@rollup/plugin-sucrase": "^3.0.2",
     "builddocs": "git://github.com/marijnh/builddocs.git#v1",

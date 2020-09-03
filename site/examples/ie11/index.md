@@ -15,10 +15,10 @@ to load the modules anyway, you could use a bundler plugin that wires
 in [Babel](https://babeljs.io) or another syntax-downgrader.
 
 A [rollup](https://rollupjs.org/) setup that does this using
-[Bublé](https://buble.surge.sh) might look like this:
+might look like this:
 
 ```javascript
-import buble from "@rollup/plugin-buble"
+import babel from "@rollup/plugin-babel"
 import resolve from "@rollup/plugin-node-resolve"
 
 module.exports = {
@@ -28,14 +28,16 @@ module.exports = {
     format: "umd"
   },
   plugins: [
-    buble({transforms: {dangerousForOf: true}}),
+    babel(),
     resolve()
   ]
 }
 ```
 
-(All `for/of` loops in the library are on arrays, so crude `for/of`
-compilation like Bublé's `dangerousForOf` can safely be used.)
+All `for/of` loops in the library are on arrays, so you can optimize
+by using a Babel plugin like
+[transform-for-of-as-array](https://github.com/jridgewell/babel-plugin-transform-for-of-as-array)
+if you want.
 
 There are three library features that the library uses but IE11
 doesn't support. For these you'll need to load

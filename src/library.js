@@ -1,4 +1,4 @@
-const buble = require("@rollup/plugin-buble")
+const babel = require("@babel/core")
 const resolve = require("@rollup/plugin-node-resolve").default
 const sucrase = require("@rollup/plugin-sucrase")
 const {rollup} = require("rollup")
@@ -16,14 +16,19 @@ async function runRollup(code, config = {}, ext = "js") {
         load(name) { return /XXX/.test(name) ? code : undefined }
       },
       ...config.plugins || [],
-      buble({transforms: {dangerousForOf: true}}),
       resolve()
     ],
     onwarn(warning, handle) {
       if (warning.code != "MISSING_NAME_OPTION_FOR_IIFE_EXPORT") handle(warning)
     }
   })
-  return (await bundle.generate({format: "iife", file: "out.js", ...config.output || {}})).output[0].code
+  let output = (await bundle.generate({format: "iife", file: "out.js", ...config.output || {}})).output[0]
+  return babel.transformSync(output.code, {
+    filename: "codemirror.js",
+    babelrc: false,
+    compact: true,
+    plugins: ["transform-for-of-as-array"]
+  }).code
 }
 
 let bundledModules = Object.keys(JSON.parse(readFileSync(join(__dirname, "..", "..", "package.json"), "utf8")).exports)
