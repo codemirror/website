@@ -725,10 +725,10 @@ When a view plugin crashes, it is automatically disabled to avoid
 taking down the entire view.
 
 It is possible for view plugins to
-[_provide_](##view.ViewPlugin.provide) [fields](##view.PluginField),
+[_provide_](##view.ViewPluginSpec.provide) [fields](##view.PluginField),
 which are a bit like facets on the view level, in that multiple
 plugins can contribute a given plugin field. This is mostly used for
-[document decorations](##view.ViewPlugin.decorations).
+[document decorations](##view.ViewPluginSpec.decorations).
 
 ### Decorating the Document
 
@@ -757,7 +757,7 @@ the state doesn't know about that), so it is mostly useful for things
 like folded regions or lint annotations.
 
 The other way to decorate is from a [view
-plugin](##view.ViewPlugin.decorations). This is used by features like
+plugin](##view.ViewPluginSpec.decorations). This is used by features like
 syntax or search-match highlighting, since view plugins can read the
 current viewport to avoid doing work for currently-invisible content.
 
