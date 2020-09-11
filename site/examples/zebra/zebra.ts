@@ -65,7 +65,9 @@ const showStripes = ViewPlugin.fromClass(class {
     if (update.docChanged || update.viewportChanged)
       this.decorations = stripeDeco(update.view)
   }
-}).decorations()
+}, {
+  decorations: v => v.decorations
+})
 
 //!example
 
