@@ -736,7 +736,7 @@ When not told otherwise, CodeMirror will draw the document as plain
 text. _Decorations_ are the mechanism through which extensions can
 influence what the document looks like. They come in four types:
 
- - [Mark decorations](##view.Decoration^range) add style or DOM
+ - [Mark decorations](##view.Decoration^mark) add style or DOM
    attributes to the text in a given range.
 
  - [Widget decorations](##view.Decoration^widget) insert a DOM element
