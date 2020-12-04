@@ -105,7 +105,7 @@ This means that an old state value stays intact even when the editor
 moves on to a new state. Having both the old and the new state
 available is often very useful when dealing with state changes. It
 also means that directly changing a state value, or writing extensions
-like additional [state fields](##state.StateFields) in an imperative
+like additional [state fields](##state.StateField) in an imperative
 way will not do what you'd hope (and probably just break things).
 
 The TypeScript interface tries to be very clear about this by marking
@@ -176,7 +176,7 @@ functionality is implemented in system extensions. Extensions can do
 all kinds of things, from merely configuring some
 [option](##state.EditorState^tabSize), to defining new [fields in the
 state object](##state.StateField), to [styling the
-editor](##view.EditorView.theme), to [injecting](##view.ViewPlugin)
+editor](##view.EditorView^theme), to [injecting](##view.ViewPlugin)
 custom imperative components into the view. The system takes
 [care](https://marijnhaverbeke.nl/blog/extensibility.html) to allow
 extensions to compose without unexpected conflicts.
@@ -299,7 +299,7 @@ cursor ([empty](##state.SelectionRange.empty)) or cover a range
 between its [anchor](##state.SelectionRange.anchor) and
 [head](##state.SelectionRange.head)). Overlapping ranges are
 automatically merged, and ranges are sorted, so that a selection's
-[`ranges`](##state.Selection.ranges) property always holds a sorted,
+[`ranges`](##state.EditorSelection.ranges) property always holds a sorted,
 non-overlapping array of ranges.
 
 ```javascript
@@ -326,8 +326,8 @@ handled entirely by the library.
 
 By default a state will only accept selections with a single range.
 You have to enable an extension (like
-[`multipleSelections`](##view.multipleSelections)) that
-[enables](##state.EditorState.allowMultipleSelections) multiple
+[`drawSelection`](##view.drawSelection)) that
+[enables](##state.EditorState^allowMultipleSelections) multiple
 selection ranges to get access to them.
 
 State objects have a convenience method,
@@ -356,12 +356,11 @@ Each editor state also has a (private) reference to its
 _configuration_, which is determined by the extensions that are active
 for that state. During regular transactions, the configuration stays
 the same. But it is possible to reconfigure the state using the
-[`reconfigure`](##state.TransactionSpec.reconfigure) or
-[`replaceExtensions`](##state.TransactionSpec.replaceExtensions)
-transaction directives.
+[`reconfigure`](##state.TransactionSpec.reconfigure)
+transaction directive.
 
 The main effects of a state's configuration are the
-[fields](##state.StateFields) it stores, and the values associated
+[fields](##state.StateField) it stores, and the values associated
 with [facets](##state.Facet) for that state.
 
 ### Facets
@@ -405,7 +404,7 @@ console.log(state.facet(EditorState.tabSize)) // 16
 console.log(state.facet(EditorState.changeFilter)) // [() => true]
 ```
 
-Facets are explicitly [defined](##state.Facet^defined), producing a
+Facets are explicitly [defined](##state.Facet^define), producing a
 facet value. Such a value can be exported, to allow other code to
 provide and read it, or it can be kept module-private, in which case
 only that module can access it. We'll come back to that in the section
@@ -441,7 +440,7 @@ effect (all optional):
  - It can have any number of
    [annotations](##state.TransactionSpec.annotations), which store
    additional metadata that describes the (entire) transaction. For
-   example, the [`userEvent`](##state.Transaction.userEvent)
+   example, the [`userEvent`](##state.Transaction^userEvent)
    annotation can be used to recognize transactions generated for
    certain common operations like typing or pasting.
 
@@ -450,8 +449,7 @@ effect (all optional):
    state (such as folding code or starting an autocompletion).
 
  - It can influence the state's configuration, either by providing a
-   [completely new](##state.TransactionSpec.reconfigure.full) set of
-   extensions, or by
+   completely set of extensions, or by
    [replacing](##state.TransactionSpec.reconfigure) specific
    [tagged](##state.tagExtension) parts of the configuration.
 
@@ -623,7 +621,7 @@ function represents a user action. It takes a
 [view](##view.EditorView) and returns a boolean, `false` to indicate
 it doesn't apply in the current situation, and `true` to indicate that
 it successfully executed. The effect of the command is produced
-imperatively, usually by [dispatching](##view.EditorState.dispath) a
+imperatively, usually by [dispatching](##view.EditorView.dispatch) a
 transaction.
 
 When multiple commands are bound to a given key, they are tried one at
@@ -725,10 +723,10 @@ When a view plugin crashes, it is automatically disabled to avoid
 taking down the entire view.
 
 It is possible for view plugins to
-[_provide_](##view.ViewPluginSpec.provide) [fields](##view.PluginField),
+[_provide_](##view.PluginSpec.provide) [fields](##view.PluginField),
 which are a bit like facets on the view level, in that multiple
 plugins can contribute a given plugin field. This is mostly used for
-[document decorations](##view.ViewPluginSpec.decorations).
+[document decorations](##view.PluginSpec.decorations).
 
 ### Decorating the Document
 
@@ -757,7 +755,7 @@ the state doesn't know about that), so it is mostly useful for things
 like folded regions or lint annotations.
 
 The other way to decorate is from a [view
-plugin](##view.ViewPluginSpec.decorations). This is used by features like
+plugin](##view.PluginSpec.decorations). This is used by features like
 syntax or search-match highlighting, since view plugins can read the
 current viewport to avoid doing work for currently-invisible content.
 
