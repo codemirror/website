@@ -3,8 +3,8 @@
 import {EditorView} from "@codemirror/next/view"
 
 const baseTheme = EditorView.baseTheme({
-  "zebraStripe@light": {backgroundColor: "#f4fafa"},
-  "zebraStripe@dark": {backgroundColor: "#1a2727"}
+  "$$light $zebraStripe": {backgroundColor: "#f4fafa"},
+  "$$dark $zebraStripe": {backgroundColor: "#1a2727"}
 })
 
 //!facet

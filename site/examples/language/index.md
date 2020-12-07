@@ -11,7 +11,7 @@ folding](##fold), [autocompletion](##autocomplete),
 
 The recommended way to distribute language support for CodeMirror is
 as a package that exports a
-[syntax](##lang-javascript.javascriptSyntax) (usually with some
+[language](##lang-javascript.javascriptLanguage) (usually with some
 low-overhead metadata like comment, indentation, and folding metadata
 included), an optional [“support”
 extension](##lang-javascript.javascriptSupport) (which holds optional
@@ -36,12 +36,12 @@ That is the mechanism we'll use here.
 In order to be able to affect transactions as they are being created
 (as opposed to dispatching a separate language-changing one after the
 change), we'll use a [transaction
-filter](##state.EditorState^transactionFilter) that, whenever the
+extender](##state.EditorState^transactionExtender) that, whenever the
 document content changs, does a crude check (whether the doc starts
 with a `<` character) to determine whether to enable HTML or
 JavaScript syntax.
 
-When the detected language disagrees with the (primary) syntax
+When the detected language disagrees with the (primary) language
 configured for the state, the transaction is extended with a
 [`reconfigure`](##state.TransactionSpec.reconfigure) field that
 switches the language extensions to the appropriate ones. Since

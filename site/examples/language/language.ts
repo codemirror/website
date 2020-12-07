@@ -1,19 +1,20 @@
 //!autoLanguage
 
 import {EditorState} from "@codemirror/next/state"
-import {htmlSyntax, html} from "@codemirror/next/lang-html"
+import {htmlLanguage, html} from "@codemirror/next/lang-html"
+import {language} from "@codemirror/next/language"
 import {javascript} from "@codemirror/next/lang-javascript"
 
 const languageTag = Symbol("language")
 
-const autoLanguage = EditorState.transactionFilter.of(tr => {
-  if (!tr.docChanged) return tr
+const autoLanguage = EditorState.transactionExtender.of(tr => {
+  if (!tr.docChanged) return null
   let docIsHTML = /^\s*</.test(tr.newDoc.sliceString(0, 100))
-  let stateIsHTML = tr.startState.facet(EditorState.syntax)[0] == htmlSyntax
-  if (docIsHTML == stateIsHTML) return tr
-  return [tr, {
+  let stateIsHTML = tr.startState.facet(language)[0] == htmlLanguage
+  if (docIsHTML == stateIsHTML) return null
+  return {
     reconfigure: {[languageTag]: docIsHTML ? html() : javascript()}
-  }]
+  }
 })
 
 //!enable

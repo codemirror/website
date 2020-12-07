@@ -32,7 +32,8 @@ async function runRollup(code, config = {}, ext = "js") {
 }
 
 let bundledModules = Object.keys(JSON.parse(readFileSync(join(__dirname, "..", "..", "package.json"), "utf8")).exports)
-    .map(r => "@codemirror/next/" + r.slice(2)).concat(["lezer", "lezer-tree"])
+  .filter(n => !/\.\/lang-/.test(n) || /lang-html|lang-javascript/.test(n))
+  .map(r => "@codemirror/next/" + r.slice(2)).concat(["lezer", "lezer-tree"])
 
 exports.buildLibrary = () => {
   return runRollup(
