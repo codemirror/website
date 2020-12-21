@@ -234,7 +234,7 @@ ul.grid-list p {
   margin: 0;
 }
 
-p, dl, dd, ul, ol, pre { margin-bottom: 23px }
+p, dl, dd, dt.lone, ul, ol, pre { margin-bottom: 23px }
 li ul, li ol { margin-bottom: 0px }
 
 p, dl { margin-top: 1em; }
@@ -277,9 +277,9 @@ ul.grid-list h3 {
 
 dd p { margin: 0 }
 dd { margin-left: 20px }
-dt {
-  padding-left: 35px;
-  text-indent: -35px;
+
+.breaktype {
+  padding-left: 20px
 }
 
 code { margin: 0 2px }

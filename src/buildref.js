@@ -25,6 +25,7 @@ exports.buildRef = function buildRef(highlight) {
         main: existsSync(main) ? main : null,
         allowUnresolvedTypes: false,
         markdownOptions: {highlight},
+        breakAtComplexity: 4,
         imports: [type => {
           let sibling = type.typeSource && modules.find(m => type.typeSource.startsWith(m.relative))
           if (sibling) return "#" + sibling.name + "." + type.type
