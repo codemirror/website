@@ -27,13 +27,15 @@ async function runRollup(code, config = {}, ext = "js") {
     filename: "codemirror.js",
     babelrc: false,
     compact: true,
+    comments: false,
     plugins: ["transform-for-of-as-array"]
   }).code
 }
 
 let bundledModules = Object.keys(JSON.parse(readFileSync(join(__dirname, "..", "..", "package.json"), "utf8")).exports)
-  .filter(n => !/\.\/lang-/.test(n) || /lang-html|lang-javascript/.test(n))
-  .map(r => "@codemirror/next/" + r.slice(2)).concat(["lezer", "lezer-tree"])
+  .filter(n => !/package.json|stream-syntax|language-desc|legacy-modes/.test(n) &&
+          (!/\.\/lang-/.test(n) || /lang-html|lang-javascript|lang-css/.test(n)))
+  .map(r => "@codemirror/next/" + r.slice(2)).concat(["lezer", "lezer-tree", "crelt"])
 
 exports.buildLibrary = () => {
   return runRollup(

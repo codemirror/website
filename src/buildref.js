@@ -8,7 +8,7 @@ let root = join(__dirname, "../..")
 exports.buildRef = function buildRef(highlight) {
   if (process.env.NO_REF) return []
 
-  let modules = Object.keys(require(join(root, "package.json")).exports).map(pth => {
+  let modules = Object.keys(require(join(root, "package.json")).exports).filter(x => !/package.json/.test(x)).map(pth => {
     let name = /^\.\/(.+)/.exec(pth)[1]
     let base = join(root, name), main = join(base, require(join(base, "package.json")).types + ".ts")
     return {name, base, main, relative: relative(process.cwd(), base)}
