@@ -25,7 +25,7 @@ module. You'll have to use some kind of
 <a href="https://www.freecodecamp.org/news/javascript-modules-part-2-module-bundling-5020383cf306/">bundler</a>
 to run them in the browser.</p>
 
-<p>The most interesting modules
+<p>The most important modules
 are <a href="#state"><code>state</code></a>, which contains the data
 structures that model the editor state,
 and <a href="#view"><code>view</code></a>, which provides the UI
@@ -36,8 +36,10 @@ component for an editor.</p>
 <pre><code type=javascript>import {EditorView} from "@codemirror/next/view"
 import {EditorState} from "@codemirror/next/state"
 
-let myView = new EditorView({state: EditorState.create({doc: "hello"})})
-document.body.appendChild(myView.dom)</code></pre>
+let myView = new EditorView({
+  state: EditorState.create({doc: "hello"}),
+  parent: document.body
+})</code></pre>
 
 <p>But such an editor is too primitive for real use. To get
 functionality like <a href="#commands.defaultKeymap">key
@@ -47,9 +49,13 @@ an <a href="#history">undo history</a>, you need
 to <a href="#state.EditorStateConfig.extensions">add</a> various
 extensions to such a basic editor.</p>
 
+<p>To quickly get started, the <a href="#basic-setup">basic-setup</a>
+package provides a bundle of extensions to set up a functional
+editor.</p>
+
 <<for mod $in.modules>>
   <section id="<<t mod.name>>">
-    <h2><<t mod.name>> module</h2>
+    <h2><<t mod.name>> <span class=kind>module</span></h2>
     <<h mod.content>>
   </section>
 <</for>>

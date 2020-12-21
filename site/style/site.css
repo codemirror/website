@@ -25,7 +25,7 @@
 
 html {
   overflow-y: scroll;
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 body {
