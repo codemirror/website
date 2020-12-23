@@ -277,9 +277,11 @@ ul.grid-list h3 {
 
 dd p { margin: 0 }
 dd { margin-left: 20px }
+dt { line-height: 1.35 }
+dt code { margin: 0 }
 
 .breaktype {
-  padding-left: 20px
+  padding-left: 20px;
 }
 
 code { margin: 0 2px }
@@ -290,6 +292,9 @@ pre code { margin: 0 }
   font-family: "Source Sans Pro";
   font-size: 14px;
   margin-bottom: -4px;
+}
+h2 .kind {
+  font-size: 18px;
 }
 .extends code {
   color: black;
@@ -342,11 +347,11 @@ nav#toc ul ul {
 .cm-scroller { overflow: auto; }
 
 /* Code highlighting styles */
-.hl-keyword, .fn {color: #708;}
+.hl-keyword, .fn, .keyword {color: #708;}
 .hl-atom {color: #219;}
-.hl-number {color: #164;}
+.hl-number, .prim {color: #164;}
 .hl-def, .hl-attribute {color: #30b;}
-.hl-variable-2, .hl-type {color: #05a;}
+.hl-variable-2, .hl-type, .type {color: #05a;}
 .hl-comment {color: #a50;}
 .hl-string, .string {color: #a11;}
 .hl-string-2 {color: #f50;}
