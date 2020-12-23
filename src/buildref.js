@@ -25,7 +25,17 @@ exports.buildRef = function buildRef(highlight) {
         main: existsSync(main) ? main : null,
         allowUnresolvedTypes: false,
         markdownOptions: {highlight},
-        breakAtComplexity: 4,
+        breakAt: 45,
+        processType(type) {
+          let ext = null
+          // Kludge to de-inline the Extension type when it is found in a union type
+          if (type.type == "union" && type.typeArgs.length > 2 &&
+              type.typeArgs.some(t => t.type == "ReadonlyArray" && (ext = t.typeArgs[0]).type == "Extension"))
+            return Object.assign({}, type, {typeArgs: [ext].concat(type.typeArgs.filter(t => {
+              return !((t.type == "ReadonlyArray" && t.typeArgs[0].type == "Extension") ||
+                       (t.type == "Object" && t.properties?.extension))
+            }))})
+        },
         imports: [type => {
           let sibling = type.typeSource && modules.find(m => type.typeSource.startsWith(m.relative))
           if (sibling) return "#" + sibling.name + "." + type.type
