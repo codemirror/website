@@ -68,7 +68,7 @@ let siteDir = join(base, "site")
 mapDir(siteDir, join(base, "output"), (fullPath, name) => {
   currentRoot = backToRoot(dirname(name))
   if (name == "docs/ref/index.html") {
-    return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef(highlight)})}
+    return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef(highlight, markdown)})}
   } else if (name == "codemirror.js") {
     return buildLibrary().then(code => ({content: code}))
   } else if (/\.md$/.test(name)) {

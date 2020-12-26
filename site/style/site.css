@@ -293,9 +293,8 @@ pre code { margin: 0 }
   font-size: 14px;
   margin-bottom: -4px;
 }
-h2 .kind {
-  font-size: 18px;
-}
+h2 .kind { font-size: 18px }
+h3 .kind { font-size: 16px }
 .extends code {
   color: black;
 }
