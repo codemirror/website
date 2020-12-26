@@ -1,4 +1,4 @@
-const {gather} = require("gettypes")
+const {gatherMany} = require("gettypes")
 const {build, browserImports} = require("builddocs")
 const {join, relative} = require("path")
 const {existsSync} = require("fs")
@@ -8,14 +8,16 @@ let root = join(__dirname, "../..")
 exports.buildRef = function buildRef(highlight) {
   if (process.env.NO_REF) return []
 
-  let modules = Object.keys(require(join(root, "package.json")).exports).filter(x => !/package.json/.test(x)).map(pth => {
-    let name = /^\.\/(.+)/.exec(pth)[1]
-    let base = join(root, name), main = join(base, require(join(base, "package.json")).types + ".ts")
-    return {name, base, main, relative: relative(process.cwd(), base)}
-  })
+  let modules = Object.keys(require(join(root, "package.json")).exports)
+      .filter(x => !/package.json|legacy-modes/.test(x))
+      .map(pth => {
+        let name = /^\.\/(.+)/.exec(pth)[1]
+        let base = join(root, name), main = join(base, require(join(base, "package.json")).types + ".ts")
+        return {name, base, main, relative: relative(process.cwd(), base)}
+      })
 
-  return modules.map(mod => {
-    let items = gather({filename: mod.main, basedir: mod.base})
+  let items = gatherMany(modules.map(mod => ({filename: mod.main, basedir: mod.base})))
+  return modules.map((mod, i) => {
     let main = join(mod.main, "../README.md")
     return {
       name: mod.name,
@@ -44,7 +46,7 @@ exports.buildRef = function buildRef(highlight) {
           if (/\blezer\b/.test(type.typeSource)) return `https://lezer.codemirror.net/docs/ref/#lezer.${type.type}`
           if (/\bstyle-mod\b/.test(type.typeSource)) return "https://github.com/marijnh/style-mod#documentation"
         }, browserImports]
-      }, items)
+      }, items[i])
     }
   })
 }
