@@ -52,7 +52,7 @@ import {defaultKeymap} from "@codemirror/next/commands"
 
 let startState = EditorState.create({
   doc: "Hello World",
-  extensions: [keymap(defaultKeymap)]
+  extensions: [keymap.of(defaultKeymap)]
 })
 
 let view = new EditorView({
@@ -202,7 +202,7 @@ import {keymap} from "@codemirror/next/view"
 import {EditorState, precedence} from "@codemirrror/next/state"
 
 function dummyKeymap(tag) {
-  return keymap([{
+  return keymap.of([{
     key: "Ctrl-Space",
     run() { console.log(tag); return true }
   }])
@@ -320,7 +320,7 @@ console.log(tr.state.doc.toString()) // "!o!"
 ```
 
 One of these ranges is marked as the
-[_primary_](##state.EditorSelection.primary) one. This is the one that
+[_main_](##state.EditorSelection.main) one. This is the one that
 the browser's DOM selection will reflect. The others are drawn and
 handled entirely by the library.
 
@@ -434,7 +434,7 @@ effect (all optional):
    through these changes.
 
  - It can set a [flag](##state.TransactionSpec.scrollIntoView) that
-   instructs the view to scroll the (primary) selection head into
+   instructs the view to scroll the (main) selection head into
    view.
 
  - It can have any number of

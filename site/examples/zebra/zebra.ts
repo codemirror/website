@@ -80,7 +80,7 @@ for (let i = 1; i <= 100; i++) text.push("line " + i)
 
 ;(window as any).view = new EditorView({
   state: EditorState.create({
-    extensions: [zebraStripes(), keymap(defaultKeymap)],
+    extensions: [zebraStripes(), keymap.of(defaultKeymap)],
     doc: text.join("\n")
   }),
   parent: document.querySelector("#editor")
