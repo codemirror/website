@@ -34,17 +34,10 @@ still be breaking changes.</p>
 
 <ul class=grid-list>
   <li>
-    <h3>Full Parsing</h3>
-    <p>The recommended way to write language integration for
-    CodeMirror 6 involves
-    a <a href="https://lezer.codemirror.net">full parse tree</a>,
-    which makes code analysis easier and more powerful.</p>
-  </li>
-  <li>
     <h3>Accessible</h3>
-    <p>This version leaves more to the browser, instead of “faking”
-    the editing process in JavaScript. This makes it more transparent
-    to screen readers and other accessibility tools.</p>
+    <p>This version of CodeMirror was desiged from the start with
+    accessibility in mind, avoiding a number of pitfalls that the
+    current crop of editors suffer from.</p>
   </li>
   <li>
     <h3>Touchscreen Support</h3>
@@ -67,10 +60,17 @@ still be breaking changes.</p>
     to.</p>
   </li>
   <li>
+    <h3>Full Parsing</h3>
+    <p>The recommended way to write language integration for
+    CodeMirror 6 involves
+    a <a href="https://lezer.codemirror.net">full parse tree</a>,
+    which makes code analysis easier and more powerful.</p>
+  </li>
+  <li>
     <h3>Fast</h3>
     <p>By carefully doing only the work that needs to be done, the
     library manages to be fast even with gigantic documents and
-    ridiculously long lines.</p>
+    long lines.</p>
   </li>
 </ul>
 
