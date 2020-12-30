@@ -230,6 +230,16 @@ ul.grid-list > li {
   line-height: 20px;
 }
 
+ul.grid-list.compact {
+  margin-bottom: -16px;
+}
+
+ul.grid-list.compact > li {
+  min-width: 18%;
+  margin-bottom: 16px;
+  width: auto;
+}
+
 ul.grid-list p {
   margin: 0;
 }
