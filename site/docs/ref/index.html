@@ -10,20 +10,16 @@
 
 <h1>Reference Manual</h1>
 
-<p>For the time being, CodeMirror 6 is published as a single package,
-<code>@codemirror/next</code>, of which the modules listed here are
-subdirectories. So to, for example, load
-the <a href="#text"><code>text</code> module</a>, you'd import or
-require <code>"@codemirror/next/text"</code>.</p>
-
-<p>(In the future, these will be published as separate npm
-packages.)</p>
+<p>CodeMirror 6 is published as a set of NPM packages under
+the <code>@codemirror</code> scope. The core packages are listed in
+this reference guide.</p>
 
 <p>Each package exposes an
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ECMAScript</a>
 module. You'll have to use some kind of
 <a href="https://www.freecodecamp.org/news/javascript-modules-part-2-module-bundling-5020383cf306/">bundler</a>
-to run them in the browser.</p>
+or <a href="https://github.com/marijnh/esmoduleserve">loader</a> to
+run them in the browser.</p>
 
 <p>The most important modules
 are <a href="#state"><code>state</code></a>, which contains the data
@@ -33,8 +29,8 @@ component for an editor.</p>
 
 <p>A minimal editor might look like this:</p>
 
-<pre><code type=javascript>import {EditorView} from "@codemirror/next/view"
-import {EditorState} from "@codemirror/next/state"
+<pre><code type=javascript>import {EditorView} from "@codemirror/view"
+import {EditorState} from "@codemirror/state"
 
 let myView = new EditorView({
   state: EditorState.create({doc: "hello"}),

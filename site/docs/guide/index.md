@@ -26,29 +26,29 @@ The putting-together part isn't hard, but you will have to install and
 import the pieces you need. The core packages, without which it'd be
 hard to set up an editor at all, are:
 
- - [`@codemirror/next/text`](##text), which provides the [document
+ - [`@codemirror/text`](##text), which provides the [document
    representation](##text.Text) used by the editor (a rope-like data
    structure).
 
- - [`@codemirror/next/state`](##state), which defines data structures
+ - [`@codemirror/state`](##state), which defines data structures
    that represent the [editor state](##state.EditorState) and
    [changes](##state.Transaction) to that state.
 
- - [`@codemirror/next/view`](##view), a [display
+ - [`@codemirror/view`](##view), a [display
    component](##view.EditorView) that knows how to show the editor
    state to the user, and translates basic editing actions into state
    updates.
 
- - [`@codemirror/next/commands`](##commands) defines a lot of editing
+ - [`@codemirror/commands`](##commands) defines a lot of editing
    commands and some [key bindings](##commands.defaultKeymap) for
    them.
 
 This is what a minimal viable editor might look like:
 
 ```javascript
-import {EditorState} from "@codemirror/next/state"
-import {EditorView, keymap} from "@codemirror/next/view"
-import {defaultKeymap} from "@codemirror/next/commands"
+import {EditorState} from "@codemirror/state"
+import {EditorView, keymap} from "@codemirror/view"
+import {defaultKeymap} from "@codemirror/commands"
 
 let startState = EditorState.create({
   doc: "Hello World",
@@ -64,13 +64,13 @@ let view = new EditorView({
 Many things that you might expect to be part of the core, such as the
 [line number gutter](##gutter.lineNumbers) or [undo
 history](##history) are in fact separate packages. To make it easy to
-get started, the [`@codemirror/next/basic-setup`](##basic-setup)
+get started, the [`@codemirror/basic-setup`](##basic-setup)
 package pulls in most of the things you need for a baseline editor
 (except a language package).
 
 ```javascript
-import {EditorState, EditorView, basicSetup} from "@codemirror/next/basic-setup"
-import {javascript} from "@codemirror/next/lang-javascript"
+import {EditorState, EditorView, basicSetup} from "@codemirror/basic-setup"
+import {javascript} from "@codemirror/lang-javascript"
 
 let view = new EditorView({
   state: EditorState.create({extensions: [basicSetup, javascript()]}),
@@ -198,8 +198,8 @@ that, by the position the extension has in the (flattened) collection
 of extensions passed to the state.
 
 ```javascript
-import {keymap} from "@codemirror/next/view"
-import {EditorState, precedence} from "@codemirrror/next/state"
+import {keymap} from "@codemirror/view"
+import {EditorState, precedence} from "@codemirrror/state"
 
 function dummyKeymap(tag) {
   return keymap.of([{
@@ -246,7 +246,7 @@ set](##state.ChangeSet)) and a start position, can give you the
 corresponding new position.
 
 ```javascript
-import {EditorState} from "@codemirror/next/state"
+import {EditorState} from "@codemirror/state"
 
 let state = EditorState.create({doc: "1234"})
 // Delete "23" and insert at "0" at the start.
@@ -259,7 +259,7 @@ The document [data structure](##text.Text) also indexes by lines, so
 it is not expensive to look things up by (1-based) line number.
 
 ```javascript
-import {Text} from "@codemirror/next/text"
+import {Text} from "@codemirror/text"
 
 let doc = Text.of(["line 1", "line 2", "line 3"])
 // Get information about line 2
@@ -303,7 +303,7 @@ automatically merged, and ranges are sorted, so that a selection's
 non-overlapping array of ranges.
 
 ```javascript
-import {EditorState, EditorSelection} from "@codemirror/next/state"
+import {EditorState, EditorSelection} from "@codemirror/state"
 
 let state = EditorState.create({
   doc: "hello",
@@ -336,7 +336,7 @@ operation to every selection range separately (which can be a bit
 awkward to do manually).
 
 ```javascript
-import {EditorState} from "@codemirror/next/state"
+import {EditorState} from "@codemirror/state"
 
 let state = EditorState.create({doc: "abcd", selection: {anchor: 1, head: 3}})
 
@@ -392,7 +392,7 @@ How that combining works may differ.
    requested undo history depths).
 
 ```javascript
-import {EditorState} from "@codemirror/next/state"
+import {EditorState} from "@codemirror/state"
 
 let state = EditorState.create({
   extensions: [
@@ -592,7 +592,7 @@ This code creates a crude theme that makes the default text color in
 the editor orange:
 
 ```javascript
-import {EditorView} from "@codemirror/next/view"
+import {EditorView} from "@codemirror/view"
 
 let view = new EditorView({
   extensions: EditorView.theme({
@@ -659,7 +659,7 @@ current value and the transaction, which should return the field's new
 value.
 
 ```javascript
-import {EditorState, StateField} from "@codemirror/next/state"
+import {EditorState, StateField} from "@codemirror/state"
 
 let countDocChanges = StateField.define({
   create() { return 0 },
@@ -692,7 +692,7 @@ things that depend on the current viewport.
 This simple plugin displays the document size in the editor's corner.
 
 ```javascript
-import {ViewPlugin} from "@codemirror/next/view"
+import {ViewPlugin} from "@codemirror/view"
 
 const docSizePlugin = ViewPlugin.fromClass(class {
   constructor(view) {

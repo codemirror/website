@@ -32,10 +32,12 @@ async function runRollup(code, config = {}, ext = "js") {
   }).code
 }
 
-let bundledModules = Object.keys(JSON.parse(readFileSync(join(__dirname, "..", "..", "package.json"), "utf8")).exports)
-  .filter(n => !/package.json|stream-syntax|language-data|legacy-modes/.test(n) &&
-          (!/\.\/lang-/.test(n) || /lang-html|lang-javascript|lang-css/.test(n)))
-  .map(r => "@codemirror/next/" + r.slice(2)).concat(["lezer", "lezer-tree", "crelt"])
+const {all: packages} = require("../../bin/packages")
+
+let exclude = /^(stream-syntax|language-data|legacy-modes|lang-)$/
+let include = /^lang-(css|html|javascript)$/
+let bundledModules = packages.filter(n => !exclude.test(n) || include.test(n))
+    .map(n => "@codemirror/" + n).concat(["lezer", "lezer-tree", "crelt"])
 
 exports.buildLibrary = () => {
   return runRollup(

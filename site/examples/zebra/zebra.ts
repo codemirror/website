@@ -1,6 +1,6 @@
 //!baseTheme
 
-import {EditorView} from "@codemirror/next/view"
+import {EditorView} from "@codemirror/view"
 
 const baseTheme = EditorView.baseTheme({
   "$$light $zebraStripe": {backgroundColor: "#f4fafa"},
@@ -9,7 +9,7 @@ const baseTheme = EditorView.baseTheme({
 
 //!facet
 
-import {Facet} from "@codemirror/next/state"
+import {Facet} from "@codemirror/state"
 
 const stepSize = Facet.define<number, number>({
   combine: values => values.length ? Math.min(...values) : 2
@@ -17,7 +17,7 @@ const stepSize = Facet.define<number, number>({
 
 //!constructor
 
-import {Extension} from "@codemirror/next/state"
+import {Extension} from "@codemirror/state"
 
 export function zebraStripes(options: {step?: number} = {}): Extension {
   return [
@@ -29,8 +29,8 @@ export function zebraStripes(options: {step?: number} = {}): Extension {
 
 //!stripeDeco
 
-import {Decoration, themeClass} from "@codemirror/next/view"
-import {RangeSetBuilder} from "@codemirror/next/rangeset"
+import {Decoration, themeClass} from "@codemirror/view"
+import {RangeSetBuilder} from "@codemirror/rangeset"
 
 const stripe = Decoration.line({
   attributes: {class: themeClass("zebraStripe")}
@@ -52,7 +52,7 @@ function stripeDeco(view: EditorView) {
 
 //!showStripes
 
-import {ViewPlugin, DecorationSet, ViewUpdate} from "@codemirror/next/view"
+import {ViewPlugin, DecorationSet, ViewUpdate} from "@codemirror/view"
 
 const showStripes = ViewPlugin.fromClass(class {
   decorations: DecorationSet
@@ -71,9 +71,9 @@ const showStripes = ViewPlugin.fromClass(class {
 
 //!example
 
-import {EditorState} from "@codemirror/next/basic-setup"
-import {keymap} from "@codemirror/next/view"
-import {defaultKeymap} from "@codemirror/next/commands"
+import {EditorState} from "@codemirror/basic-setup"
+import {keymap} from "@codemirror/view"
+import {defaultKeymap} from "@codemirror/commands"
 
 let text = []
 for (let i = 1; i <= 100; i++) text.push("line " + i)

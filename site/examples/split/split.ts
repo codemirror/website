@@ -1,6 +1,6 @@
 //!state
 
-import {EditorState, basicSetup} from "@codemirror/next/basic-setup"
+import {EditorState, basicSetup} from "@codemirror/basic-setup"
 
 let startState = EditorState.create({
   doc: "The document\nis\nshared",
@@ -9,8 +9,8 @@ let startState = EditorState.create({
 
 //!syncDispatch
 
-import {EditorView} from "@codemirror/next/view"
-import {Transaction, Annotation} from "@codemirror/next/state"
+import {EditorView} from "@codemirror/view"
+import {Transaction, Annotation} from "@codemirror/state"
 
 let views: EditorView[] = []
 

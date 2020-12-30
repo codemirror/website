@@ -1,9 +1,9 @@
 //!autoLanguage
 
-import {EditorState} from "@codemirror/next/state"
-import {htmlLanguage, html} from "@codemirror/next/lang-html"
-import {language} from "@codemirror/next/language"
-import {javascript} from "@codemirror/next/lang-javascript"
+import {EditorState} from "@codemirror/state"
+import {htmlLanguage, html} from "@codemirror/lang-html"
+import {language} from "@codemirror/language"
+import {javascript} from "@codemirror/lang-javascript"
 
 const languageTag = Symbol("language")
 
@@ -19,8 +19,8 @@ const autoLanguage = EditorState.transactionExtender.of(tr => {
 
 //!enable
 
-import {EditorView, basicSetup} from "@codemirror/next/basic-setup"
-import {tagExtension} from "@codemirror/next/state"
+import {EditorView, basicSetup} from "@codemirror/basic-setup"
+import {tagExtension} from "@codemirror/state"
 
 new EditorView({
   state: EditorState.create({

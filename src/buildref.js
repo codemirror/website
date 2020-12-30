@@ -4,6 +4,7 @@ const {join, relative} = require("path")
 const {existsSync, readdirSync, readFileSync} = require("fs")
 
 let root = join(__dirname, "../..")
+const {loadPackages} = require("../../bin/packages")
 
 exports.buildRef = function buildRef(highlight, markdown) {
   if (process.env.NO_REF) return []
@@ -37,10 +38,8 @@ exports.buildRef = function buildRef(highlight, markdown) {
   }
 
   let ignore = /package.json|legacy-modes/
-  let modules = Object.keys(require(join(root, "package.json")).exports).filter(x => !ignore.test(x)).map(pth => {
-    let name = /^\.\/(.+)/.exec(pth)[1]
-    let base = join(root, name), main = join(base, require(join(base, "package.json")).types + ".ts")
-    return {name, base, main, relative: relative(process.cwd(), base)}
+  let modules = loadPackages().packages.filter(p => p.name != "legacy-modes").map(pkg => {
+    return {name: pkg.name, base: pkg.dir, main: pkg.main, relative: relative(process.cwd(), pkg.dir)}
   })
 
   let legacySrc = join(root, "legacy-modes", "mode")
