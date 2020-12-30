@@ -10,7 +10,7 @@ const languageTag = Symbol("language")
 const autoLanguage = EditorState.transactionExtender.of(tr => {
   if (!tr.docChanged) return null
   let docIsHTML = /^\s*</.test(tr.newDoc.sliceString(0, 100))
-  let stateIsHTML = tr.startState.facet(language)[0] == htmlLanguage
+  let stateIsHTML = tr.startState.facet(language) == htmlLanguage
   if (docIsHTML == stateIsHTML) return null
   return {
     reconfigure: {[languageTag]: docIsHTML ? html() : javascript()}
