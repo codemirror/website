@@ -804,5 +804,5 @@ reconcile configurations or thow an error when this is impossible.
 Then code that needs access to the current configuration can read that
 facet.
 
-<!-- FIXME See the [zebra stripes](../../examples/zebra) example for
-an illustration of this approach. -->
+See the [zebra stripes](../../examples/zebra) example for an
+illustration of this approach.

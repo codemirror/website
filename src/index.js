@@ -5,6 +5,7 @@ const {readFileSync, readdirSync} = require("fs")
 const {mapDir} = require("./mapdir")
 const {buildRef} = require("./buildref")
 const {buildLibrary, linkLibrary} = require("./library")
+const {changelog} = require("./changelog")
 
 const CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
 require("codemirror/mode/javascript/javascript.js")
@@ -64,6 +65,20 @@ function injectCode(content, code, fileName) {
   return content
 }
 
+function renderMD(fullPath, name, updateContent) {
+  let text = readFileSync(fullPath, "utf8")
+  let meta = /^!(\{[^]*?\})\n\n/.exec(text)
+  let data = meta ? JSON.parse(meta[1]) : {}
+  let content = meta ? text.slice(meta[0].length) : text
+  if (data.injectCode)
+    content = injectCode(content, readFileSync(join(dirname(fullPath), data.injectCode), "utf8"), data.injectCode)
+  if (updateContent) content = updateContent(content)
+  data.content = content
+  data.fileName = name
+  return {name: name.replace(/\.md$/, ".html"),
+          content: mold.defs[data.template || "page"](data)}
+}
+
 let siteDir = join(base, "site")
 mapDir(siteDir, join(base, "output"), (fullPath, name) => {
   currentRoot = backToRoot(dirname(name))
@@ -71,17 +86,10 @@ mapDir(siteDir, join(base, "output"), (fullPath, name) => {
     return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef(highlight, markdown)})}
   } else if (name == "codemirror.js") {
     return buildLibrary().then(code => ({content: code}))
+  } else if (name == "docs/changelog/index.md") {
+    return renderMD(fullPath, name, content => content + "\n\n" + changelog())
   } else if (/\.md$/.test(name)) {
-    let text = readFileSync(fullPath, "utf8")
-    let meta = /^!(\{[^]*?\})\n\n/.exec(text)
-    let data = meta ? JSON.parse(meta[1]) : {}
-    let content = meta ? text.slice(meta[0].length) : text
-    if (data.injectCode)
-      content = injectCode(content, readFileSync(join(dirname(fullPath), data.injectCode), "utf8"), data.injectCode)
-    data.content = content
-    data.fileName = name
-    return {name: name.replace(/\.md$/, ".html"),
-            content: mold.defs[data.template || "page"](data)}
+    return renderMD(fullPath, name)
   } else if (/\.html$/.test(name)) {
     return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name})}
   } else if (/\.[jt]s$/.test(name)) {
