@@ -1,10 +1,10 @@
 const {gatherMany} = require("gettypes")
 const {build, browserImports} = require("builddocs")
-const {join, relative} = require("path")
+const {join} = require("path")
 const {existsSync, readdirSync, readFileSync} = require("fs")
 
 let root = join(__dirname, "../..")
-const {loadPackages} = require("../../bin/packages")
+const {loadPackages, core} = require("../../bin/packages")
 
 exports.buildRef = function buildRef(highlight, markdown) {
   if (process.env.NO_REF) return []
@@ -27,7 +27,7 @@ exports.buildRef = function buildRef(highlight, markdown) {
           }))})
       },
       imports: [type => {
-        let sibling = type.typeSource && modules.find(m => type.typeSource.startsWith(m.relative))
+        let sibling = type.typeSource && modules.find(m => type.typeSource.startsWith("../" + m.name + "/"))
         if (sibling) return "#" + sibling.name + "." + type.type
       }, type => {
         if (/\blezer[\/-]tree\b/.test(type.typeSource)) return `https://lezer.codemirror.net/docs/ref/#tree.${type.type}`
@@ -37,29 +37,16 @@ exports.buildRef = function buildRef(highlight, markdown) {
     }
   }
 
-  let ignore = /package.json|legacy-modes/
-  let modules = loadPackages().packages.filter(p => p.name != "legacy-modes").map(pkg => {
-    return {name: pkg.name, base: pkg.dir, main: pkg.main, relative: relative(process.cwd(), pkg.dir)}
+  let modules = loadPackages().packages.filter(p => core.includes(p.name)).map(pkg => {
+    return {name: pkg.name, base: pkg.dir, main: pkg.main}
   })
 
-  let legacySrc = join(root, "legacy-modes", "mode")
-  let legacy = readdirSync(legacySrc).filter(f => /\.d.ts$/.test(f)).map(file => {
-    let name = /^(.*)\.d\.ts$/.exec(file)[1]
-    return {name, filename: join(legacySrc, file), basedir: join(root, "legacy-modes")}
-  })
-
-  let items = gatherMany(modules.map(mod => ({filename: mod.main, basedir: mod.base})).concat(legacy))
+  let items = gatherMany(modules.map(mod => ({filename: mod.main, basedir: mod.base})))
   return modules.map((mod, i) => {
     let main = join(mod.main, "../README.md")
     return {
       name: mod.name,
       content: build({...buildOptions(mod.name), main: existsSync(main) ? main : null}, items[i])
     }
-  }).concat({
-    name: "legacy-modes",
-    content: markdown.render(readFileSync(join(legacySrc, "README.md"), "utf8")) + legacy.map((l, i) => {
-      let id = "legacy-" + l.name
-      return `<h3 id=${id}><span class=kind>mode/</span><a href="#${id}">${l.name}</a></h3>` + build(buildOptions(id), items[modules.length + i])
-    }).join("\n")
   })
 }
