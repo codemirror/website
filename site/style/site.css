@@ -88,8 +88,12 @@ h2 a:link, h2 a:visited, h3 a:link, h3 a:visited, h4 a:link, h4 a:visited {
   color: inherit;
 }
 
-code, pre { font-size: 14px; }
+code, pre { font-size: 14px }
 pre { line-height: 22px; padding-left: 20px; }
+
+code, pre, .cm-scroller {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+}
 
 a.blocklink:hover {
   color: #0075ff;
