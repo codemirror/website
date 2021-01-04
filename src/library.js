@@ -23,11 +23,12 @@ async function runRollup(code, config = {}, ext = "js") {
     }
   })
   let output = (await bundle.generate({format: "iife", file: "out.js", ...config.output || {}})).output[0]
+  let compact = process.env.COMPACT != "false"
   return babel.transformSync(output.code, {
     filename: "codemirror.js",
     babelrc: false,
-    compact: true,
-    comments: false,
+    compact,
+    comments: !compact,
     plugins: ["transform-for-of-as-array"]
   }).code
 }
