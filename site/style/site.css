@@ -299,6 +299,8 @@ dt code { margin: 0 }
 }
 
 code { margin: 0 2px }
+code + a code { margin-left: -2px }
+a + code { margin-left: -2px }
 pre code { margin: 0 }
 
 .kind, .extends, .implements {
