@@ -1,4 +1,4 @@
-const {gatherMany} = require("gettypes")
+const {gatherMany} = require("getdocs-ts")
 const {build, browserImports} = require("builddocs")
 const {join} = require("path")
 const {existsSync, readdirSync, readFileSync} = require("fs")

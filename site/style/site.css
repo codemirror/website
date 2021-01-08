@@ -292,28 +292,19 @@ ul.grid-list h3 {
 dd p { margin: 0 }
 dd { margin-left: 20px }
 dt { line-height: 1.35 }
-dt code { margin: 0 }
 
 .breaktype {
   padding-left: 20px;
 }
 
-code { margin: 0 2px }
-code + a code { margin-left: -2px }
-a + code { margin-left: -2px }
-pre code { margin: 0 }
-
-.kind, .extends, .implements {
+h2 .keyword, h3 .keyword, h4 .keyword {
   font-weight: 600;
-  font-family: "Source Sans Pro";
-  font-size: 14px;
   margin-bottom: -4px;
-}
-h2 .kind { font-size: 18px }
-h3 .kind { font-size: 16px }
-.extends code {
   color: black;
 }
+h2 .keyword { font-size: 18px }
+h3 .keyword { font-size: 16px }
+h4 .keyword { font-size: 14px }
 
 div.figure { margin: 1em; }
 .figure img {
