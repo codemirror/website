@@ -250,7 +250,7 @@ import {EditorState} from "@codemirror/state"
 
 let state = EditorState.create({doc: "1234"})
 // Delete "23" and insert at "0" at the start.
-let tr = state.update({changes: [{from: 1, to: 2}, {from: 0, insert: "0"}]})
+let tr = state.update({changes: [{from: 1, to: 3}, {from: 0, insert: "0"}]})
 // The position at the end of the old document is at 3 in the new document.
 console.log(tr.changes.mapPos(4))
 ```
