@@ -89,7 +89,7 @@ h2 a:link, h2 a:visited, h3 a:link, h3 a:visited, h4 a:link, h4 a:visited {
 }
 
 code, pre { font-size: 14px }
-pre { line-height: 22px; padding-left: 20px; }
+pre { line-height: 22px; padding-left: 20px; overflow-x: auto }
 
 code, pre, .cm-wrap .cm-scroller {
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
@@ -265,7 +265,7 @@ ul.grid-list h3 {
     padding-left: 34px;
     letter-spacing: -1px;
     background-size: 30px;
-    background-position: top 6px left;
+    background-position: top -2px left;
     background-repeat: no-repeat;
     font-size: 24px;
     line-height: 30px;
