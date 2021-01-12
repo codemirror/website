@@ -235,13 +235,17 @@ ul.grid-list > li {
 }
 
 ul.grid-list.compact {
-  margin-bottom: -16px;
+  margin-bottom: 0px;
 }
 
 ul.grid-list.compact > li {
   min-width: 18%;
   margin-bottom: 16px;
   width: auto;
+}
+
+ul.grid-list.compact strong {
+  font-size: 120%;
 }
 
 ul.grid-list p {
