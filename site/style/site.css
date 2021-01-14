@@ -293,7 +293,7 @@ ul.grid-list h3 {
   .toc-toggle { display: inline; cursor: pointer; }
 }
 
-dd p { margin: 0 }
+dd p, dd ul, dd ol { margin: 0 }
 dd { margin-left: 20px }
 dt { line-height: 1.35 }
 
