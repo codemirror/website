@@ -2,6 +2,8 @@
 
 <style>
   section { margin-bottom: 10em }
+  section h2 { border-bottom: 1px solid black }
+  .at { color: #666; font-size: 80% }
 </style>
 
 <<toc $in.modules.map(mod => ({name: mod.name, link: "#" + mod.name}))>>
@@ -14,9 +16,10 @@
 the <code>@codemirror</code> scope. The core packages are listed in
 this reference guide.</p>
 
-<p>Each package exposes an
+<p>Each package exposes
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ECMAScript</a>
-module. You'll have to use some kind of
+and <a href="https://flaviocopes.com/commonjs/">CommonJS</a> modules.
+You'll have to use some kind of
 <a href="https://www.freecodecamp.org/news/javascript-modules-part-2-module-bundling-5020383cf306/">bundler</a>
 or <a href="https://github.com/marijnh/esmoduleserve">loader</a> to
 run them in the browser.</p>
@@ -51,7 +54,7 @@ editor.</p>
 
 <<for mod $in.modules>>
   <section id="<<t mod.name>>">
-    <h2><a href="#<<t mod.name>>">@codemirror/<<t mod.name>></a> <span class=kind>package</span></h2>
+    <h2><a href="#<<t mod.name>>"><span class=at>@codemirror/</span><<t mod.name>></a></h2>
     <<h mod.content>>
   </section>
 <</for>>
