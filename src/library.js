@@ -2,18 +2,25 @@ const babel = require("@babel/core")
 const resolve = require("@rollup/plugin-node-resolve").default
 const sucrase = require("@rollup/plugin-sucrase")
 const {rollup} = require("rollup")
-const {join} = require("path")
+const {join, dirname} = require("path")
 const {readFileSync} = require("fs")
 
-async function runRollup(code, config = {}, ext = "js") {
+async function runRollup(code, config = {}, {ext = "js", path} = {}) {
+  let base = path && dirname(path)
   let bundle = await rollup({
     ...config,
     input: "XXX." + ext,
     plugins: [
       {
         name: "loadcode",
-        resolveId(source) { return /XXX/.test(source) ? "XXX" : undefined },
-        load(name) { return /XXX/.test(name) ? code : undefined }
+        resolveId(source, from) {
+          if (/XXX/.test(source)) return "XXX"
+          if (from == "XXX" && source[0] == "." && path) return join(base, source)
+        },
+        load(name) {
+          if (/XXX/.test(name)) return code
+          if (base && name.startsWith(base)) return linkCode(readFileSync(name, "utf8"))
+        }
       },
       ...config.plugins || [],
       resolve()
@@ -48,15 +55,15 @@ exports.buildLibrary = () => {
   )
 }
 
-function linkCode(code, ts) {
+function linkCode(code) {
   return code.replace(/\bimport\s+(\{[^]*?\})\s+from\s+(".*?"|'.*?')/g, (all, bindings, mod) => {
     if (bundledModules.indexOf(JSON.parse(mod)) < 0) return all
-    return `const ${bindings} = CM[${mod}]`
+    return `const ${bindings.replace(/ as /g, ": ")} = CM[${mod}]`
   })
 }
 
-exports.linkLibrary = (code, ts) => {
-  return runRollup(linkCode(code, ts), {
+exports.linkLibrary = (code, {ts, path}) => {
+  return runRollup(linkCode(code), {
     plugins: ts ? [sucrase({transforms: ['typescript'], include: /XXX/})] : [],
-  }, "ts")
+  }, {ext: "ts", path})
 }
