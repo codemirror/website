@@ -103,7 +103,9 @@ mapDir(siteDir, join(base, "output"), (fullPath, name) => {
   } else if (/\.html$/.test(name)) {
     return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name})}
   } else if (/\.[jt]s$/.test(name)) {
-    return linkLibrary(readFileSync(fullPath, "utf8"), /\.ts$/.test(name))
+    let content = readFileSync(fullPath, "utf8")
+    if (/@omit\b/.test(content)) return false
+    return linkLibrary(content, {ts: /\.ts$/.test(name), path: fullPath})
       .then(code => ({content: code, name: name.replace(/\.ts$/, ".js")}))
   } else {
     return null
