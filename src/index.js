@@ -52,15 +52,23 @@ function loadTemplates(dir, env) {
 
 let mold = loadTemplates(join(base, "template"), {})
 
-function injectCode(content, code, fileName) {
-  let mime = /\.ts$/.test(fileName) ? "text/typescript" : "text/javascript"
+function injectCode(content, files) {
+  let fileCode = files.map(f => readFileSync(f, "utf8")), m
   while (m = /\n!(\w+)\n/.exec(content)) {
-    let start = code.indexOf("//!" + m[1] + "\n")
-    if (start < 0) throw new Error("Reference to missing code snippet " + m[1])
-    let end = code.indexOf("//!", start + 4)
-    content = content.slice(0, m.index + 1) + "```" + mime +
-      code.slice(start + 4 + m[1].length, end < 0 ? code.length : end - 1).trimEnd() + "\n```\n" +
-      content.slice(m.index + m[0].length + 1)
+    let found = false
+    for (let i = 0; i < files.length; i++) {
+      let code = fileCode[i], marker = "//!" + m[1] + "\n", start = code.indexOf(marker)
+      if (start >= 0) {
+        let end = code.indexOf("//!", start + marker.length)
+        let mode = /\.ts$/.test(files[i]) ? "text/typescript" : /\.js$/.test(files[i]) ? "text/javascript" : "null"
+        found = true
+        content = content.slice(0, m.index + 1) + "```" + mode + "\n" +
+          code.slice(start + marker.length, end < 0 ? code.length : end - 1).trimEnd() + "\n```\n" +
+          content.slice(m.index + m[0].length + 1)
+        break
+      }
+    }
+    if (!found) throw new Error("Reference to missing code snippet " + m[1])
   }
   return content
 }
@@ -70,8 +78,10 @@ function renderMD(fullPath, name, updateContent) {
   let meta = /^!(\{[^]*?\})\n\n/.exec(text)
   let data = meta ? JSON.parse(meta[1]) : {}
   let content = meta ? text.slice(meta[0].length) : text
-  if (data.injectCode)
-    content = injectCode(content, readFileSync(join(dirname(fullPath), data.injectCode), "utf8"), data.injectCode)
+  if (data.injectCode) {
+    let files = Array.isArray(data.injectCode) ? date.injectCode : [data.injectCode]
+    content = injectCode(content, files.map(f => join(dirname(fullPath), f)))
+  }
   if (updateContent) content = updateContent(content)
   data.content = content
   data.fileName = name
