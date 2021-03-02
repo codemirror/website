@@ -677,8 +677,8 @@ value.
 import {EditorState, StateField} from "@codemirror/state"
 
 let countDocChanges = StateField.define({
-  create() { return 0 },
-  update(value, tr) { return tr.docChanged ? value + 1 : value }
+  create: () => { return 0 },
+  update: (value, tr) => { return tr.docChanged ? value + 1 : value }
 })
 
 let state = EditorState.create({extensions: countDocChanges})
