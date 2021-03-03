@@ -449,9 +449,9 @@ effect (all optional):
    state (such as folding code or starting an autocompletion).
 
  - It can influence the state's configuration, either by providing a
-   completely set of extensions, or by
-   [replacing](##state.TransactionSpec.reconfigure) specific
-   [tagged](##state.tagExtension) parts of the configuration.
+   completely [new](##state.StateEffect^reconfigure) set of
+   extensions, or by [replacing](##state.Compartment.reconfigure)
+   specific [parts](##state.Compartment) of the configuration.
 
 To completely reset a state—for example to load a new document—it is
 recommended to create a new state instead of a transaction. That will
@@ -589,41 +589,40 @@ targeted by themes. A theme is an extension created with
 theme extension is active) and defines styles scoped by that class.
 
 A theme declaration defines any number of CSS rules using
-[style-mod](https://github.com/marijnh/style-mod) notation. You can
-use `$name` in these rules to target the class produced by
-`themeClass("name")`. This code creates a crude theme that makes the
-default text color in the editor orange:
+[style-mod](https://github.com/marijnh/style-mod) notation. The editor
+uses class names prefixed by `"cm-"`. This code creates a crude theme
+that makes the default text color in the editor orange:
 
 ```javascript
 import {EditorView} from "@codemirror/view"
 
 let view = new EditorView({
   extensions: EditorView.theme({
-    "$content": {color: "darkorange"},
-    "$$focused $content: {color: "orange"}
+    ".cm-content": {color: "darkorange"},
+    "&.cm-focused .cm-content: {color: "orange"}
   })
 })
 ```
 
 To allow the automatic class prefixing be done correctly, rules where
 the first element targets the editor's wrapper element (which is the
-where the theme's unique class will be added), such as the `$focused`
-rule in the example, must have an additional `$` character in front of
-the selector.
+where the theme's unique class will be added), such as the
+`.cm-focused` rule in the example, must use an `&` character to
+indicate the position of the wrapper element.
 
 Extensions can define [base themes](##view.EditorView^baseTheme) to
 provide default styles for the elements they create. Base themes can
-specify light (default) and dark (enabled when there's a dark theme
-active) variants, so that even when they aren't overridden by a theme,
-they don't look too out of place.
+use `&light` (default) and `&dark` (enabled when there's a dark theme
+active) placholders, so that even when they aren't overridden by a
+theme, they don't look too out of place.
 
 ```javascript
 import {EditorView} from "@codemirror/view"
 
 // This again produces an extension value
 let myBaseTheme = EditorView.baseTheme({
-  "$$dark $mySelector { background: "dimgrey" },
-  "$$light $mySelector { background: "ghostwhite" }
+  "&dark .cm-mySelector { background: "dimgrey" },
+  "&light .cm-mySelector { background: "ghostwhite" }
 })
 ```
 
