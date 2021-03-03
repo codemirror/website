@@ -1,11 +1,11 @@
 //!autoLanguage
 
-import {EditorState} from "@codemirror/state"
+import {EditorState, Compartment} from "@codemirror/state"
 import {htmlLanguage, html} from "@codemirror/lang-html"
 import {language} from "@codemirror/language"
 import {javascript} from "@codemirror/lang-javascript"
 
-const languageTag = Symbol("language")
+const languageConf = new Compartment
 
 const autoLanguage = EditorState.transactionExtender.of(tr => {
   if (!tr.docChanged) return null
@@ -13,21 +13,20 @@ const autoLanguage = EditorState.transactionExtender.of(tr => {
   let stateIsHTML = tr.startState.facet(language) == htmlLanguage
   if (docIsHTML == stateIsHTML) return null
   return {
-    reconfigure: {[languageTag]: docIsHTML ? html() : javascript()}
+    effects: languageConf.reconfigure(docIsHTML ? html() : javascript())
   }
 })
 
 //!enable
 
 import {EditorView, basicSetup} from "@codemirror/basic-setup"
-import {tagExtension} from "@codemirror/state"
 
 new EditorView({
   state: EditorState.create({
     doc: 'console.log("hello")',
     extensions: [
       basicSetup,
-      tagExtension(languageTag, javascript()),
+      languageConf.of(javascript()),
       autoLanguage
     ]
   }),

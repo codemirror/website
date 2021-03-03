@@ -3,8 +3,8 @@
 import {EditorView} from "@codemirror/view"
 
 const baseTheme = EditorView.baseTheme({
-  "$$light $zebraStripe": {backgroundColor: "#f4fafa"},
-  "$$dark $zebraStripe": {backgroundColor: "#1a2727"}
+  "&light .cm-zebraStripe": {backgroundColor: "#f4fafa"},
+  "&dark .cm-zebraStripe": {backgroundColor: "#1a2727"}
 })
 
 //!facet
@@ -29,11 +29,11 @@ export function zebraStripes(options: {step?: number} = {}): Extension {
 
 //!stripeDeco
 
-import {Decoration, themeClass} from "@codemirror/view"
+import {Decoration} from "@codemirror/view"
 import {RangeSetBuilder} from "@codemirror/rangeset"
 
 const stripe = Decoration.line({
-  attributes: {class: themeClass("zebraStripe")}
+  attributes: {class: "cm-zebraStripe"}
 })
 
 function stripeDeco(view: EditorView) {

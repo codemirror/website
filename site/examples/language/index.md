@@ -27,9 +27,9 @@ content.
 
 Like other state changes, changing the editor configuration is done
 through a [transaction](##state.TransactionSpec.reconfigure). You may
-completely [replace](##state.ReconfigurationSpec.full) the state's
-configuration, but also replace just parts of this, which have to be
-[tagged](##state.tagExtension) in advance.
+completely [replace](##state.StateEffect^reconfigure) the state's
+configuration, but also replace just specific
+[compartments](##state.Compartment).
 
 That is the mechanism we'll use here.
 
@@ -42,18 +42,16 @@ with a `<` character) to determine whether to enable HTML or
 JavaScript syntax.
 
 When the detected language disagrees with the (primary) language
-configured for the state, the transaction is extended with a
-[`reconfigure`](##state.TransactionSpec.reconfigure) field that
-switches the language extensions to the appropriate ones. Since
-`languageTag` is always used as tag, if the extension previously set a
-language, that language is overwritten.
+configured for the state, the transaction is extended with an
+[effect](##state.Compartment.reconfigure) that switches the language
+config compartment to the appropriate extensions.
 
 !autoLanguage
 
 If we specify an initial language configuration, we must be careful to
-[tag](##state.tagExtension) it with our `languageTag` value, so that
-when the extension updates the language, that part of the
-configuration gets replaced.
+[wrap](##state.Compartment.of) it with our compartment, so that when
+the extension updates the language, that part of the configuration
+gets replaced.
 
 !enable
 

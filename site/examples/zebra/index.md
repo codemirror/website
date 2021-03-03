@@ -8,9 +8,8 @@ background.
 To style the stripes in a way that allows
 [themes](##view.EditorView^theme) to override them, we start by
 defining a [base theme](##view.EditorView^baseTheme). It styles the
-`zebraStripe` theme selector (which will show up as the
-`cm-zebraStripe` CSS class in the DOM), with different backgrounds for
-light and dark base themes.
+`cm-zebraStripe` class, with different backgrounds for light and dark
+base themes.
 
 !baseTheme
 
