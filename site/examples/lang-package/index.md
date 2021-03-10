@@ -17,12 +17,18 @@ features for working with that language. Those may be...
 In this example, we'll go through implementing a language package for
 a very minimal Lisp-like language. A similar project, with build tool
 configuration and such set up for you, is available as an example Git
-repository at [FIXME]. It may be useful to start from that when
-building your own package.
+repository at
+[codemirror/lang-example](https://github.com/codemirror/lang-example).
+It may be useful to start from that when building your own package.
 
 ## Parsing
 
-There are several ways to implement a parser for CodeMirror.
+The first thing we'll need is a parser, which is used for
+[highlighting](##highlight) but also provides the structure for things
+like [syntax-aware selection](##commands.selectParentSyntax),
+[auto-indentation](##commands.insertNewlineAndIndent), and [code
+folding](##fold). There are several ways to implement a parser for
+CodeMirror.
 
  * Using a [Lezer](https://lezer.codemirror.net) grammar. This is a
    parser generator system that converts a declarative description of
@@ -48,15 +54,15 @@ be error-tolerant, so that highlighting doesn't break when you have a
 syntax error somewhere in your file. And finally, it is practical when
 it produces a syntax tree in a
 [format](https://lezer.codemirror.net/docs/ref/#tree) that the
-highlighter can consume. Very few parsers can easily be integrated to
-work like.
+highlighter can consume. Very few existing parsers can easily be
+integrated in such a context.
 
 If your language defines a formal [context-free
 grammar](https://en.wikipedia.org/wiki/Context-free_language), you may
-be able to base a Lezer grammar on that with relative ease (depending
-on how much dodgy tricks the language uses—they almost always do
-something that doesn't fit the context-free formalism, but Lezer has
-some mechanisms to deal with that).
+be able to base a Lezer grammar on that with relative ease—depending
+on how much dodgy tricks the language uses. Almost all languages do
+some things that don't fit the context-free formalism, but Lezer has
+some mechanisms to deal with that.
 
 The Lezer
 [guide](https://lezer.codemirror.net/docs/guide/#writing-a-grammar)
@@ -77,7 +83,8 @@ extension, and ran through
 to create a JavaScript file.
 
 This first rule means that a document should be parsed as any number
-of `expression`s, and the top node should be called `Program`.
+of `expression`s, and the top node of the syntax tree should be called
+`Program`.
 
 ```null
 @top Program { expression* }
@@ -86,8 +93,8 @@ of `expression`s, and the top node should be called `Program`.
 The next rule is a bit more involved. It declares that an expression
 can either be an identifier, a string, a boolean literal, or an
 application, which is any number of expressions wrapped in
-parentheses. The choice for `Application` uses an _inline rule_ to
-combine the definition of the rule with its only use.
+parentheses. (The branch for `Application` uses an _inline rule_ to
+combine the definition of the rule with its only use.)
 
 ```null
 expression {
@@ -107,13 +114,13 @@ Next, we define our tokens.
 
 ```null
 @tokens {
-  LineComment { ";" ![\n]* }
-
   Identifier { $[a-zA-Z_0-9]+ }
 
   String { '"' (!["\\] | "\\" _)* '"' }
 
   Boolean { "#t" | "#f" }
+
+  LineComment { ";" ![\n]* }
 
   space { $[ \t\n\r]+ }
 
@@ -153,7 +160,11 @@ matching and automatic indentation.
 
 If that grammar lives in `example.grammar`, you can run
 `lezer-generator example.grammar` to create a JavaScript module
-holding the parse tables.
+holding the parse tables. Or, as the [example
+repository](https://github.com/codemirror/lang-example) does, include
+the [Rollup](https://rollupjs.org/) plugin provided by that tool in
+your build process, so that you can directly import the parser from
+the grammar file.
 
 ## CodeMirror integration
 
@@ -164,16 +175,18 @@ A Lezer parser comes with a number of [node
 types](https://lezer.codemirror.net/docs/ref/#tree.NodeType), each of
 which can have
 [props](https://lezer.codemirror.net/docs/ref/#tree.NodeProp) with
-extra metadata added to them. We'll store node-specific information
-for highlighting, indentation, and folding, by creating a copy of the
-parser which has additional node props inected.
+extra metadata added to them. We'll create an extended copy of the
+parser to include node-specific information for highlighting,
+indentation, and folding.
 
 !parser
 
 [`styleTags`](##highlight.styleTags) is a helper that attaches
 highlighting information. We give it an object mapping node names (or
 space-separated lists of node names) to [highlighting
-tags](##highlight.tags).
+tags](##highlight.tags). These tags describe the syntactic role of the
+elements, and are used by [higlight
+styles](##highlight.HighlightStyle) to style the text.
 
 The information added by `@detectDelim` would already allow the
 automatic indentation to do a reasonable job, but because Lisps tend
@@ -187,7 +200,8 @@ passed a [context object](##language.TreeIndentContext) holding the
 relevant values and some indentation-related helper methods. In this
 case, the function computes the column position at the start of the
 application node and adds one [indent unit](##language.indentUnit) to
-that.
+that. The [language package](##language) exports a number of helpers
+to easily implement common indentation styles.
 
 Finally, [`foldNodeProp`](##language.foldNodeProp) associates folding
 information with node types. We allow application nodes to be folded
@@ -197,7 +211,7 @@ That gives us a parser with enough editor-specific information encoded
 in its output to use it for editing. Next we wrap that in a
 [`Language`](##language.Language) instance, which wraps a parser and
 adds a language-specific [facet](##state.Facet) that can be used by
-external code to attach additional language-wide metadata.
+external code to register language-specific metadata.
 
 !language
 
@@ -210,7 +224,7 @@ source](##autocomplete.CompletionSource) for this language.
 
 Finally, it is convention for language packages to export a main
 function (named after the language, so it's called `css` in
-`@codemrirror/lang-css` for example) that takes a configuration object
+`@codemirror/lang-css` for example) that takes a configuration object
 (if the language has anything to configure) and returns a
 [`LanguageSupport`](##language.LanguageSupport) object, which bundles
 a `Language` instance with any additional supporting extensions that
