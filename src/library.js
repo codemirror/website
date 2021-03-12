@@ -62,8 +62,8 @@ function linkCode(code) {
   })
 }
 
-exports.linkLibrary = (code, {ts, path}) => {
-  return runRollup(linkCode(code), {
+exports.linkLibrary = (code, {ts, path, standalone}) => {
+  return runRollup(standalone ? code : linkCode(code), {
     plugins: ts ? [sucrase({transforms: ['typescript'], include: /XXX/})] : [],
   }, {ext: "ts", path})
 }

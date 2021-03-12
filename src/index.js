@@ -79,7 +79,7 @@ function renderMD(fullPath, name, updateContent) {
   let data = meta ? JSON.parse(meta[1]) : {}
   let content = meta ? text.slice(meta[0].length) : text
   if (data.injectCode) {
-    let files = Array.isArray(data.injectCode) ? date.injectCode : [data.injectCode]
+    let files = Array.isArray(data.injectCode) ? data.injectCode : [data.injectCode]
     content = injectCode(content, files.map(f => join(dirname(fullPath), f)))
   }
   if (updateContent) content = updateContent(content)
@@ -105,7 +105,7 @@ mapDir(siteDir, join(base, "output"), (fullPath, name) => {
   } else if (/\.[jt]s$/.test(name)) {
     let content = readFileSync(fullPath, "utf8")
     if (/@omit\b/.test(content)) return false
-    return linkLibrary(content, {ts: /\.ts$/.test(name), path: fullPath})
+    return linkLibrary(content, {ts: /\.ts$/.test(name), path: fullPath, standalone: /@standalone\b/.test(content)})
       .then(code => ({content: code, name: name.replace(/\.ts$/, ".js")}))
   } else {
     return null
