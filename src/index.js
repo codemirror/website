@@ -61,9 +61,11 @@ function injectCode(content, files) {
       if (start >= 0) {
         let end = code.indexOf("//!", start + marker.length)
         let mode = /\.ts$/.test(files[i]) ? "text/typescript" : /\.js$/.test(files[i]) ? "text/javascript" : "null"
+        let snippet = code.slice(start + marker.length, end < 0 ? code.length : end - 1).trimEnd()
+        while (snippet[0] == "\n") snippet = snippet.slice(1)
         found = true
         content = content.slice(0, m.index + 1) + "```" + mode + "\n" +
-          code.slice(start + marker.length, end < 0 ? code.length : end - 1).trimEnd() + "\n```\n" +
+          snippet + "\n```\n" +
           content.slice(m.index + m[0].length + 1)
         break
       }
