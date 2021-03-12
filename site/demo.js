@@ -1,3 +1,5 @@
+// @babel
+
 import {EditorState, EditorView, basicSetup} from "@codemirror/basic-setup"
 import {javascript, javascriptLanguage} from "@codemirror/lang-javascript"
 import {completeFromList} from "@codemirror/autocomplete"

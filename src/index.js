@@ -112,8 +112,12 @@ function map(fullPath, name) {
   } else if (/\.[jt]s$/.test(name)) {
     let content = readFileSync(fullPath, "utf8")
     if (/@omit\b/.test(content)) return false
-    return linkLibrary(content, {ts: /\.ts$/.test(name), path: fullPath, standalone: /@standalone\b/.test(content)})
-      .then(code => ({content: code, name: name.replace(/\.ts$/, ".js")}))
+    return linkLibrary(content, {
+      ts: /\.ts$/.test(name),
+      path: fullPath,
+      standalone: /@standalone\b/.test(content),
+      babel: /@babel\b/.test(content)
+    }).then(code => ({content: code, name: name.replace(/\.ts$/, ".js")}))
   } else {
     return null
   }

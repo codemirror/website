@@ -29,8 +29,12 @@ async function runRollup(code, config = {}, {ext = "js", path} = {}) {
     }
   })
   let output = (await bundle.generate({format: "iife", file: "out.js", ...config.output || {}})).output[0]
+  return output.code
+}
+
+function runBabel(code) {
   let compact = process.env.COMPACT != "false"
-  return require("@babel/core").transformSync(output.code, {
+  return require("@babel/core").transformSync(code, {
     filename: "codemirror.js",
     babelrc: false,
     compact,
@@ -50,8 +54,7 @@ exports.buildLibrary = () => {
   return runRollup(
     `import ${JSON.stringify(join(__dirname, "..", "polyfills.js"))}\n` +
     bundledModules.map((id, i) => `import * as _m${i} from ${JSON.stringify(id)}`).join("\n") +
-    `\nwindow.CM = {\n  ${bundledModules.map((id, i) => JSON.stringify(id) + ": _m" + i).join(",\n  ")}\n}\n`
-  )
+    `\nwindow.CM = {\n  ${bundledModules.map((id, i) => JSON.stringify(id) + ": _m" + i).join(",\n  ")}\n}\n`).then(runBabel)
 }
 
 function linkCode(code) {
@@ -61,8 +64,9 @@ function linkCode(code) {
   })
 }
 
-exports.linkLibrary = (code, {ts, path, standalone}) => {
-  return runRollup(standalone ? code : linkCode(code), {
+exports.linkLibrary = (code, {ts, path, standalone, babel}) => {
+  let result = runRollup(standalone ? code : linkCode(code), {
     plugins: ts ? [sucrase({transforms: ['typescript'], include: /XXX/})] : [],
   }, {ext: "ts", path})
+  return babel ? result.then(runBabel) : result
 }
