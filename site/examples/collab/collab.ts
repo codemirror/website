@@ -47,13 +47,18 @@ class Connection {
   }
 }
 
-const worker = new Worker("./worker.js")
+//!wrappers
 
 function pushUpdates(
   connection: Connection,
   version: number,
-  updates: readonly Update[]
+  fullUpdates: readonly Update[]
 ): Promise<boolean> {
+  // Strip off transaction data
+  let updates = fullUpdates.map(u => ({
+    clientID: u.clientID,
+    changes: u.changes.toJSON()
+  }))
   return connection.request({type: "pushUpdates", version, updates})
 }
 
@@ -68,50 +73,60 @@ function pullUpdates(
     })))
 }
 
-function currentDocument(
-  worker: Worker
+function getDocument(
+  connection: Connection
 ): Promise<{version: number, doc: Text}> {
-  return new Connection(worker, () => 0).request({type: "getDocument"})
-    .then(({version, doc}) => ({version, doc: Text.of(doc.split("\n"))}))
+  return connection.request({type: "getDocument"}).then(data => ({
+    version: data.version,
+    doc: Text.of(data.doc.split("\n"))
+  }))
 }
+
+//!peerExtension
 
 function peerExtension(startVersion: number, connection: Connection) {
   let plugin = ViewPlugin.fromClass(class {
-    private mustPush = -1
+    private pushing = false
+    private done = false
 
     constructor(private view: EditorView) { this.pull() }
 
     update(update: ViewUpdate) {
-      if (update.docChanged) this.pushSoon(10)
-    }
-
-    pushSoon(delay: number) {
-      clearTimeout(this.mustPush)
-      this.mustPush = setTimeout(() => this.push(), delay)
+      if (update.docChanged) this.push()
     }
 
     async push() {
-      this.mustPush = -1
       let updates = sendableUpdates(this.view.state)
+      if (this.pushing || !updates.length) return
+      this.pushing = true
       let version = getSyncedVersion(this.view.state)
-      if (!updates.length) return
-      let success = await pushUpdates(connection, version, updates)
-      this.pushSoon(success ? 10 : 500)
+      await pushUpdates(connection, version, updates)
+      this.pushing = false
+      // Regardless of whether the push failed or new updates came in
+      // while it was running, try again if there's updates remaining
+      if (sendableUpdates(this.view.state).length)
+        setTimeout(() => this.push(), 100)
     }
 
     async pull() {
-      for (;;) {
+      while (!this.done) {
         let version = getSyncedVersion(this.view.state)
         let updates = await pullUpdates(connection, version)
         this.view.dispatch(receiveUpdates(this.view.state, updates))
       }
     }
+
+    destroy() { this.done = true }
   })
   return [collab({startVersion}), plugin]
 }
 
+//!rest
+
+const worker = new Worker("./worker.js")
+
 async function addPeer() {
-  let {version, doc} = await currentDocument(worker)
+  let {version, doc} = await getDocument(new Connection(worker, () => 0))
   let connection = new Connection(worker)
   let state = EditorState.create({
     doc,
