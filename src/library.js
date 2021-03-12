@@ -1,4 +1,3 @@
-const babel = require("@babel/core")
 const resolve = require("@rollup/plugin-node-resolve").default
 const sucrase = require("@rollup/plugin-sucrase")
 const {rollup} = require("rollup")
@@ -31,7 +30,7 @@ async function runRollup(code, config = {}, {ext = "js", path} = {}) {
   })
   let output = (await bundle.generate({format: "iife", file: "out.js", ...config.output || {}})).output[0]
   let compact = process.env.COMPACT != "false"
-  return babel.transformSync(output.code, {
+  return require("@babel/core").transformSync(output.code, {
     filename: "codemirror.js",
     babelrc: false,
     compact,

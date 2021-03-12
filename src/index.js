@@ -2,7 +2,7 @@ const Mold = require("mold-template")
 const markdownIt = require("markdown-it")
 const {join, dirname} = require("path")
 const {readFileSync, readdirSync} = require("fs")
-const {mapDir} = require("./mapdir")
+const {mapDir, mapFile} = require("./mapdir")
 const {buildRef} = require("./buildref")
 const {buildLibrary, linkLibrary} = require("./library")
 const {changelog} = require("./changelog")
@@ -89,8 +89,15 @@ function renderMD(fullPath, name, updateContent) {
           content: mold.defs[data.template || "page"](data)}
 }
 
-let siteDir = join(base, "site")
-mapDir(siteDir, join(base, "output"), (fullPath, name) => {
+let siteDir = join(base, "site"), outDir = join(base, "output")
+let file = process.argv[2]
+
+if (file)
+  mapFile(file, join(siteDir, file), outDir, map)
+else
+  mapDir(siteDir, outDir, map)
+
+function map(fullPath, name) {
   currentRoot = backToRoot(dirname(name))
   if (name == "docs/ref/index.html") {
     return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef(highlight, markdown)})}
@@ -110,7 +117,7 @@ mapDir(siteDir, join(base, "output"), (fullPath, name) => {
   } else {
     return null
   }
-})
+}
 
 function backToRoot(dir) {
   let result = "./"
