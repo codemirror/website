@@ -4,17 +4,24 @@ const {sync: rimraf} = require("rimraf")
 
 let nothing = Promise.resolve(undefined)
 
+function write(path, data) {
+  mkdirSync(dirname(path), {recursive: true})
+  writeFileSync(path, data)
+}
+
 exports.mapFile = function mapFile(name, fullPath, dest, map) {
   let mapped = map(fullPath, name)
   if (mapped && mapped.then) {
     return mapped.then(result => {
-      writeFileSync(join(dest, result.name || name), result.content)
+      write(join(dest, result.name || name), result.content)
     })
   } else if (mapped) {
-    writeFileSync(join(dest, mapped.name || name), mapped.content)
+    write(join(dest, mapped.name || name), mapped.content)
     return nothing
   } else if (mapped !== false) {
-    linkSync(fullPath, join(dest, name))
+    let destPath = join(dest, name)
+    mkdirSync(dirname(destPath), {recursive: true})
+    linkSync(fullPath, destPath)
     return nothing
   }
 }
@@ -25,9 +32,6 @@ exports.mapDir = async function mapDir(source, dest, map, add = {}) {
   let waitFor = []
 
   function walkDir(dir, prefix) {
-    if (/tmp-output/.test(dir)) throw new Error("STOH")
-    mkdirSync(join(temp, prefix), {recursive: true})
-    
     for (let filename of readdirSync(dir)) {
       let path = join(dir, filename)
       let stat = statSync(path)
@@ -45,7 +49,7 @@ exports.mapDir = async function mapDir(source, dest, map, add = {}) {
   try {
     walkDir(source, "")
     for (let added in add) {
-      writeFileSync(join(temp, added), add[added])
+      write(join(temp, added), add[added])
     }
     for (let p of waitFor) await p
     let moved
