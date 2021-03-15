@@ -23,21 +23,23 @@ position above the cursor.
 <script defer src="tooltip.js"></script>
 
 Dynamic facet values need to be rooted somewhere—usually in a state
-field. This field holds the set of tooltips as the selection changes.
-Because we'll only show tooltips for cursor (not range selections),
-and there can be multiple cursors, the tooltips are kept in an array.
+field. The field below holds the set of tooltips, basing them on the
+current selection state. We'll only show tooltips for cursors (not
+range selections), but there can be multiple cursors, so the tooltips
+are kept in an array.
 
 !cursorTooltipField
 
-The `provide` option shows the way to provide multiple inputs to a
-facet from a state field.
+The [`provide`](##state.StateField^define^config.provide) option, used
+with [`computeN`](##state.Facet.computeN), is the way to provide
+multiple facet inputs from a state field.
 
-Often, the field that manages your tooltips will be a bit less
+Often the field that manages your tooltips will be a bit less
 trivial. For example, the autocompletion extension tracks the active
 completion state in a field, and provides zero or one tooltips (the
 completion widget) from that.
 
-The helper function used by the state field looks like this:
+The helper function used by that state field looks like this:
 
 !getCursorTooltips
 
@@ -52,15 +54,14 @@ DOM-related and imperative part of the tooltip. Its [return
 value](##tooltip.TooltipView) can also define functions that should be
 called when the tooltip is added to the DOM or the view state updates.
 
-Now we just need some awkward CSS to style and position the tooltip
-correctly (the `:before` pseudo-element adds a little triangle below
-it).
+Active tooltips are displayed as fixed-position elements. We'll use
+some ugly CSS to style and position the tooltip correctly (the
+`:before` pseudo-element adds a little triangle below it).
 
 !baseTheme
 
-And we can define a function that returns the extensions needed to
-enable this feature: the field, the base theme, and the [tooltip
-extension](##tooltip.tooltip) which will manage the actual tooltip.
+And finally we can define a function that returns the extensions
+needed to enable this feature: the field and the base theme.
 
 !cursorTooltip
 

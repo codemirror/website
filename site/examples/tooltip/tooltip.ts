@@ -19,29 +19,30 @@ const cursorTooltipField = StateField.define<readonly Tooltip[]>({
 import {EditorState} from "@codemirror/state"
 
 function getCursorTooltips(state: EditorState): readonly Tooltip[] {
-  let cursors = state.selection.ranges.filter(range => range.empty)
-  return cursors.map(range => {
-    let line = state.doc.lineAt(range.head)
-    let text = line.number + ":" + (range.head - line.from)
-    return {
-      pos: range.head,
-      above: true,
-      strictSide: true,
-      class: "cm-cursor-tooltip",
-      create: () => {
-        let dom = document.createElement("div")
-        dom.textContent = text
-        return {dom}
+  return state.selection.ranges
+    .filter(range => range.empty)
+    .map(range => {
+      let line = state.doc.lineAt(range.head)
+      let text = line.number + ":" + (range.head - line.from)
+      return {
+        pos: range.head,
+        above: true,
+        strictSide: true,
+        class: "cm-cursor-tooltip",
+        create: () => {
+          let dom = document.createElement("div")
+          dom.textContent = text
+          return {dom}
+        }
       }
-    }
-  })
+    })
 }
 
 //!baseTheme
 
 import {EditorView} from "@codemirror/basic-setup"
 
-const tooltipBaseTheme = EditorView.baseTheme({
+const cursorTooltipBaseTheme = EditorView.baseTheme({
   ".cm-tooltip.cm-cursor-tooltip": {
     backgroundColor: "#66b",
     color: "white",
@@ -64,10 +65,8 @@ const tooltipBaseTheme = EditorView.baseTheme({
 
 //!cursorTooltip
 
-import {tooltips} from "@codemirror/tooltip"
-
 export function cursorTooltip() {
-  return [cursorTooltipField, tooltipBaseTheme, tooltips()]
+  return [cursorTooltipField, cursorTooltipBaseTheme]
 }
 
 //!create
