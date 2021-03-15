@@ -49,8 +49,8 @@ Here's a toy collaborative editing setup that lives within this page:
     position: absolute;
     left: 35px; top: 15px;
   }
-  .cm-scroller {
-    min-height: 50px;
+  .cm-wrap .cm-scroller {
+    height: 70px;
   }
 </style>
 
@@ -276,4 +276,73 @@ synchronizing (when they ask for a version that has been compressed
 away), but when done on old data it can greatly reduce the size of the
 history data.
 
-<!-- FIXME shared effects -->
+## Shared Effects
+
+By default, the only thing that is shared through such a
+collaborative-editing channel is document changes (the `changes` field
+in the update objects). Sometimes it is useful to also use this
+mechanism to share other information that should be distributed
+between clients.
+
+To do that, when calling the [`collab`](##collab.collab) extension
+constructor, you can pass a
+[`sharedEffects`](##collab.collab^config.sharedEffects) function which
+produces an array of “shared effects” from a transaction. Shared
+effects are instances of [`StateEffect`](##state.StateEffect) that
+should be applied in other peers as well. In the simplest case,
+`sharedEffects` could just filter the transaction's effects, picking
+out specific types of transactions.
+
+Say, for example, we have a plugin tracking marked regions in the
+document. Editors keep a state field with a collection of marked
+regions, and have a `markRegion` effect that they use to add regions
+to this.
+
+```typescript
+import {StateEffect} from "@codemirror/state"
+
+const markRegion = StateEffect.define<{from: number, to: number}>({
+  map({from, to}, changes) {
+    from = changes.mapPos(from, 1)
+    to = changes.mapPos(to, -1)
+    return from < to ? {from, to} : undefined
+  }
+})
+```
+
+Since the effect refers to positions in the document, it needs a
+[`map`](##state.StateEffect^define^spec.map) function to map it
+through document changes. This will also be used by the collab package
+when reconciling local and remote changes.
+
+Now with a function like this as `sharedEffects` source, we'd get
+these effects in our `Update` objects:
+
+```typescript
+import {collab} from "@codemirror/collab"
+
+let markCollab = {
+  // ...
+  sharedEffects: tr => tr.effects.filter(e => e.is(markRegion))
+}
+```
+
+The library doesn't provide any utilities for serializing effects, so
+in order to send them around as JSON you need your own custom
+serialization code for the `effects` field in updates.
+
+But once you set that up, assuming that all peers have some extension
+that handles these effects installed, applying them across peers
+should just work. The effects get applied in transactions created by
+[`receiveUpdates`](##collab.receiveUpdates), and the state field that
+manages such marks will pick them up from there.
+
+There is one thing to keep in mind though. As described in more detail
+in [the collaborative-editing blog
+post](https://marijnhaverbeke.nl/blog/collaborative-editing-cm.html#position-mapping),
+the kind of position mapping done in the effect's `map` function is
+not guaranteed to converge to the same positions when applied in
+different order by different peers. For some use cases (such as
+showing other people's cursor), this may be harmless. For others, you
+might need to set up a separate mechanism to periodically synchronize
+the positions.
