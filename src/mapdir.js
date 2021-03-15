@@ -1,4 +1,4 @@
-const {writeFileSync, mkdirSync, readdirSync, statSync, linkSync, renameSync, existsSync} = require("fs")
+const {writeFileSync, mkdirSync, readdirSync, statSync, linkSync, unlinkSync, renameSync, existsSync} = require("fs")
 const {join, dirname} = require("path")
 const {sync: rimraf} = require("rimraf")
 
@@ -21,6 +21,7 @@ exports.mapFile = function mapFile(name, fullPath, dest, map) {
   } else if (mapped !== false) {
     let destPath = join(dest, name)
     mkdirSync(dirname(destPath), {recursive: true})
+    if (existsSync(destPath)) unlinkSync(destPath)
     linkSync(fullPath, destPath)
     return nothing
   }
