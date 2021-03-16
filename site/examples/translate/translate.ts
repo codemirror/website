@@ -17,7 +17,7 @@ const germanPhrases = {
   "Find": "Suchen",
   "Replace": "Ersetzen",
   "next": "nächste",
-  "previous": "letzte",
+  "previous": "vorherige",
   "all": "alle",
   "match case": "groß/klein beachten",
   "replace": "ersetzen",
