@@ -4,13 +4,13 @@ const germanPhrases = {
   // @codemirror/view
   "Control character": "Steuerzeichen",
   // @codemirror/fold
-  "Folded lines": "Gefaltete Zeilen",
-  "Unfolded lines": "Entfaltete Zeilen",
+  "Folded lines": "Eingeklappte Zeilen",
+  "Unfolded lines": "Ausgeklappte Zeilen",
   "to": "bis",
-  "folded code": "gefaltete Code",
-  "unfold": "entfalten",
-  "Fold line": "Zeile falten",
-  "Unfold line": "Zeile entfalten",
+  "folded code": "eingeklappte Code",
+  "unfold": "ausklappen",
+  "Fold line": "Zeile einklappen",
+  "Unfold line": "Zeile ausklappen",
   // @codemirror/search
   "Go to line": "Springe zu Zeile",
   "go": "OK",
