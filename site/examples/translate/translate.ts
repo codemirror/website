@@ -7,7 +7,7 @@ const germanPhrases = {
   "Folded lines": "Eingeklappte Zeilen",
   "Unfolded lines": "Ausgeklappte Zeilen",
   "to": "bis",
-  "folded code": "eingeklappte Code",
+  "folded code": "eingeklappter Code",
   "unfold": "ausklappen",
   "Fold line": "Zeile einklappen",
   "Unfold line": "Zeile ausklappen",
@@ -23,7 +23,7 @@ const germanPhrases = {
   "replace": "ersetzen",
   "replace all": "alle ersetzen",
   "close": "schließen",
-  "current match": "aktuelle Treffer",
+  "current match": "aktueller Treffer",
   "on line": "auf Zeile",
   // @codemirror/lint
   "Diagnostics": "Diagnosen",
