@@ -39,7 +39,7 @@ styling for the panel.
 
 !helpPanel
 
-<style>.cm-wrap { height: 140px }</style>
+<style>.cm-editor { height: 140px }</style>
 <div id=editor></div>
 <script defer src="../../codemirror.js"></script>
 <script defer src="help-panel.js"></script>

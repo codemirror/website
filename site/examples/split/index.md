@@ -45,7 +45,7 @@ Now we can create the views, and see them in action.
 The first editor:
 
 <style>
-  .cm-wrap { height: 100px }
+  .cm-editor { height: 100px }
 </style>
 <div id=editor1></div>
 

@@ -49,7 +49,7 @@ Here's a toy collaborative editing setup that lives within this page:
     position: absolute;
     left: 35px; top: 15px;
   }
-  .cm-wrap .cm-scroller {
+  .cm-editor .cm-scroller {
     height: 70px;
   }
 </style>

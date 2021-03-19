@@ -90,7 +90,7 @@ h2 a:link, h2 a:visited, h3 a:link, h3 a:visited, h4 a:link, h4 a:visited {
 code, pre { font-size: 14px }
 pre { line-height: 22px; padding-left: 20px; overflow-x: auto }
 
-code, pre, .cm-wrap .cm-scroller {
+code, pre, .cm-editor .cm-scroller {
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
 }
 
@@ -352,7 +352,7 @@ nav#toc ul ul {
   padding-left: 20px;
 }
 
-.cm-wrap { max-height: 200px; border: 1px solid silver; font-size: 14px }
+.cm-editor { max-height: 200px; border: 1px solid silver; font-size: 14px }
 .cm-scroller { overflow: auto; }
 
 /* Code highlighting styles */

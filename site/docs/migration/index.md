@@ -247,7 +247,7 @@ editor. If you're writing custom CSS for the editor, you'll probably
 have to change it a bit. Class names roughly correspond like this:
 
 ```
-CodeMirror → cm-wrap
+CodeMirror → cm-editor
 CodeMirror-line → cm-line
 CodeMirror-scroll → cm-scroller
 CodeMirror-sizer → cm-content

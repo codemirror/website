@@ -541,7 +541,7 @@ When you are done with a view instance, you can call its
 The editor's DOM structure looks something like this:
 
 ```html
-<div class="cm-wrap [theme scope classes]">
+<div class="cm-editor [theme scope classes]">
   <div class="cm-scroller">
     <div class="cm-content" contenteditable="true">
       <div class="cm-line">Content goes here</div>

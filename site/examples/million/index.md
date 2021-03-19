@@ -11,7 +11,7 @@ it does to avoid wasting too much battery and memory. If the editor is
 inactive, it'll stop doing work entirely. Otherwise, it should
 eventually get to your scroll position.
 
-<style>.cm-wrap { height: 400px }</style>
+<style>.cm-editor { height: 400px }</style>
 
 <div id=editor></div>
 <script defer src="../../codemirror.js"></script>
