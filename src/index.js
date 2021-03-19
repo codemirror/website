@@ -10,6 +10,7 @@ const {changelog} = require("./changelog")
 const CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
 require("codemirror/mode/javascript/javascript.js")
 require("codemirror/mode/xml/xml.js")
+require("codemirror/mode/css/css.js")
 const escapeHtml = markdownIt().utils.escapeHtml
 
 function highlight(str, lang) {
