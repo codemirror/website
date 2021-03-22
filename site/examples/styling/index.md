@@ -83,8 +83,8 @@ the library tries to be robust when it comes to styling.
    to `cm-line`.
 
  * By default, the editor adjusts to the height of its content, but
-   you can give `cm-scroller` a `height` (or `max-height`) and
-   `overflow: auto` to make the editor scrollable.
+   you can make `cm-scroller` `overflow: auto`, and assign a `height`
+   or `max-height` to `cm-editor, to make the editor scrollable.
 
  * Colors can be adjusted throughout, but when adding background
    colors to content, it is recommended to use partially transparent
