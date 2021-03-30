@@ -397,7 +397,7 @@ function editorFromTextArea(textarea, extensions) {
 
 Marked text (and bookmarks) are called
 [decorations](##view.Decoration) in the new system, and creating them
-is both a bit more difficult (but also a lot less error-prone).
+is a bit more difficult (but also a lot less error-prone).
 
 Instead of adding and removing marks through a side effect,
 decorations are _provided_ by extensions, scoped to their source
