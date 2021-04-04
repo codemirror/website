@@ -599,7 +599,7 @@ import {EditorView} from "@codemirror/view"
 let view = new EditorView({
   extensions: EditorView.theme({
     ".cm-content": {color: "darkorange"},
-    "&.cm-focused .cm-content: {color: "orange"}
+    "&.cm-focused .cm-content": {color: "orange"}
   })
 })
 ```
@@ -621,8 +621,8 @@ import {EditorView} from "@codemirror/view"
 
 // This again produces an extension value
 let myBaseTheme = EditorView.baseTheme({
-  "&dark .cm-mySelector { background: "dimgrey" },
-  "&light .cm-mySelector { background: "ghostwhite" }
+  "&dark .cm-mySelector": { background: "dimgrey" },
+  "&light .cm-mySelector": { background: "ghostwhite" }
 })
 ```
 
