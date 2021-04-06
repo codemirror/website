@@ -467,7 +467,7 @@ editor that can't be handled purely with the data in the state.
  - When dealing with screen coordinates (to [figure
    out](##view.EditorView.posAtCoords) where the user clicked, or to
    find the [coordinates](##view.EditorView.coordsAtPos) of a given
-   position), you need access to the layout, and thus the brower DOM.
+   position), you need access to the layout, and thus the browser DOM.
 
  - The editor takes the [text
    direction](##view.EditorView.textDirection) from the surrounding
