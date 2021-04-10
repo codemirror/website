@@ -97,7 +97,7 @@ the systems that CodeMirror integrate with.
 To resolve this contradiction, the library's state representation is
 strictly functional—the [document](##text.Text) and
 [state](##state.EditorState) data structures are immutable, and
-operations on them pure functions, whereas the [view
+operations on them are pure functions, whereas the [view
 component](##view.EditorView) and command interface wrap these in an
 imperative interface.
 
@@ -484,7 +484,7 @@ editor that can't be handled purely with the data in the state.
    position](##view.EditorView.scrollPosIntoView), isn't stored in the
    functional state, but left in the DOM.
 
-The library does not expect user code to manipulate its the DOM
+The library does not expect user code to manipulate the DOM
 structure it manages. When you do try that, you'll probably just see
 the library revert your changes right away. See the section on
 [decorations](#decorating-the-document) for the proper way to affect
