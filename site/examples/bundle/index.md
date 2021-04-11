@@ -64,7 +64,7 @@ npm i rollup @rollup/plugin-node-resolve
 With these, we can run rollup to create the bundle file.
 
 ```shell
-rollup editor.js -f iife -o editor.bundle.js -p @rollup/plugin-node-resolve
+node_modules/.bin/rollup editor.js -f iife -o editor.bundle.js -p @rollup/plugin-node-resolve
 ```
 
 The `-f iife` file tells Rollup that the output file should be
