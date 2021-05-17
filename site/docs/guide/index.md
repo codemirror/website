@@ -193,13 +193,13 @@ extensions—if the same one gets included multiple times, it'll only
 take effect once.
 
 When relevant, the precedence of extensions is determined first by
-[explicitly set](##state.Precedence) precedence category, and within
+[explicitly set](##state.Prec) precedence category, and within
 that, by the position the extension has in the (flattened) collection
 of extensions passed to the state.
 
 ```javascript
 import {keymap} from "@codemirror/view"
-import {EditorState, precedence} from "@codemirrror/state"
+import {EditorState, Prec} from "@codemirrror/state"
 
 function dummyKeymap(tag) {
   return keymap.of([{
@@ -211,7 +211,7 @@ function dummyKeymap(tag) {
 let state = EditorState.create({extensions: [
   dummyKeymap("A"),
   dummyKeymap("B"),
-  precedence(dummyKeymap("C"), "override")
+  Prec.override(dummyKeymap("C"))
 ]})
 ```
 
