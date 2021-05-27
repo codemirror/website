@@ -240,3 +240,43 @@ If you need to style tokens with plain old CSS, you can enable the
 [`classHighlightStyle`](##highlight.classHighlightStyle), which just
 adds a static class (for example `cmt-keyword`) to tokens, without actually
 defining any rules for that class.
+
+## Overflow and Scrolling
+
+Without any custom styling, a CodeMirror editor grows vertically,
+scrolls (rather than wraps) long lines, and doesn't have any border
+except a focus ring when focused.
+
+To enable line wrapping, add the
+[`EditorView.lineWrapping`](##view.EditorView^lineWrapping) extension
+to your configuration. It is also possible to adjust the `white-space`
+style of the content element in some other way, but only `pre` and
+`pre-wrap` are supported by the library, and wrapping can be
+unreliable if you don't also set `overflow-wrap: anywhere`, so it is
+recommended to just use this extension to enable wrapping.
+
+Adjusting the vertical behavior of the editor can be done by giving
+its outer element a height, and setting `overflow: auto` on the
+scroller element.
+
+```javascript
+const fixedHeightEditor = EditorView.theme({
+  "&": {height: "300px"},
+  ".cm-scroller": {overflow: "auto"}
+})
+```
+
+To let the editor grow until it reaches a maximum height, and scroll
+from that point on, use `max-height` instead of `height` in a setup
+like the one above.
+
+Giving the editor a minimum height is, due to some obscure CSS
+limitations, a bit more involved—you have to assign that height to the
+content and the gutter, not the wrapper element, to make sure that
+those take up the entire height of the editor.
+
+```javascriont
+const minHeightEditor = EditorView.theme({
+  ".cm-content, .cm-gutter": {minHeight: "200px"}
+})
+```
