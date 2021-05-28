@@ -275,7 +275,7 @@ limitations, a bit more involved—you have to assign that height to the
 content and the gutter, not the wrapper element, to make sure that
 those take up the entire height of the editor.
 
-```javascriont
+```javascript
 const minHeightEditor = EditorView.theme({
   ".cm-content, .cm-gutter": {minHeight: "200px"}
 })
