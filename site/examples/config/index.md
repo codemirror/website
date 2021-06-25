@@ -206,7 +206,7 @@ import {StateEffect} from "@codemirror/state"
 
 export function deconfigure(view) {
   view.dispatch({
-    effects: StateEffect.reconfigure([])
+    effects: StateEffect.reconfigure.of([])
   })
 }
 ```
