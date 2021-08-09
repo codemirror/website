@@ -24,8 +24,8 @@ won't know this.
 So if you _really_ want to bind Tab, please start by making sure you
 mention this escape hatch somewhere in your documentation. Next, you
 can [add](##view.keymap) your own [key binding](##view.KeyBinding)
-that binds Tab to some command, or use the
-[`defaultTabBinding`](##commands.defaultTabBinding) from the
+that binds Tab to some command, or use
+[`indentWithTab`](##commands.indentWithTab) from the
 [commands](##commands) package.
 
 !editor
