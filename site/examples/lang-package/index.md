@@ -53,7 +53,7 @@ document changes, without re-parsing the entire text. It also needs to
 be error-tolerant, so that highlighting doesn't break when you have a
 syntax error somewhere in your file. And finally, it is practical when
 it produces a syntax tree in a
-[format](https://lezer.codemirror.net/docs/ref/#tree) that the
+[format](https://lezer.codemirror.net/docs/ref/#common.Tree) that the
 highlighter can consume. Very few existing parsers can easily be
 integrated in such a context.
 
@@ -172,9 +172,9 @@ Lezer is a generic parser tool, and our grammar so far doesn't know
 anything about highlighting or other editor-related functionality.
 
 A Lezer parser comes with a number of [node
-types](https://lezer.codemirror.net/docs/ref/#tree.NodeType), each of
+types](https://lezer.codemirror.net/docs/ref/#common.NodeType), each of
 which can have
-[props](https://lezer.codemirror.net/docs/ref/#tree.NodeProp) with
+[props](https://lezer.codemirror.net/docs/ref/#common.NodeProp) with
 extra metadata added to them. We'll create an extended copy of the
 parser to include node-specific information for highlighting,
 indentation, and folding.

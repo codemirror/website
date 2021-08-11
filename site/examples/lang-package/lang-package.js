@@ -23,9 +23,9 @@ let parserWithMetadata = parser.configure({
 })
 
 //!language
-import {LezerLanguage} from "@codemirror/language"
+import {LRLanguage} from "@codemirror/language"
 
-export const exampleLanguage = LezerLanguage.define({
+export const exampleLanguage = LRLanguage.define({
   parser: parserWithMetadata,
   languageData: {
     commentTokens: {line: ";"}
