@@ -28,9 +28,9 @@ function getCursorTooltips(state: EditorState): readonly Tooltip[] {
         pos: range.head,
         above: true,
         strictSide: true,
-        class: "cm-cursor-tooltip",
         create: () => {
           let dom = document.createElement("div")
+          dom.className = "cm-cursor-tooltip"
           dom.textContent = text
           return {dom}
         }
