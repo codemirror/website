@@ -47,16 +47,19 @@ Tooltips are represented as [objects](##tooltip.Tooltip) that provide
 the position of the tooltip, its orientation relative to that position
 (we want our tooltips above the cursor,
 [even](##tooltip.Tooltip.strictSide) when there's no room in the
-viewport), and a function that can draw the tooltip.
+viewport), whether to show a triangle-arrow on the tooltip, and a
+function that draws it.
 
 This [`create`](##tooltip.Tooltip.create) function handles the
 DOM-related and imperative part of the tooltip. Its [return
 value](##tooltip.TooltipView) can also define functions that should be
 called when the tooltip is added to the DOM or the view state updates.
 
-Active tooltips are displayed as fixed-position elements. We'll use
-some ugly CSS to style and position the tooltip correctly (the
-`:before` pseudo-element adds a little triangle below it).
+Active tooltips are displayed as fixed-position elements. We add some
+padding and a border radius to ours, and set the background on both
+the element and the arrow to purple. The `:after` element produces a
+pseudo-border for the arrow, which we don't want here, so we make it
+transparent.
 
 !baseTheme
 

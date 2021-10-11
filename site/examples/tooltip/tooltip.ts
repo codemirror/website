@@ -28,9 +28,10 @@ function getCursorTooltips(state: EditorState): readonly Tooltip[] {
         pos: range.head,
         above: true,
         strictSide: true,
+        arrow: true,
         create: () => {
           let dom = document.createElement("div")
-          dom.className = "cm-cursor-tooltip"
+          dom.className = "cm-tooltip-cursor"
           dom.textContent = text
           return {dom}
         }
@@ -43,22 +44,17 @@ function getCursorTooltips(state: EditorState): readonly Tooltip[] {
 import {EditorView} from "@codemirror/basic-setup"
 
 const cursorTooltipBaseTheme = EditorView.baseTheme({
-  ".cm-tooltip.cm-cursor-tooltip": {
+  ".cm-tooltip.cm-tooltip-cursor": {
     backgroundColor: "#66b",
     color: "white",
-    transform: "translate(-50%, -7px)",
     border: "none",
     padding: "2px 7px",
-    borderRadius: "10px",
-    "&:before": {
-      position: "absolute",
-      content: '""',
-      left: "50%",
-      marginLeft: "-5px",
-      bottom: "-5px",
-      borderLeft: "5px solid transparent",
-      borderRight: "5px solid transparent",
-      borderTop: "5px solid #66b"
+    borderRadius: "4px",
+    "&.cm-tooltip-arrow:before": {
+      borderTopColor: "#66b"
+    },
+    "&.cm-tooltip-arrow:after": {
+      borderTopColor: "transparent"
     }
   }
 })
