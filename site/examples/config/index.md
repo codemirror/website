@@ -56,7 +56,7 @@ There is just one further complication, which allows extensions to
 provide a hint on where sub-extensions should go. When an extension is
 wrapped in a call to one of the properties of [`Prec`](##state.Prec),
 its parts are put in a different bucket from the default sequence
-during configuration flattening. There
+during configuration flattening. There are
 [highest](##state.Prec.highest), [high](##state.Prec.high),
 [default](##state.Prec.default), [low](##state.Prec.low), and
 [lowest](##state.Prec.lowest) buckets.
