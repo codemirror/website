@@ -211,7 +211,7 @@ function dummyKeymap(tag) {
 let state = EditorState.create({extensions: [
   dummyKeymap("A"),
   dummyKeymap("B"),
-  Prec.override(dummyKeymap("C"))
+  Prec.high(dummyKeymap("C"))
 ]})
 ```
 

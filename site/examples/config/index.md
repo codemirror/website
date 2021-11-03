@@ -56,12 +56,10 @@ There is just one further complication, which allows extensions to
 provide a hint on where sub-extensions should go. When an extension is
 wrapped in a call to one of the properties of [`Prec`](##state.Prec),
 its parts are put in a different bucket from the default sequence
-during configuration flattening. There's an
-[override](##state.Prec.override) bucket (with the highest
-precedence), an [extend](##state.Prec.extend) bucket with
-higher-than-default precedence, and a
-[fallback](##state.Prec.fallback) bucket for lower-than-default
-precedence.
+during configuration flattening. There
+[highest](##state.Prec.highest), [high](##state.Prec.high),
+[default](##state.Prec.default), [low](##state.Prec.low), and
+[lowest](##state.Prec.lowest) buckets.
 
 Within each bucket, ordering is still controlled by the position of
 the extensions in the flattened sequence. But all extensions in a
@@ -71,11 +69,11 @@ lower-precedence one.
 So in an extension like this, `A` 
 
 ```javascript
-[Prec.extend(A), B, Prec.extend([C, D])]
+[Prec.high(A), B, Prec.high([C, D])]
 ```
 
 The extensions will be ordered `A`, `C`, `D`, `B`, because the ones
-with “extend” precedence come before `B` with its default precedence.
+with high precedence come before `B` with its default precedence.
 
 In general, explicit precedence is used by extension providers to put
 (parts of) their extension in a specific bucket. For example, a
