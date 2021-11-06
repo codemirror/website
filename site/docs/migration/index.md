@@ -290,24 +290,26 @@ as keymaps), the order of the extensions is relevant—those provided
 first have a higher precedence than those provided later.
 
 Dynamically changing the configuration is a bit more involved. This
-requires you to [tag](##state.tagExtension) parts of your
-configuration that you may need to change in advance, and then later
-dispatch a transaction that
-[reconfigures](##state.TransactionSpec.reconfigure) that part.
+requires you put parts of your configuration in
+[compartments](##state.Compartment), and then later dispatch a
+transaction that [reconfigures](##state.Compartment.reconfigure) that
+part.
 
 ```javascript
+let tabSize = new Compartment
+
 let view = new EditorView({
   state: EditorState.create({
     extensions: [
       // ...
-      tagExtension("tabSize", EditorState.tabSize.of(2))
+      tabSize.of(EditorState.tabSize.of(2))
     ]
   })
 })
 
 function setTabSize(size) {
   view.dispatch({
-    reconfigure: {tabSize: EditorState.tabSize.of(size)}
+    effects: tabSize.reconfigure(EditorState.tabSize.of(size))
   })
 }
 ```
