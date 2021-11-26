@@ -63,4 +63,3 @@ new EditorView({
   }),
   parent: document.querySelector("#editor-underline")
 })
-
