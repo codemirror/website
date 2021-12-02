@@ -15,7 +15,7 @@ export const wordHover = hoverTooltip((view, pos, side) => {
     above: true,
     create(view) {
       let dom = document.createElement("div")
-      dom.textContent = text.slice(start, end)
+      dom.textContent = view.state.doc.slice(start, end)
       return {dom}
     }
   }
