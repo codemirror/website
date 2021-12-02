@@ -27,7 +27,7 @@ import {EditorView, EditorState, basicSetup} from "@codemirror/basic-setup"
 
 new EditorView({
   state: EditorState.create({
-    doc: "Hover over words to get tooltips\n",
+    doc: "Hover over words\nto get tooltips",
     extensions: [basicSetup, wordHover]
   }),
   parent: document.querySelector("#hover-editor")!
