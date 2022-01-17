@@ -21,7 +21,7 @@ might look like this:
 import babel from "@rollup/plugin-babel"
 import resolve from "@rollup/plugin-node-resolve"
 
-module.exports = {
+export default {
   input: "./editor.js",
   output: {
     file: "./www/editor.js",
