@@ -470,5 +470,5 @@ collapse parts of the document, insert widgets, or style lines.
 In cases where there would be a _lot_ of marks (for example to manage
 code highlighting), this approach, which eagerly calculates and
 maintains marks for the entire document, may not be ideal. See the
-[zebra stripes example](../../example/zebra/) to learn how to write an
+[zebra stripes example](../../examples/zebra/) to learn how to write an
 extension that computes decorations only for visible code.
