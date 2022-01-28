@@ -3,7 +3,7 @@
 import {EditorView} from "@codemirror/view"
 
 const baseTheme = EditorView.baseTheme({
-  "&light .cm-zebraStripe": {backgroundColor: "#f4fafa"},
+  "&light .cm-zebraStripe": {backgroundColor: "#d4fafa"},
   "&dark .cm-zebraStripe": {backgroundColor: "#1a2727"}
 })
 
