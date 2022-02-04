@@ -132,14 +132,30 @@ div.sponsors h3 {
   min-width: 6em;
   margin-bottom: 4px;
 }
+div.sponsors.diamond h3, div.sponsors.gold h3 {
+  margin-bottom: -5px;
+}
+
 div.sponsors img { vertical-align: middle }
+
+div.sponsorlist {
+  display: flex;
+}
+
+div.diamond div.sponsorlist, div.gold div.sponsorlist {
+  flex-direction: column;
+  gap: 10px;
+}
+
+div.silver div.sponsorlist, div.bronze div.sponsorlist {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 6px;
+}
 
 div.sponsors.diamond img, div.sponsors.gold img {
   max-width: calc(100% - 2em);
-  margin: 10px 0;
-}
-div.sponsors.diamond h3, div.sponsors.gold h3 {
-  margin-bottom: -5px;
 }
 div.sponsors.gold a {
   display: block
@@ -154,75 +170,68 @@ div.sponsors.gold a.captioned {
 div.sponsors.gold a.captioned img {
   vertical-align: middle;
   width: auto;
-  margin-right: 20px;
 }
 
 div.sponsors.silver img {
-  border-radius: 6px;
   height: 60px;
 }
 div.sponsors.bronze img {
   height: 38px;
-  border: 1px solid silver;
-  border-radius: 4px;
-  margin-right: 5px;
-  margin-bottom: 5px;
 }
 div.sponsors.bronze a.textual, div.sponsors.bronze a.captioned {
-  margin-right: 10px;
   display: inline-block;
   vertical-align: middle;
   font-size: 18px;
   line-height: 38px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  border-radius: 4px;
-  border: 1px solid silver;
   padding: 0 5px;
 }
 div.sponsors.bronze a.captioned {
   line-height: 36px;
 }
-div.sponsors.bronze a.captioned img {
-  border: none;
-  margin-right: 5px;
-  margin-bottom: 0;
-}
 </style>
 
 <div class="sponsors diamond">
   <h3>Diamond</h3>
-  <a href="https://automattic.com/"><img style="margin-bottom: 20px" src="style/logo/automattic-logo-2x.png" alt="Automattic" load=lazy></a>
-  <a href="https://www.mozilla.org/en-US/moss/"><img src="style/logo/mozilla.png" alt="Mozilla" load=lazy></a>
-  <a href="https://prototypefund.de/"><img src="style/logo/bmbf.jpg" alt="Bundesministerium für Bildung und Forschung" load=lazy></a>
+  <div class=sponsorlist>
+    <a href="https://automattic.com/"><img style="margin-bottom: 20px" src="style/logo/automattic-logo-2x.png" alt="Automattic" load=lazy></a>
+    <a href="https://www.mozilla.org/en-US/moss/"><img src="style/logo/mozilla.png" alt="Mozilla" load=lazy></a>
+    <a href="https://prototypefund.de/"><img src="style/logo/bmbf.jpg" alt="Bundesministerium für Bildung und Forschung" load=lazy></a>
+  </div>
 </div>
 <div class="sponsors gold">
   <h3>Gold</h3>
-  <a href="https://wikimediafoundation.org/"><img src="style/logo/wikimedia.svg" alt="Wikimedia Foundation" load=lazy></a>
-  <a href="https://observablehq.com/"><img src="style/logo/observable.svg" alt="Observable" load=lazy></a>
-  <a href="https://holmusk.com/" class=captioned><img src="style/logo/holmusk.svg" alt="" load=lazy>Holmusk</a>
-  <a href="https://repl.it/"><img src="style/logo/replit.svg" alt="Repl.it" load=lazy></a>
+  <div class=sponsorlist>
+    <a href="https://wikimediafoundation.org/"><img src="style/logo/wikimedia.svg" alt="Wikimedia Foundation" load=lazy></a>
+    <a href="https://observablehq.com/"><img src="style/logo/observable.svg" alt="Observable" load=lazy></a>
+    <a href="https://holmusk.com/" class=captioned><img src="style/logo/holmusk.svg" alt="" load=lazy>Holmusk</a>
+    <a href="https://repl.it/"><img src="style/logo/replit.svg" alt="Repl.it" load=lazy></a>
+  </div>
 </div>
 <div class="sponsors silver">
   <h3>Silver</h3>
-  <a href="https://cargo.site/"><img src="style/logo/cargo.svg" alt="Cargo" style="padding: 0 5px"></a>
-  <a href="https://www.dataiku.com/"><img src="style/logo/dataiku.png" alt="Dataiku" load=lazy></a>
-  <a href="https://www.overleaf.com/"><img src="style/logo/overleaf.png" alt="Overleaf" load=lazy></a>
-  <a href="https://4me.com"><img src="style/logo/4me.svg" alt="4me" style="border-radius: 0" load=lazy></a>
-  <a href="https://www.airplane.dev"><img src="style/logo/airplane.svg" alt="Airplane" load=lazy></a>
-  <a href="https://www.prisma.io"><img src="style/logo/prisma.svg" alt="Prisma" load=lazy></a>
+  <div class=sponsorlist>
+    <a href="https://cargo.site/"><img src="style/logo/cargo.svg" alt="Cargo" style="padding: 0 5px"></a>
+    <a href="https://www.dataiku.com/"><img src="style/logo/dataiku.png" alt="Dataiku" load=lazy></a>
+    <a href="https://www.overleaf.com/"><img src="style/logo/overleaf.png" alt="Overleaf" load=lazy></a>
+    <a href="https://4me.com"><img src="style/logo/4me.svg" alt="4me" style="border-radius: 0" load=lazy></a>
+    <a href="https://www.airplane.dev"><img src="style/logo/airplane.svg" alt="Airplane" load=lazy></a>
+    <a href="https://www.prisma.io"><img src="style/logo/prisma.svg" alt="Prisma" load=lazy></a>
+    <a href="https://moment.dev/"><img src="style/logo/moment.svg" alt="Moment" load=lazy></a>
+  </div>
 </div>
 <div class="sponsors bronze">
   <h3>Bronze</h3>
-  <a href="https://www.amplenote.com/" class=textual>Amplenote</a>
-  <a href="https://startupandrew.com/" class=textual>Andrew Lee</a>
-  <a href="https://buildkite.com/"><img src="style/logo/buildkite.png" alt="Buildkite" load=lazy></a>
-  <a href="https://www.nuclino.com/"><img src="style/logo/nuclino.png" alt="Nuclino" load=lazy></a>
-  <a href="https://www.pobox.com/"><img src="style/logo/pobox.png" alt="Pobox" load=lazy></a>
-  <a href="https://www.superhi.com/"><img src="style/logo/superhi.png" alt="superhi" load=lazy></a>
-  <a href="https://primo.af"><img src="style/logo/primo.svg" alt="primo" load=lazy></a>
-  <a href="https://www.artcompiler.com" class=captioned><img src="style/logo/artcompiler.svg" alt="" load=lazy>ARTCOMPILER</a>
-  <a href="https://obsidian.md"><img src="style/logo/obsidian.png" alt="Obsidian" load=lazy></a>
+  <div class=sponsorlist>
+    <a href="https://www.amplenote.com/" class=textual>Amplenote</a>
+    <a href="https://startupandrew.com/" class=textual>Andrew Lee</a>
+    <a href="https://buildkite.com/"><img src="style/logo/buildkite.png" alt="Buildkite" load=lazy></a>
+    <a href="https://www.nuclino.com/"><img src="style/logo/nuclino.png" alt="Nuclino" load=lazy></a>
+    <a href="https://www.pobox.com/"><img src="style/logo/pobox.png" alt="Pobox" load=lazy></a>
+    <a href="https://www.superhi.com/"><img src="style/logo/superhi.png" alt="superhi" load=lazy></a>
+    <a href="https://primo.af"><img src="style/logo/primo.svg" alt="primo" load=lazy></a>
+    <a href="https://www.artcompiler.com" class=captioned><img src="style/logo/artcompiler.svg" alt="" load=lazy>ARTCOMPILER</a>
+    <a href="https://obsidian.md"><img src="style/logo/obsidian.png" alt="Obsidian" load=lazy></a>
+  </div>
 </div>
 
 </article>
