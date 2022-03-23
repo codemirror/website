@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://codemirror.net/6/docs/changelog</id>
+  <link type="text/html" rel="alternate" href="https://codemirror.net/6/docs/changelog"/>
+  <link type="application/xml" rel="self" href="https://codemirror.net/6/docs/changelog/feed.rss"/>
+  <title>CodeMirror Changelog</title>
+  <updated><<t $in.entries[0].date.toISOString()>></updated>
+  <<for entry $in.entries>>
+    <entry>
+      <id><<t entry.name>>:<<t entry.version>></id>
+      <updated><<t entry.date.toISOString()>></updated>
+      <title><<t entry.name>> <<t entry.version>> (<<t entry.date.getFullYear()>>-<<t (entry.date.getMonth()+1).toString().padStart(2, '0')>>-<<t entry.date.getDate()>>)</title>
+      <content><<t entry.body>></content>
+    </entry>
+  <</for>>
+</feed>

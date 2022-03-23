@@ -5,7 +5,7 @@ const {readFileSync, readdirSync} = require("fs")
 const {mapDir, mapFile} = require("./mapdir")
 const {buildRef} = require("./buildref")
 const {buildLibrary, linkLibrary} = require("./library")
-const {changelog} = require("./changelog")
+const {changelog, changelogData} = require("./changelog")
 
 const {highlightTree, classHighlighter} = require("@lezer/highlight")
 const {parser: jsParser} = require("@lezer/javascript")
@@ -124,6 +124,8 @@ function map(fullPath, name) {
     return buildLibrary().then(code => ({content: code}))
   } else if (name == "docs/changelog/index.md") {
     return renderMD(fullPath, name, content => content + "\n\n" + changelog())
+  } else if (name == "docs/changelog/feed.rss") {
+    return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({ fileName: name, entries: changelogData() })}
   } else if (/\.md$/.test(name)) {
     return renderMD(fullPath, name)
   } else if (/\.html$/.test(name)) {
