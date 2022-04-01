@@ -86,7 +86,7 @@ function completeProperties(from: number, object: Object) {
   return {
     from,
     options,
-    span: /^[\w$]*$/
+    validFor: /^[\w$]*$/
   }
 }
 

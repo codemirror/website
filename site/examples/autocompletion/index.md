@@ -133,7 +133,7 @@ can include a [`filter:
 false`](##autocomplete.CompletionResult.filter) property in your
 result object to disable the built-in filtering.
 
-## Spanning Completion Results
+## Completion Result Validity
 
 Some sources need to recompute their results on every keypress, but
 for many of them, this is unnecessary and inefficient. They return a
@@ -143,14 +143,15 @@ can be used (filtered for the currently typed input) to populate the
 completion list.
 
 This is why it is very much recommended to provide a
-[`span`](##autocomplete.CompletionResult.span) property on your
-completion result. It should contain a regular expression that tells
-the extension that, as long as the updated input (the range between
-the result's `from` property and the completion point) matches that
-expression, it can continue to use the list of completions.
+[`validFor`](##autocomplete.CompletionResult.validFor) property on
+your completion result. It should contain a function or regular
+expression that tells the extension that, as long as the updated input
+(the range between the result's `from` property and the completion
+point) matches that value, it can continue to use the list of
+completions.
 
 In the `myCompletions` function above, since all its completions are
-simple words, a value like `span: /^\w*$/` would be appropriate.
+simple words, a value like `validFor: /^\w*$/` would be appropriate.
 
 ## Completing from Syntax
 

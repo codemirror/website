@@ -105,7 +105,7 @@ Collaborative systems implemented with the
    - Remote changes are applied to the local editor state.
 
    - If there are unconfirmed changes present, operational
-     transformation is used to transpose the remote changes and across
+     transformation is used to transpose the remote changes across
      the unconfirmed local ones, and vice versa, so that the remote
      changes can be applied to the peer's current document, and the
      updated local changes can be submitted to the server as if they

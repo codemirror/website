@@ -2,7 +2,7 @@ import {EditorState} from "@codemirror/state"
 import {EditorView, drawSelection, keymap} from "@codemirror/view"
 import {history, historyKeymap} from "@codemirror/history"
 import {defaultKeymap} from "@codemirror/commands"
-import {defaultHighlightStyle} from "@codemirror/highlight"
+import {syntaxHighlighting, defaultHighlightStyle} from "@codemirror/language"
 import {lineNumbers} from "@codemirror/gutter"
 import {Text} from "@codemirror/text"
 import {html} from "@codemirror/lang-html"
@@ -23,7 +23,7 @@ lines.push(`</body>`, ``)
       keymap.of([...defaultKeymap, ...historyKeymap]),
       history(),
       drawSelection(),
-      defaultHighlightStyle,
+      syntaxHighlighting(defaultHighlightStyle),
       lineNumbers(),
       html()
     ]

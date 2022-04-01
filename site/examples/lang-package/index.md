@@ -3,8 +3,9 @@
 # Example: Writing a Language Package
 
 Language support in CodeMirror takes the form of specific packages
-(with names like `@codemirror/lang-python`) that implement the support
-features for working with that language. Those may be...
+(with names like `@codemirror/lang-python` or
+`codemirror-lang-elixir`) that implement the support features for
+working with that language. Those may be...
 
  * A parser for the language.
 
@@ -24,8 +25,9 @@ It may be useful to start from that when building your own package.
 ## Parsing
 
 The first thing we'll need is a parser, which is used for
-[highlighting](##highlight) but also provides the structure for things
-like [syntax-aware selection](##commands.selectParentSyntax),
+[highlighting](##language.HighlightStyle) but also provides the
+structure for things like [syntax-aware
+selection](##commands.selectParentSyntax),
 [auto-indentation](##commands.insertNewlineAndIndent), and [code
 folding](##fold). There are several ways to implement a parser for
 CodeMirror.
@@ -82,9 +84,9 @@ extension, and ran through
 [lezer-generator](https://lezer.codemirror.net/docs/guide/#building-a-grammar)
 to create a JavaScript file.
 
-This first rule means that a document should be parsed as any number
-of `expression`s, and the top node of the syntax tree should be called
-`Program`.
+This first rule expresses that a document should be parsed as any
+number of `expression`s, and the top node of the syntax tree should be
+called `Program`.
 
 ```null
 @top Program { expression* }
@@ -181,12 +183,13 @@ indentation, and folding.
 
 !parser
 
-[`styleTags`](##highlight.styleTags) is a helper that attaches
-highlighting information. We give it an object mapping node names (or
-space-separated lists of node names) to [highlighting
-tags](##highlight.tags). These tags describe the syntactic role of the
-elements, and are used by [higlight
-styles](##highlight.HighlightStyle) to style the text.
+[`styleTags`](https://lezer.codemirror.net/docs/ref/#highlight.styleTags)
+is a helper that attaches highlighting information. We give it an
+object mapping node names (or space-separated lists of node names) to
+[highlighting
+tags](https://lezer.codemirror.net/docs/ref/#highlight.tags). These
+tags describe the syntactic role of the elements, and are used by
+[higlighters](##language.HighlightStyle) to style the text.
 
 The information added by `@detectDelim` would already allow the
 automatic indentation to do a reasonable job, but because Lisps tend

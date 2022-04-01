@@ -30,14 +30,14 @@ function checkboxes(view: EditorView) {
   for (let {from, to} of view.visibleRanges) {
     syntaxTree(view.state).iterate({
       from, to,
-      enter: (type, from, to) => {
-        if (type.name == "BooleanLiteral") {
-          let isTrue = view.state.doc.sliceString(from, to) == "true"
+      enter: (node) => {
+        if (node.name == "BooleanLiteral") {
+          let isTrue = view.state.doc.sliceString(node.from, node.to) == "true"
           let deco = Decoration.widget({
             widget: new CheckboxWidget(isTrue),
             side: 1
           })
-          widgets.push(deco.range(to))
+          widgets.push(deco.range(node.to))
         }
       }
     })

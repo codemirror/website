@@ -219,7 +219,8 @@ Highlight associate [highlighting tags](##highlight.Tag) with styles.
 For example, this one assigns styles to keywords and comments.
 
 ```javascript
-import {tags, HighlightStyle} from "@codemirror/highlight"
+import {tags} from "@lezer/highlight"
+import {HighlightStyle} from "@codemirror/language"
 
 const myHighlightStyle = HighlightStyle.define([
   {tag: tags.keyword, color: "#fc6"},
@@ -228,18 +229,18 @@ const myHighlightStyle = HighlightStyle.define([
 ```
 
 Each of the objects given to
-[`HighlightStyle.define`](##highlight.HighlightStyle^define) mentions
-a [tag](##highlight.tags) (which are assigned to tokens by [language
-packages](../lang-package/)), and otherwise contains style properties
-just like the objects in a theme.
+[`HighlightStyle.define`](##language.HighlightStyle^define) mentions a
+[tag](https://lezer.codemirror.net/docs/ref/#highlight.tags) (which
+are assigned to tokens by [language packages](../lang-package/)), and
+otherwise contains style properties just like the objects in a theme.
 
 When defining an editor theme, you'll usually want to provide both a
 theme extension and a highlight style that looks good with it.
 
 If you need to style tokens with plain old CSS, you can enable the
-[`classHighlightStyle`](##highlight.classHighlightStyle), which just
-adds a static class (for example `cmt-keyword`) to tokens, without actually
-defining any rules for that class.
+[`classHighlightStyle`](https://lezer.codemirror.net/docs/ref/#highlight.classHighlightStyle),
+which just adds a static class (for example `cmt-keyword`) to tokens,
+without actually defining any rules for that class.
 
 ## Overflow and Scrolling
 

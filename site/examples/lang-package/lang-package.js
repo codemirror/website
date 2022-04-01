@@ -2,7 +2,7 @@
 //!parser
 import {parser} from "./parser.js"
 import {foldNodeProp, foldInside, indentNodeProp} from "@codemirror/language"
-import {styleTags, tags as t} from "@codemirror/highlight"
+import {styleTags, tags as t} from "@lezer/highlight"
 
 let parserWithMetadata = parser.configure({
   props: [

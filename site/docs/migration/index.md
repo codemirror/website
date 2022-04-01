@@ -84,12 +84,12 @@ Next, in order to highlight source code, we have to load a language
 package and a highlight style, and make sure those are enabled.
 
 ```javascript
-import {defaultHighlightStyle} from "@codemirror/highlight"
+import {syntaxHighlighting, defaultHighlightStyle} from "@codemirror/language"
 import {javascript} from "@codemirror/lang-javascript"
 
   // Add these extensions
   javascript(),
-  defaultHighlightStyle,
+  syntaxHighlighting(defaultHighlightStyle),
 ```
 
 This gives you an editor with JavaScript highlighting and indentation.
