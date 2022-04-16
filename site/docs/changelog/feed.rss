@@ -11,7 +11,7 @@
       <updated><<t entry.date.toISOString()>></updated>
       <title><<t entry.name>> <<t entry.version>> (<<formatEntryDate entry>>)</title>
       <link rel="alternate" type="text/html" href="/docs/changelog#<<t encodeURIComponent(entry.name)>>-<<t entry.version>>-(<<formatEntryDate entry>>)"/>
-      <content><<markdown entry.body>></content>
+      <content type="html"><<markdown entry.body>></content>
     </entry>
   <</for>>
 </feed>
