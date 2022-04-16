@@ -47,14 +47,10 @@ lines, creating a [line decoration](##view.Decoration^line) for every
 Nth line.
 
 The plugin will simply recompute its decorations every time something
-changes. Using a [builder](##rangeset.RangeSetBuilder), this is not
+changes. Using a [builder](##state.RangeSetBuilder), this is not
 very expensive. In other cases, it can be preferable to preserve
-decorations ([mapping](##rangeset.RangeSet.map) them through document
+decorations ([mapping](##state.RangeSet.map) them through document
 changes) across updates.
-
-[`themeClass`](##view.themeClass) is a helper function that, given a
-theme selector name, return a (set of) CSS class names to assign to
-the styled elements.
 
 Note that, because facets are always available on every state, whether
 they have been added to that state or not, we can simply

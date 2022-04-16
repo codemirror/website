@@ -2,13 +2,13 @@
 
 # Example: Tooltips
 
-The [@codemirror/tooltip](##tooltip) package provides functionality
-for displaying tooltips over the editor—widgets floating over the
-content, aligned to some position in that content.
+The [@codemirror/view](##h_tooltips) package provides
+functionality for displaying tooltips over the editor—widgets floating
+over the content, aligned to some position in that content.
 
 In keeping with the style of the rest of the interface, tooltips are
 not added and removed to an editor through side effects, but instead
-controlled by the content of a [facet](##tooltip.showTooltip). This
+controlled by the content of a [facet](##view.showTooltip). This
 does make them slightly involved to set up, but by directly tying the
 tooltips to the state they reflect we avoid a whole class of potential
 synchronization problems.
@@ -43,16 +43,16 @@ The helper function used by that state field looks like this:
 
 !getCursorTooltips
 
-Tooltips are represented as [objects](##tooltip.Tooltip) that provide
+Tooltips are represented as [objects](##view.Tooltip) that provide
 the position of the tooltip, its orientation relative to that position
 (we want our tooltips above the cursor,
-[even](##tooltip.Tooltip.strictSide) when there's no room in the
+[even](##view.Tooltip.strictSide) when there's no room in the
 viewport), whether to show a triangle-arrow on the tooltip, and a
 function that draws it.
 
-This [`create`](##tooltip.Tooltip.create) function handles the
+This [`create`](##view.Tooltip.create) function handles the
 DOM-related and imperative part of the tooltip. Its [return
-value](##tooltip.TooltipView) can also define functions that should be
+value](##view.TooltipView) can also define functions that should be
 called when the tooltip is added to the DOM or the view state updates.
 
 Active tooltips are displayed as fixed-position elements. We add some
@@ -71,7 +71,7 @@ needed to enable this feature: the field and the base theme.
 ## Hover Tooltips
 
 The tooltip package also exports a helper function
-[`hoverTooltip`](##tooltip.hoverTooltip), which can be used to define
+[`hoverTooltip`](##view.hoverTooltip), which can be used to define
 tooltips that show up when the user hovers over the document. This
 demo will show tooltips with the word you're hovering over.
 

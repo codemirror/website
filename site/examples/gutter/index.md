@@ -2,10 +2,10 @@
 
 # Example: Gutters
 
-The [gutter](##gutter) module provides functionality for adding
+The [view module](##h_gutters) provides functionality for adding
 _gutters_ (vertical bars in front of the code) to your editor. The
 simplest use of gutters is to simply dump
-[`lineNumbers()`](##gutters.lineNumbers) into your configuration to
+[`lineNumbers()`](##view.lineNumbers) into your configuration to
 get a line number gutter. But the module also helps when you want to
 define your own gutters and show custom controls in them.
 
@@ -18,7 +18,7 @@ others, looking like a single big gutter). For each line, each gutter
 may display something. The line number gutter will show a line
 number—obviously.
 
-To add a gutter, call the [`gutter`](##gutter.gutter) function and
+To add a gutter, call the [`gutter`](##view.gutter) function and
 include the result in your state configuration. The position of this
 extension relative to other gutter extensions determines the ordering
 of the gutters. So this, for example, will put our gutter after the
@@ -33,19 +33,19 @@ see such a gutter though—it'll just be an empty element (in a CSS
 flexbox), which the browser will collapse.
 
 To put content into the gutter, we can use either the
-[`lineMarker`](##gutter.gutter^config.lineMarker) option, which will
-be called for each visible line to determine what to show there, or
-the [`markers`](##gutter.gutter^config.markers) option, which allows
-you to build a persistent set of markers (using the same [range
-set](##rangeset) data structure used in [decorations](../decoration/))
-to show in your gutter.
+[`lineMarker`](##view.gutter^config.lineMarker) option, which will be
+called for each visible line to determine what to show there, or the
+[`markers`](##view.gutter^config.markers) option, which allows you to
+build a persistent set of markers (using the same [range
+set](##state.RangeSet) data structure used in
+[decorations](../decoration/)) to show in your gutter.
 
 As with [decorations](##view.WidgetType), gutter markers are
 represented by lightweight immutable values that know how to render
 themselves to DOM nodes, in order to allow updates to be represented
 in a declarative way without recreating a lot of DOM nodes on every
 transaction. Gutter markers can also [add a CSS
-class](##gutter.GutterMarker.elementClass) to a gutter element.
+class](##view.GutterMarker.elementClass) to a gutter element.
 
 This code defines two gutters, one that shows an ø sign on every empty
 line, and one that allows you to toggle a 'breakpoint' marker per line
@@ -58,7 +58,7 @@ initializes a single instance of it. Since there's only one type of
 empty-line marker, we use this to get our `GutterMarker` instance.)
 
 To avoid the problem with empty gutters not showing up at all, gutters
-allow you to [configure](##gutter.gutter^config.initialSpacer) a
+allow you to [configure](##view.gutter^config.initialSpacer) a
 'spacer' element that is rendered invisibly in the gutter to set its
 minimal width. This is often easier than setting an explicit with with
 CSS and making sure it covers the expected content.
@@ -83,7 +83,7 @@ gutter and a bit of styling for that gutter.
 
 !breakpointGutter
 
-The [`domEventHandlers`](##gutter.gutter^config.domEventHandlers)
+The [`domEventHandlers`](##view.gutter^config.domEventHandlers)
 option allows you to specify event handlers for this gutter, which we
 use to set up a mousedown handler to toggle the breakpoint for the
 line that was clicked.
@@ -97,11 +97,11 @@ numbers and the empty line gutter after it looks like:
 
 ## Customizing the Line Number Gutter
 
-The [`lineNumbers`](##gutters.lineNumbers) function also takes
+The [`lineNumbers`](##view.lineNumbers) function also takes
 configuration parameters, allowing you to add [event
-handlers](##gutter.lineNumbers^config.domEventHandlers) or customize
+handlers](##view.lineNumbers^config.domEventHandlers) or customize
 the way line numbers are
-[displayed](##gutter.lineNumbers^config.formatNumber).
+[displayed](##view.lineNumbers^config.formatNumber).
 
 ```
 const hexLineNumbers = lineNumbers({
@@ -111,6 +111,6 @@ const hexLineNumbers = lineNumbers({
 
 It is also possible to add markers to the line number gutter, which
 replace the line numbers for affected lines. This is done through the
-[`lineNumberMarkers`](##gutter.lineNumberMarkers) facet, which works a
+[`lineNumberMarkers`](##view.lineNumberMarkers) facet, which works a
 lot like `markers` on custom gutters, but can be provided by any
 extension, rather than being configured directly for a single gutter.

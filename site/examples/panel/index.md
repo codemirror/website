@@ -2,7 +2,7 @@
 
 # Example: Editor Panels
 
-A “panel”, as supported by the [@codemirror/panel](##panel) package,
+A “panel”, as supported by the [@codemirror/view](##h_panels) package,
 is a UI element shown above or below the editor. They will sit inside
 the editor's vertical space for editors with fixed height. When the
 editor is partially scrolled out of view, panels will be positioned to
@@ -13,7 +13,7 @@ This example shows how to add panels to your editor.
 ## Opening and Closing Panels
 
 The set of panels to show at a given time is determined by the value
-of the [`showPanel`](##panel.showPanel) facet. To track the current
+of the [`showPanel`](##view.showPanel) facet. To track the current
 state of our panel, we define this [state field](##state.StateField),
 with an [effect](##state.StateEffect) to turn it on or off.
 
@@ -24,7 +24,7 @@ The `provide` option wires this field up to the `showPanel` facet. The
 
 !createHelpPanel
 
-It's not a very useful panel. The [object](##panel.Panel) it returns
+It's not a very useful panel. The [object](##view.Panel) it returns
 can, apart from providing the panel's DOM structure, configure whether
 the panel should be at the top or bottom of the editor.
 
@@ -47,9 +47,9 @@ styling for the panel.
 ## Dynamic Panel Content
 
 It is often necessary to keep the content of a panel in sync with the
-rest of the editor. For this purpose, the [object](##panel.Panel)
+rest of the editor. For this purpose, the [object](##view.Panel)
 returned by a panel constructor may have an
-[`update`](##panel.Panel.update) method that, much like the `update`
+[`update`](##view.Panel.update) method that, much like the `update`
 method in view plugins, gets called every time the editor view
 updates.
 
@@ -60,7 +60,7 @@ counts the words in a document.
 
 !countWords
 
-Next, a [panel constructor](##panel.PanelConstructor) building a panel
+Next, a [panel constructor](##view.PanelConstructor) building a panel
 that re-counts the words every time the document changes.
 
 !wordCountPanel

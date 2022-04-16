@@ -13,7 +13,7 @@ functions, and do things like adding an input for a
 field](##state.StateField). They can be grouped in arrays, and most
 practical extensions consist of multiple smaller extensions.
 
-For example, the [history](##history.history) extension contains a
+For example, the [history](##commands.history) extension contains a
 state field that records the undo history, a facet that controls the
 extension's configuration, and a view plugin that listens for
 [`beforeinput`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/beforeinput_event)

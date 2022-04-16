@@ -1,7 +1,6 @@
 //!wordCountPanel
 
-import {EditorView} from "@codemirror/view"
-import {Panel} from "@codemirror/panel"
+import {EditorView, Panel} from "@codemirror/view"
 
 function wordCountPanel(view: EditorView): Panel {
   let dom = document.createElement("div")
@@ -17,7 +16,7 @@ function wordCountPanel(view: EditorView): Panel {
 
 //!countWords
 
-import {Text} from "@codemirror/text"
+import {Text} from "@codemirror/state"
 
 function countWords(doc: Text) {
   let count = 0, iter = doc.iter()
@@ -34,7 +33,7 @@ function countWords(doc: Text) {
 
 //!wordCounter
 
-import {showPanel} from "@codemirror/panel"
+import {showPanel} from "@codemirror/view"
 
 export function wordCounter() {
   return showPanel.of(wordCountPanel)

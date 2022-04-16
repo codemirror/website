@@ -1,10 +1,7 @@
-import {EditorState} from "@codemirror/state"
-import {EditorView, drawSelection, keymap} from "@codemirror/view"
-import {history, historyKeymap} from "@codemirror/history"
-import {defaultKeymap} from "@codemirror/commands"
+import {EditorState, Text} from "@codemirror/state"
+import {EditorView, drawSelection, keymap, lineNumbers} from "@codemirror/view"
+import {defaultKeymap, history, historyKeymap} from "@codemirror/commands"
 import {syntaxHighlighting, defaultHighlightStyle} from "@codemirror/language"
-import {lineNumbers} from "@codemirror/gutter"
-import {Text} from "@codemirror/text"
 import {html} from "@codemirror/lang-html"
 
 let lines = [`<!doctype html>`, `<meta charset="utf8">`, `<body>`]

@@ -1,6 +1,6 @@
 //!helpState
 
-import {showPanel, Panel} from "@codemirror/panel"
+import {showPanel, Panel} from "@codemirror/view"
 import {StateField, StateEffect} from "@codemirror/state"
 
 const toggleHelp = StateEffect.define<boolean>()

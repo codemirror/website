@@ -1,7 +1,6 @@
 //!emptyLineGutter
 
-import {gutter, GutterMarker} from "@codemirror/gutter"
-import {EditorView} from "@codemirror/view"
+import {EditorView, gutter, GutterMarker} from "@codemirror/view"
 
 const emptyMarker = new class extends GutterMarker {
   toDOM() { return document.createTextNode("ø") }
@@ -16,8 +15,7 @@ const emptyLineGutter = gutter({
 
 //!breakpointState
 
-import {StateField, StateEffect} from "@codemirror/state"
-import {RangeSet} from "@codemirror/rangeset"
+import {StateField, StateEffect, RangeSet} from "@codemirror/state"
 
 const breakpointEffect = StateEffect.define<{pos: number, on: boolean}>({
   map: (val, mapping) => ({pos: mapping.mapPos(val.pos), on: val.on})
@@ -79,7 +77,7 @@ const breakpointGutter = [
 //!show
 
 import {EditorState, basicSetup} from "@codemirror/basic-setup"
-import {lineNumbers} from "@codemirror/gutter"
+import {lineNumbers} from "@codemirror/view"
 
 new EditorView({
   state: EditorState.create({

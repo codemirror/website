@@ -29,19 +29,20 @@ The first thing we'll need is a parser, which is used for
 structure for things like [syntax-aware
 selection](##commands.selectParentSyntax),
 [auto-indentation](##commands.insertNewlineAndIndent), and [code
-folding](##fold). There are several ways to implement a parser for
-CodeMirror.
+folding](##h_folding). There are several ways to implement a parser
+for CodeMirror.
 
  * Using a [Lezer](https://lezer.codemirror.net) grammar. This is a
    parser generator system that converts a declarative description of
    a grammar into an efficient parser. It's what we'll be using in
    this example.
 
- * Using a CodeMirror 5-style [stream parser](##stream-parser), which
-   is mostly just a tokenizer. This can be easier for very basic
-   highlighting, but doesn't produce a structured syntax tree, and
-   quickly breaks down when you need more than tokenizing, for example
-   to distinguish type names from variable names.
+ * Using a CodeMirror 5-style [stream
+   parser](##language.StreamParser), which is mostly just a tokenizer.
+   This can be easier for very basic highlighting, but doesn't produce
+   a structured syntax tree, and quickly breaks down when you need
+   more than tokenizing, for example to distinguish type names from
+   variable names.
 
  * Writing a completely custom parser. This can be the only recourse
    for some awkward languages like

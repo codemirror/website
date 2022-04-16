@@ -26,10 +26,6 @@ The putting-together part isn't hard, but you will have to install and
 import the pieces you need. The core packages, without which it'd be
 hard to set up an editor at all, are:
 
- - [`@codemirror/text`](##text), which provides the [document
-   representation](##text.Text) used by the editor (a rope-like data
-   structure).
-
  - [`@codemirror/state`](##state), which defines data structures
    that represent the [editor state](##state.EditorState) and
    [changes](##state.Transaction) to that state.
@@ -61,12 +57,13 @@ let view = new EditorView({
 })
 ```
 
-Many things that you might expect to be part of the core, such as the
-[line number gutter](##gutter.lineNumbers) or [undo
-history](##history) are in fact separate packages. To make it easy to
-get started, the [`@codemirror/basic-setup`](##basic-setup)
-package pulls in most of the things you need for a baseline editor
-(except a language package).
+Many things that you'd expect in an editor, such as the [line number
+gutter](##view.lineNumbers) or [undo history](##h_undo_history), are
+implemented as extensions to the generic core, and need to be
+explicitly added to a configuration to be enabled. To make it easy to
+get started, the [`@codemirror/basic-setup`](##basic-setup) package
+pulls in most of the things you need for a baseline editor (except a
+language package).
 
 ```javascript
 import {EditorState, EditorView, basicSetup} from "@codemirror/basic-setup"
@@ -95,7 +92,7 @@ the browser DOM is obviously very imperative-minded, as are many of
 the systems that CodeMirror integrate with.
 
 To resolve this contradiction, the library's state representation is
-strictly functional—the [document](##text.Text) and
+strictly functional—the [document](##state.Text) and
 [state](##state.EditorState) data structures are immutable, and
 operations on them are pure functions, whereas the [view
 component](##view.EditorView) and command interface wrap these in an
@@ -183,7 +180,7 @@ extensions to compose without unexpected conflicts.
 
 The set of active extensions is
 [kept](##state.EditorStateConfig.extensions) in the editor state (and
-can be [changed](##state.TransactionSpec.reconfigure) by a
+can be [changed](##state.Compartment.reconfigure) by a
 transaction). Extensions are provided as [values](##state.Extension)
 (usually imported from some package), or arrays of such values. They
 can be arbitrarily nested (an array containing more arrays is also a
@@ -255,11 +252,11 @@ let tr = state.update({changes: [{from: 1, to: 3}, {from: 0, insert: "0"}]})
 console.log(tr.changes.mapPos(4))
 ```
 
-The document [data structure](##text.Text) also indexes by lines, so
+The document [data structure](##state.Text) also indexes by lines, so
 it is not expensive to look things up by (1-based) line number.
 
 ```javascript
-import {Text} from "@codemirror/text"
+import {Text} from "@codemirror/state"
 
 let doc = Text.of(["line 1", "line 2", "line 3"])
 // Get information about line 2
@@ -271,7 +268,7 @@ console.log(doc.lineAt(15)) // {start: 14, end: 20, ...}
 ## Data Model
 
 CodeMirror, being a _text_ editor, treats the document as a flat
-string. It stores this in a tree-shaped [data structure](##text.Text)
+string. It stores this in a tree-shaped [data structure](##state.Text)
 to allow cheap updates anywhere in the document (and efficient
 indexing by line number).
 
@@ -281,7 +278,7 @@ Document changes are themselves [values](##state.ChangeSet),
 describing precisely which ranges of the old document are being
 replaced by which bits of new text. This allows extensions to track
 precisely what happens to the document, allowing things like an [undo
-history](##history) and [collaborative editing](##collab) to be
+history](##h_undo_history) and [collaborative editing](##collab) to be
 implemented outside the library core.
 
 When creating a change set, all changes are described in terms of the
@@ -355,13 +352,14 @@ console.log(tr.state.doc.toString()) // "aBCd"
 Each editor state also has a (private) reference to its
 _configuration_, which is determined by the extensions that are active
 for that state. During regular transactions, the configuration stays
-the same. But it is possible to reconfigure the state using the
-[`reconfigure`](##state.TransactionSpec.reconfigure)
-transaction directive.
+the same. But it is possible to reconfigure the state using
+[compartments](##state.Compartment) or effects that [add
+to](##state.StateEffect^appendConfig) or
+[replace](##state.StateEffect^reconfigure) the current configuration.
 
-The main effects of a state's configuration are the
-[fields](##state.StateField) it stores, and the values associated
-with [facets](##state.Facet) for that state.
+The direct effects of a state's configuration are the
+[fields](##state.StateField) it stores, and the values associated with
+[facets](##state.Facet) for that state.
 
 ### Facets
 
@@ -481,7 +479,7 @@ editor that can't be handled purely with the data in the state.
    [motion](##view.EditorView.moveVertically).
 
  - Some state, such as [focus](##view.EditorView.hasFocus) and [scroll
-   position](##view.EditorView.scrollPosIntoView), isn't stored in the
+   position](##view.EditorView^scrollIntoView), isn't stored in the
    functional state, but left in the DOM.
 
 The library does not expect user code to manipulate the DOM
@@ -501,9 +499,9 @@ around it. This is called the [viewport](##view.EditorView.viewport).
 Querying coordinates for positions outside of the current viewport
 will not work (since they are not rendered, and thus have no layout).
 The view does track [height
-information](##view.EditorView.blockAtHeight) (initially estimated,
-measured accurately when content is drawn) for the entire document,
-even the parts outside of the viewport.
+information](##view.EditorView.lineBlockAtHeight) (initially
+estimated, measured accurately when content is drawn) for the entire
+document, even the parts outside of the viewport.
 
 Long lines (when not wrapped) or chunks of folded code can still make
 the viewport rather huge. The editor also provides a list of [visible
@@ -552,7 +550,7 @@ The editor's DOM structure looks something like this:
 ```
 
 The outer (`wrap`) element is a vertical flexbox. Things like
-[panels](##panel) and [tooltips](##tooltip) can be put here by
+[panels](##h_panels) and [tooltips](##h_tooltips) can be put here by
 extensions.
 
 Inside of that is the `scroller` element. If the editor has its own
@@ -580,9 +578,8 @@ JavaScript. Styles can be [registered](##view.EditorView^styleModule)
 with a facet, which will cause the view to make sure they are
 available.
 
-Many elements in the editor are assigned classes prefixed with `cm-`,
-as generated by the [`themeClass`](##view.themeClass) function. These
-can be styled directly in your local CSS. But they can also be
+Many elements in the editor are assigned classes prefixed with `cm-`.
+These can be styled directly in your local CSS. But they can also be
 targeted by themes. A theme is an extension created with
 [`EditorView.theme`](##view.EditorView^theme). It gets its own unique
 (generated) CSS class (which will be added to the editor when the
@@ -657,9 +654,9 @@ write editor extensions.
 ### State Fields
 
 Extensions often need to store additional information in the state.
-The undo [history](##history) needs to store undoable changes, the
-code [folding](##fold) extension needs to track what has been folded,
-and so on.
+The undo [history](##commands.history) needs to store undoable
+changes, the code [folding](##h_folding) extension needs to track what
+has been folded, and so on.
 
 For this purpose, extensions can define additional [state
 fields](##state.StateField). State fields, living inside the purely
@@ -736,12 +733,6 @@ undoes those changes).
 When a view plugin crashes, it is automatically disabled to avoid
 taking down the entire view.
 
-It is possible for view plugins to
-[_provide_](##view.PluginSpec.provide) [fields](##view.PluginField),
-which are a bit like facets on the view level, in that multiple
-plugins can contribute a given plugin field. This is mostly used for
-[document decorations](##view.PluginSpec.decorations).
-
 ### Decorating the Document
 
 When not told otherwise, CodeMirror will draw the document as plain
@@ -773,11 +764,11 @@ plugin](##view.PluginSpec.decorations). This is used by features like
 syntax or search-match highlighting, since view plugins can read the
 current viewport to avoid doing work for currently-invisible content.
 
-Decorations are kept in [sets](##rangeset.RangeSet), which are again
+Decorations are kept in [sets](##state.RangeSet), which are again
 immutable data structures. Such sets can be
-[mapped](##rangeset.RangeSet.map) across changes (adjusting the
+[mapped](##state.RangeSet.map) across changes (adjusting the
 positions of their content to compensate for the change) or
-[rebuilt](##rangeset.RangeSetBuilder) on updates, depending on the use
+[rebuilt](##state.RangeSetBuilder) on updates, depending on the use
 case.
 
 ### Extension Architecture

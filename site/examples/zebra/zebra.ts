@@ -30,7 +30,7 @@ export function zebraStripes(options: {step?: number} = {}): Extension {
 //!stripeDeco
 
 import {Decoration} from "@codemirror/view"
-import {RangeSetBuilder} from "@codemirror/rangeset"
+import {RangeSetBuilder} from "@codemirror/state"
 
 const stripe = Decoration.line({
   attributes: {class: "cm-zebraStripe"}

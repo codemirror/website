@@ -23,7 +23,9 @@ function highlight(str, lang) {
   return result
 }
 
-const markdown = markdownIt({html: true, highlight}).use(require("markdown-it-deflist")).use(require("markdown-it-anchor"))
+const markdown = markdownIt({html: true, highlight})
+  .use(require("markdown-it-deflist"))
+  .use(require("markdown-it-anchor"))
 
 let base = join(__dirname, "..")
 
@@ -103,7 +105,7 @@ else
 function map(fullPath, name) {
   currentRoot = backToRoot(dirname(name))
   if (name == "docs/ref/index.html") {
-    return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef(highlight, markdown)})}
+    return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name, modules: buildRef(highlight)})}
   } else if (name == "codemirror.js") {
     return buildLibrary().then(code => ({content: code}))
   } else if (name == "docs/changelog/index.md") {

@@ -1,6 +1,6 @@
 //!hoverTooltip
 
-import {Tooltip, hoverTooltip} from "@codemirror/tooltip"
+import {Tooltip, hoverTooltip} from "@codemirror/view"
 
 export const wordHover = hoverTooltip((view, pos, side) => {
   let {from, to, text} = view.state.doc.lineAt(pos)

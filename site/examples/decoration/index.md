@@ -38,38 +38,37 @@ content.
 
 Calling these functions gives you a `Decoration` object, which just
 describes the type of decoration and which you can often reuse between
-instances of decorations. The [`range`](##rangeset.RangeValue.range)
+instances of decorations. The [`range`](##state.RangeValue.range)
 method on these objects gives you an actual decorated range, which
 holds both the type and a pair of `from`/`to` document offsets.
 
 ## Decoration Sources
 
 Decorations are provided to the editor using the
-[`RangeSet`](##rangeset.RangeSet) data structure, which stores a
+[`RangeSet`](##state.RangeSet) data structure, which stores a
 collection of values (in this case the decorations) with ranges (start
 and end positions) associated with them. This data structure helps
 with things like efficiently updating the positions in a big set of
 decorations when the document changes.
 
-There are two ways of giving decorations are given to the editor view:
-through a [facet](##view.EditorView^decorations) or a [plugin
-field](##view.PluginField^decorations). In the first case, they must
-be tracked in the state. This is practical when they are tied to some
-other state (or are themselves a piece of state). Examples of
-situations where decorations should live in the state are code folding
-or linting.
+Decorations are provided to the editor view through a
+[facet](##view.EditorView^decorations). There are two ways to provide
+them—directly, or though a function that will be called with a view
+instance to produce a set of decorations. Decorations that
+signficantly change the vertical layout of the editor, for example by
+replacing line breaks or inserting block widgets, must be provided
+directly, since indirect decorations are only retrieved after the
+viewport has been computed.
 
-Plugin decorations are more appropriate for things like syntax
-highlighting or search match highlighting, where the decorations just
-display something that can be _derived_ from the editor state. Plugins
-can use the current [viewport](##view.EditorView.viewport) and
-[visible ranges](##view.EditorView.visibleRanges) to only highlight
-the part of the code that's actually visible, which can help a lot
-with performance. On the other hand, they cannot create decorations
-that cross line boundaries (it must be possible to compute the line
-structure of the editor before plugins are updated).
+Indirect decorations are appropriate for things like syntax
+highlighting or search match highlighting, where you might want to
+just render the decorations inside the
+[viewport](##view.EditorView.viewport) or the current [visible
+ranges](##view.EditorView.visibleRanges), which can help a lot with
+performance.
 
-Let's start with an example that keeps decorations in the state.
+Let's start with an example that keeps decorations in the state, and
+provides them directly.
 
 ## Underlining Command
 
@@ -86,7 +85,7 @@ just dumps any newly underlined region into its set of ranges.
 !underlineState
 
 Note that the `update` method starts by
-[mapping](##rangeset.RangeSet.map) its ranges through the
+[mapping](##state.RangeSet.map) its ranges through the
 transaction's changes. The old set refers to positions in the old
 document, and the new state must get a set with positions in the new
 document, so unless you completely recompute your decoration set,

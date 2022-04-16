@@ -1,6 +1,6 @@
 //!cursorTooltipField
 
-import {Tooltip, showTooltip} from "@codemirror/tooltip"
+import {Tooltip, showTooltip} from "@codemirror/view"
 import {StateField} from "@codemirror/state"
 
 const cursorTooltipField = StateField.define<readonly Tooltip[]>({

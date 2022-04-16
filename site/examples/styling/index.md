@@ -8,7 +8,7 @@ library CSS file in your page for the editor to work—both the editor
 view's own styling and any styling defined for dependencies are
 automatically pulled in through the JavaScript module system.
 
-[Themes](##view.EditorView^themes) are simply extensions that tell the
+[Themes](##view.EditorView^theme) are simply extensions that tell the
 editor to mount an additional [style
 module](https://github.com/marijnh/style-mod#documentation) and add
 the (generated) class name that enables those styles to its outer DOM
@@ -41,7 +41,7 @@ applies to a node inside the editor.
 
 ## Things you can Style
 
-An editor (with a [gutter](##gutter) and
+An editor (with a [gutter](##h_gutters) and
 [`drawSelection`](##view.drawSelection) enabled) has a DOM structure
 like this:
 
@@ -154,9 +154,9 @@ so that the editor will enable its dark default styles for things not
 explicitly styled by the theme.
 
 A real theme will want to style a few more things, including elements
-created by extensions (such as [panels](##panel) and
-[tooltips](##tooltips)). You'll also usually want to include a
-[highlight style](##highlight.HighlightStyle) in your theme. You can
+created by extensions (such as [panels](##h_panels) and
+[tooltips](##h_tooltips)). You'll also usually want to include a
+[highlight style](##language.HighlightStyle) in your theme. You can
 see the [One Dark theme](https://github.com/codemirror/theme-one-dark)
 for an example, and possibly copy and modify it to create your own
 theme.
@@ -212,11 +212,12 @@ Code highlighting uses a somewhat different system from editor-wide
 theming. Code styles are also created with JavaScript and enabled with
 an editor extension. But by default they don't use stable,
 non-generated class names. A [highlight
-style](##highlight.HighlightStyle) directly returns the class names
+style](##language.HighlightStyle) directly returns the class names
 for the syntactic tokens.
 
-Highlight associate [highlighting tags](##highlight.Tag) with styles.
-For example, this one assigns styles to keywords and comments.
+Highlight associate [highlighting
+tags](https://lezer.codemirror.net/docs/ref/#highlight.Tag) with
+styles. For example, this one assigns styles to keywords and comments.
 
 ```javascript
 import {tags} from "@lezer/highlight"

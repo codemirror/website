@@ -27,7 +27,8 @@ languages available in dedicated packages, with names like
 [`@codemirror/lang-javascript`](https://github.com/codemirror/lang-javascript)
 or [`@codemirror/lang-rust`](https://github.com/codemirror/lang-rust).
 Many of the CodeMirror 5 modes have been ported to CodeMirror 6's
-[stream-parser](##stream-parser) interface and are available in the
+[stream-parser](##language.StreamParser) interface and are available
+in the
 [`@codemirror/legacy-modes`](https://github.com/codemirror/legacy-modes)
 package.
 
@@ -57,7 +58,7 @@ The new editor view comes with a bit less built-in behavior than the
 old `CodeMirror` class, though. By default it doesn't provide things
 like key bindings and an undo history.
 
-To add a [history](##history) and a default set of [key
+To add a [history](##h_undo_history) and a default set of [key
 bindings](##commands.defaultKeymap), we must add a few
 [extensions](##state.Extension) to the editor. Configuration lives in
 the state, so in order to do that we'll have to create an [editor
@@ -66,8 +67,7 @@ state](##state.EditorState) and provide that to the view.
 ```javascript
 import {keymap, EditorView} from "@codemirror/view"
 import {EditorState} from "@codemirror/state"
-import {history, historyKeymap} from "@codemirror/history"
-import {defaultKeymap} from "@codemirror/commands"
+import {defaultKeymap, history, historyKeymap} from "@codemirror/commands"
 
 let view = new EditorView({
   state: EditorState.create({
@@ -95,8 +95,8 @@ import {javascript} from "@codemirror/lang-javascript"
 This gives you an editor with JavaScript highlighting and indentation.
 
 A line number gutter is also available as an
-[extension](##gutter.lineNumbers), as are features like [rectangular
-selection](##rectangular-selection.rectangularSelection) and
+[extension](##view.lineNumbers), as are features like [rectangular
+selection](##view.rectangularSelection) and
 highlighting of [non-printing
 characters](##view.highlightSpecialChars).
 
@@ -115,9 +115,9 @@ plain numbers is a lot simpler and more efficient than working with
 such objects.
 
 To get information about the line that includes a given position, you
-can call `.state.doc.`[`lineAt`](##text.Text.lineAt)`(pos)`. The other
+can call `.state.doc.`[`lineAt`](##state.Text.lineAt)`(pos)`. The other
 way around, you can go from a line number to a line object with the
-[`line`](##text.Text.line) method.
+[`line`](##state.Text.line) method.
 
 But **note**: in CodeMirror 6 the first line has number 1, whereas
 CodeMirror 5 lines started at 0.
@@ -148,7 +148,7 @@ things like the [document](##state.EditorState.doc),
 
 You can access the current document via
 [`.state.doc`](##state.EditorState.doc). That holds an
-[object](##text.Text) storing the document as a tree of lines.
+[object](##state.Text) storing the document as a tree of lines.
 
 ```javascript
 cm.getValue() → cm.state.doc.toString()
@@ -174,7 +174,8 @@ cm.getSelection() → cm.state.sliceDoc(
   cm.state.selection.main.from,
   cm.state.selection.main.to)
 
-cm.getSelections() → cm.state.selection.ranges.map(r => cm.state.sliceDoc(r.from, r.to))
+cm.getSelections() → cm.state.selection.ranges.map(
+  r => cm.state.sliceDoc(r.from, r.to))
 
 cm.somethingSelected() → cm.state.selection.ranges.some(r => !r.empty)
 ```
@@ -258,7 +259,7 @@ CodeMirror-gutter-elt → cm-gutterElement
 ```
 
 Highlighting tokens are no longer assigned stable CSS classes. Rather,
-a [highlight style](##highlight.HighlightStyle) produces generated
+a [highlight style](##language.HighlightStyle) produces generated
 class names for specific syntactic structures. To write or port a
 theme, see the [One Dark
 theme](https://github.com/codemirror/theme-one-dark) as an example.
@@ -355,8 +356,8 @@ perform a side effect and return true. The
 [`@codemirror/commands`](##commands) package exports a number of basic
 editing commands (many of which are bound in the [default
 keymap](##commands.defaultKeymap)), and other packages may export
-their own relevant commands (see for example [`undo`](##history.undo)
-and [`redo`](##history.redo) in the history package).
+their own relevant commands (see for example [`undo`](##commands.undo)
+and [`redo`](##commands.redo) in the history package).
 
 Key bindings are defined as [objects](##view.KeyBinding), and a keymap
 is simply an array of those. Use the [`keymap`](##view.keymap) facet
@@ -408,9 +409,9 @@ provide them.
 
 That means you can't just call a method to mark some text, but have to
 define an extension to manage it. Decorations are kept in a [range
-set](##rangeset.RangeSet), a data structure that associates ranges in
+set](##state.RangeSet), a data structure that associates ranges in
 the document with some extra data. The extension must
-[map](##rangeset.RangeSet.map) these sets to stay in sync with the
+[map](##state.RangeSet.map) these sets to stay in sync with the
 document on changes.
 
 This is an example of a simple extension that maintains a set of

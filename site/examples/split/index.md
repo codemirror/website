@@ -17,7 +17,7 @@ we'll use the former.
 We'll simply use a single start state in this example—though that
 isn't necessary, as long as both states have the same document. It
 might help, if the document can be big, to give both states the same
-[`Text`](##text.Text) instance as starting
+[`Text`](##state.Text) instance as starting
 [document](##state.EditorStateConfig.doc), so that most of the
 document tree structure can be shared.
 

@@ -6,7 +6,7 @@ const {existsSync, readdirSync, readFileSync} = require("fs")
 let root = join(__dirname, "../..")
 const {loadPackages, core} = require("../../bin/packages")
 
-exports.buildRef = function buildRef(highlight, markdown) {
+exports.buildRef = function buildRef(highlight) {
   if (process.env.NO_REF) return []
 
   function buildOptions(name) {
@@ -15,6 +15,9 @@ exports.buildRef = function buildRef(highlight, markdown) {
       anchorPrefix: name + ".",
       allowUnresolvedTypes: false,
       markdownOptions: {highlight},
+      extendMarkdown: m => m.use(require("markdown-it-anchor"), {
+        slugify: s => "h_" + String(s).toLowerCase().replace(/[^a-z0-9]+/g, "_")
+      }),
       breakAt: 45,
       processType(type) {
         let ext = null
@@ -30,8 +33,9 @@ exports.buildRef = function buildRef(highlight, markdown) {
         let sibling = type.typeSource && modules.find(m => type.typeSource.startsWith("../" + m.name + "/"))
         if (sibling) return "#" + sibling.name + "." + type.type
       }, type => {
-        if (/\blezer[\/-]tree\b/.test(type.typeSource)) return `https://lezer.codemirror.net/docs/ref/#tree.${type.type}`
-        if (/\blezer\b/.test(type.typeSource)) return `https://lezer.codemirror.net/docs/ref/#lezer.${type.type}`
+        if (/\blezer[\/\\]common\b/.test(type.typeSource)) return `https://lezer.codemirror.net/docs/ref/#common.${type.type}`
+        if (/\blezer[\/\\]lr\b/.test(type.typeSource)) return `https://lezer.codemirror.net/docs/ref/#lr.${type.type}`
+        if (/\blezer[\/\\]highlight\b/.test(type.typeSource)) return `https://lezer.codemirror.net/docs/ref/#highlight.${type.type}`
         if (/\bstyle-mod\b/.test(type.typeSource)) return "https://github.com/marijnh/style-mod#documentation"
       }, browserImports]
     }
