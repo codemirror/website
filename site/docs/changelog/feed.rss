@@ -10,7 +10,7 @@
       <id><<t entry.name>>:<<t entry.version>></id>
       <updated><<t entry.date.toISOString()>></updated>
       <title><<t entry.name>> <<t entry.version>> (<<formatEntryDate entry>>)</title>
-      <link rel="alternate" type="text/html" href="/docs/changelog#<<t encodeURIComponent(entry.name)>>-<<t entry.version>>-(<<formatEntryDate entry>>)"/>
+      <link rel="alternate" type="text/html" href="https://codemirror.net/6/docs/changelog#<<t encodeURIComponent(entry.name)>>-<<t entry.version>>-(<<formatEntryDate entry>>)"/>
       <content type="html"><<markdown entry.body>></content>
     </entry>
   <</for>>
