@@ -126,7 +126,7 @@ function map(fullPath, name) {
     return buildLibrary().then(code => ({content: code}))
   } else if (name == "docs/changelog/index.md") {
     return renderMDFile(fullPath, name, content => content + "\n\n" + changelog())
-  } else if (name == "docs/changelog/feed.rss") {
+  } else if (name == "docs/changelog/feed.atom") {
     let m = new Mold()
     m.defs.markdown = renderMDContent
     m.defs.formatEntryDate = function formatEntryDate(entry) {
