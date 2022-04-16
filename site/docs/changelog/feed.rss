@@ -10,7 +10,7 @@
       <id><<t entry.name>>:<<t entry.version>></id>
       <updated><<t entry.date.toISOString()>></updated>
       <title><<t entry.name>> <<t entry.version>> (<<t entry.date.getFullYear()>>-<<t (entry.date.getMonth()+1).toString().padStart(2, '0')>>-<<t entry.date.getDate()>>)</title>
-      <content><<t entry.body>></content>
+      <content><<markdown entry.body>></content>
     </entry>
   <</for>>
 </feed>

@@ -49,17 +49,19 @@ function resolveRefLinks(markdown, root) {
   return markdown.replace(/\]\(#(#.*?)\)/g, `](${root}docs/ref/$1)`)
 }
 
+function renderMarkdownContent(options) {
+  if (typeof options == "string") options = {text: options}
+  let text = resolveRefLinks(options.text, currentRoot)
+  return markdown.render(text)
+}
+
 function loadTemplates(dir, env) {
   let mold = new Mold(env)
   for (let filename of readdirSync(dir)) {
     let match = /^(.*?)\.html$/.exec(filename)
     if (match) mold.bake(match[1], readFileSync(join(dir, filename), "utf8").trim())
   }
-  mold.defs.markdown = function(options) {
-    if (typeof options == "string") options = {text: options}
-    let text = resolveRefLinks(options.text, currentRoot)
-    return markdown.render(text)
-  }
+  mold.defs.markdown = renderMarkdownContent
   mold.defs.root = function() {
     return currentRoot
   }
@@ -125,7 +127,9 @@ function map(fullPath, name) {
   } else if (name == "docs/changelog/index.md") {
     return renderMD(fullPath, name, content => content + "\n\n" + changelog())
   } else if (name == "docs/changelog/feed.rss") {
-    return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({ fileName: name, entries: changelogData() })}
+    let m = new Mold()
+    m.defs.markdown = renderMarkdownContent
+    return {content: m.bake(name, readFileSync(fullPath, "utf8"))({ fileName: name, entries: changelogData() })}
   } else if (/\.md$/.test(name)) {
     return renderMD(fullPath, name)
   } else if (/\.html$/.test(name)) {
