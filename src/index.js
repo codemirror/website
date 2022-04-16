@@ -129,6 +129,9 @@ function map(fullPath, name) {
   } else if (name == "docs/changelog/feed.rss") {
     let m = new Mold()
     m.defs.markdown = renderMDContent
+    m.defs.formatEntryDate = function formatEntryDate(entry) {
+      return `${entry.date.getFullYear()}-${(entry.date.getMonth()+1).toString().padStart(2, '0')}-${entry.date.getDate()}`
+    }
     return {content: m.bake(name, readFileSync(fullPath, "utf8"))({ fileName: name, entries: changelogData() })}
   } else if (/\.md$/.test(name)) {
     return renderMDFile(fullPath, name)

@@ -9,7 +9,8 @@
     <entry>
       <id><<t entry.name>>:<<t entry.version>></id>
       <updated><<t entry.date.toISOString()>></updated>
-      <title><<t entry.name>> <<t entry.version>> (<<t entry.date.getFullYear()>>-<<t (entry.date.getMonth()+1).toString().padStart(2, '0')>>-<<t entry.date.getDate()>>)</title>
+      <title><<t entry.name>> <<t entry.version>> (<<formatEntryDate entry>>)</title>
+      <link rel="alternate" type="text/html" href="/docs/changelog#<<t encodeURIComponent(entry.name)>>-<<t entry.version>>-(<<formatEntryDate entry>>)"/>
       <content><<markdown entry.body>></content>
     </entry>
   <</for>>
