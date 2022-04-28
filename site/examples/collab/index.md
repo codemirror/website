@@ -49,6 +49,10 @@ Here's a toy collaborative editing setup that lives within this page:
     position: absolute;
     left: 35px; top: 15px;
   }
+  .cm-editor {
+    border: 3px solid #85a;
+    border-radius: 2px;
+  }
   .cm-editor .cm-scroller {
     height: 70px;
   }
@@ -221,7 +225,7 @@ extension configured with the appropriate start version.
 
 Now you can create a wired-up editor view with code like this.
 
-```text/typescript
+```typescript
 async function createPeer(connection: Connection) {
   let {version, doc} = await getDocument(connection)
   let state = EditorState.create({

@@ -7,19 +7,33 @@ const {buildRef} = require("./buildref")
 const {buildLibrary, linkLibrary} = require("./library")
 const {changelog} = require("./changelog")
 
-const CodeMirror = require("codemirror/addon/runmode/runmode.node.js")
-require("codemirror/mode/javascript/javascript.js")
-require("codemirror/mode/xml/xml.js")
-require("codemirror/mode/css/css.js")
+const {highlightTree, classHighlighter} = require("@lezer/highlight")
+const {parser: jsParser} = require("@lezer/javascript")
+const {parser: htmlParser} = require("@lezer/html")
+const {parser: cssParser} = require("@lezer/css")
+
 const escapeHtml = markdownIt().utils.escapeHtml
 
+const parsers = {
+  html: htmlParser,
+  css: cssParser,
+  javascript: jsParser,
+  typescript: jsParser.configure({dialect: "ts"}),
+  shell: null
+}
+
 function highlight(str, lang) {
-  if (lang == "html") lang = "text/html"
-  let result = ""
-  CodeMirror.runMode(str, lang, (text, style) => {
-    let esc = escapeHtml(text)
-    result += style ? `<span class="${style.replace(/^|\s+/g, "$&hl-")}">${esc}</span>` : esc
+  if (lang && !parsers.hasOwnProperty(lang))
+    console.warn("No highlighting available for " + lang)
+  let parser = parsers[lang]
+  if (!parser) return str
+  let result = "", pos = 0
+  highlightTree(parser.parse(str), classHighlighter, (from, to, cls) => {
+    if (from > pos) result += escapeHtml(str.slice(pos, from))
+    result += `<span class="${cls}">${escapeHtml(str.slice(from, to))}</span>`
+    pos = to
   })
+  if (pos < str.length) result += escapeHtml(str.slice(pos))
   return result
 }
 
@@ -63,7 +77,7 @@ function injectCode(content, files) {
       let code = fileCode[i], marker = "//!" + m[1] + "\n", start = code.indexOf(marker)
       if (start >= 0) {
         let end = code.indexOf("//!", start + marker.length)
-        let mode = /\.ts$/.test(files[i]) ? "text/typescript" : /\.js$/.test(files[i]) ? "text/javascript" : "null"
+        let mode = /\.ts$/.test(files[i]) ? "typescript" : /\.js$/.test(files[i]) ? "javascript" : "null"
         let snippet = code.slice(start + marker.length, end < 0 ? code.length : end - 1).trimEnd()
         while (snippet[0] == "\n") snippet = snippet.slice(1)
         found = true

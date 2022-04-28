@@ -52,7 +52,7 @@ You can either manually include code that defines these when they
 aren't already available, or use a service like
 [polyfill.io](https://polyfill.io/) to get them...
 
-```text/html
+```html
 <script src=
   "https://polyfill.io/v3/polyfill.min.js?features=Promise%2CObject.assign%2CElement.prototype.remove"
 ></script>

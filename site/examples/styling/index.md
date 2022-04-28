@@ -29,7 +29,7 @@ to be _as_ specific, not more specific, because the injected rules are
 placed before any other style sheets, and will thus have a lower
 default precedence than your rules.
 
-```text/css
+```css
 .cm-editor.cm-focused { outline: 2px solid cyan }
 .cm-editor .cm-content { font-family: "Consolas" }
 ```
