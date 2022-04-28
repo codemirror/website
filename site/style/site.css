@@ -136,6 +136,19 @@ nav#toc {
   font-weight: 600;
 }
 
+nav#toc a.current-section {
+  color: black;
+}
+
+#search ul.results {
+  font-size: 85%;
+  padding-left: 3px;
+}
+
+#search input.active {
+  border-bottom: 1px solid silver;
+}
+
 nav#toc.fixed {
   position: fixed;
   overflow-y: auto;
