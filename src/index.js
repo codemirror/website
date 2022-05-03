@@ -5,7 +5,7 @@ const {readFileSync, readdirSync} = require("fs")
 const {mapDir, mapFile} = require("./mapdir")
 const {buildRef} = require("./buildref")
 const {buildLibrary, linkLibrary} = require("./library")
-const {changelog} = require("./changelog")
+const {changelog, changelogData} = require("./changelog")
 
 const {highlightTree, classHighlighter} = require("@lezer/highlight")
 const {parser: jsParser} = require("@lezer/javascript")
@@ -49,17 +49,19 @@ function resolveRefLinks(markdown, root) {
   return markdown.replace(/\]\(#(#.*?)\)/g, `](${root}docs/ref/$1)`)
 }
 
+function renderMDContent(options) {
+  if (typeof options == "string") options = {text: options}
+  let text = resolveRefLinks(options.text, currentRoot)
+  return markdown.render(text)
+}
+
 function loadTemplates(dir, env) {
   let mold = new Mold(env)
   for (let filename of readdirSync(dir)) {
     let match = /^(.*?)\.html$/.exec(filename)
     if (match) mold.bake(match[1], readFileSync(join(dir, filename), "utf8").trim())
   }
-  mold.defs.markdown = function(options) {
-    if (typeof options == "string") options = {text: options}
-    let text = resolveRefLinks(options.text, currentRoot)
-    return markdown.render(text)
-  }
+  mold.defs.markdown = renderMDContent
   mold.defs.root = function() {
     return currentRoot
   }
@@ -92,7 +94,7 @@ function injectCode(content, files) {
   return content
 }
 
-function renderMD(fullPath, name, updateContent) {
+function renderMDFile(fullPath, name, updateContent) {
   let text = readFileSync(fullPath, "utf8")
   let meta = /^!(\{[^]*?\})\n\n/.exec(text)
   let data = meta ? JSON.parse(meta[1]) : {}
@@ -123,9 +125,16 @@ function map(fullPath, name) {
   } else if (name == "codemirror.js") {
     return buildLibrary().then(code => ({content: code}))
   } else if (name == "docs/changelog/index.md") {
-    return renderMD(fullPath, name, content => content + "\n\n" + changelog())
+    return renderMDFile(fullPath, name, content => content + "\n\n" + changelog())
+  } else if (name == "docs/changelog/feed.atom") {
+    let m = new Mold()
+    m.defs.markdown = renderMDContent
+    m.defs.formatEntryDate = function formatEntryDate(entry) {
+      return `${entry.date.getFullYear()}-${(entry.date.getMonth()+1).toString().padStart(2, '0')}-${entry.date.getDate()}`
+    }
+    return {content: m.bake(name, readFileSync(fullPath, "utf8"))({ fileName: name, entries: changelogData() })}
   } else if (/\.md$/.test(name)) {
-    return renderMD(fullPath, name)
+    return renderMDFile(fullPath, name)
   } else if (/\.html$/.test(name)) {
     return {content: mold.bake(name, readFileSync(fullPath, "utf8"))({fileName: name})}
   } else if (/\.[jt]s$/.test(name)) {
