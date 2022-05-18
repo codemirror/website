@@ -1,4 +1,4 @@
-<<in {title, meta, links, type}>>
+<<in {title, meta, type}>>
 
 <!doctype html>
 <html lang=en-US>
@@ -7,10 +7,6 @@
 
 <<for name, value in meta || {}>>
   <meta property="<<t name>>" content="<<t value>>">
-<</for>>
-
-<<for link links || []>>
-  <<h link>>
 <</for>>
 
 <title><<t title || "CodeMirror">></title>

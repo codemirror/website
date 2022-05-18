@@ -1,8 +1,4 @@
-!{
-  "type": "docs",
-  "title": "CodeMirror Changelog",
-  "links": ["<link rel='alternate' type='application/rss+xml' title='Changelog RSS' href='feed.atom' />"]
-}
+!{"type": "docs", "title": "CodeMirror Changelog"}
 
 # Changelog
 
