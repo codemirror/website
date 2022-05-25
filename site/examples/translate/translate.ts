@@ -3,7 +3,7 @@
 const germanPhrases = {
   // @codemirror/view
   "Control character": "Steuerzeichen",
-  // @codemirror/fold
+  // @codemirror/language
   "Folded lines": "Eingeklappte Zeilen",
   "Unfolded lines": "Ausgeklappte Zeilen",
   "to": "bis",
@@ -25,6 +25,8 @@ const germanPhrases = {
   "close": "schließen",
   "current match": "aktueller Treffer",
   "on line": "auf Zeile",
+  // @codemirror/autocomplete
+  "Completions": "Vervollständigungen",
   // @codemirror/lint
   "Diagnostics": "Diagnosen",
   "No diagnostics": "Keine Diagnosen",
