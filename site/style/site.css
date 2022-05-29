@@ -140,12 +140,12 @@ nav#toc a.current-section {
   color: black;
 }
 
-#search ul.results {
+#searchbox ul.results {
   font-size: 85%;
   padding-left: 3px;
 }
 
-#search input.active {
+#searchbox input.active {
   border-bottom: 1px solid silver;
 }
 

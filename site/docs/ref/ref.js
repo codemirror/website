@@ -2,7 +2,7 @@
   // Search box
 
   let space = document.querySelector("#toc").appendChild(document.createElement("div"))
-  space.id = "search"
+  space.id = "searchbox"
   let box = space.appendChild(document.createElement("input"))
   box.setAttribute("aria-label", "search")
   box.placeholder = "search"
