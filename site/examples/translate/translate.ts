@@ -24,6 +24,8 @@ const germanPhrases = {
   "replace all": "alle ersetzen",
   "close": "schließen",
   "current match": "aktueller Treffer",
+  "replaced $ matches": "$ Treffer ersetzt",
+  "replaced match on line $": "Treffer on Zeile $ ersetzt",
   "on line": "auf Zeile",
   // @codemirror/autocomplete
   "Completions": "Vervollständigungen",
