@@ -32,21 +32,25 @@ component for an editor.</p>
 
 <p>A minimal editor might look like this:</p>
 
-<pre><code type=javascript>import {EditorView} from "@codemirror/view"
-import {EditorState} from "@codemirror/state"
+<pre><code type=javascript><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">EditorView</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">keymap</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"@codemirror/view"</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">EditorState</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"@codemirror/state"</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">defaultKeymap</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"@codemirror/commands"</span>
 
-let myView = new EditorView({
-  state: EditorState.create({doc: "hello"}),
-  parent: document.body
-})</code></pre>
+<span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">myView</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">EditorView</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">state</span><span class="tok-punctuation">:</span> <span class="tok-variableName">EditorState</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">doc</span><span class="tok-punctuation">:</span> <span class="tok-string">"hello"</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">extensions</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">[</span><span class="tok-variableName">keymap</span><span class="tok-operator">.</span><span class="tok-propertyName">of</span><span class="tok-punctuation">(</span><span class="tok-variableName">defaultKeymap</span><span class="tok-punctuation">)</span><span class="tok-punctuation">]</span>
+  <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">parent</span><span class="tok-punctuation">:</span> <span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">body</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span></code></pre>
 
-<p>But such an editor is too primitive for real use. To get
-functionality like <a href="#commands.defaultKeymap">key
-bindings</a>, <a href="#language.defaultHighlightStyle">highlighting</a>,
+<p>But such an editor is going to be rather primitive. To get
+functionality
+like <a href="#language.defaultHighlightStyle">highlighting</a>,
 a <a href="#view.lineNumbers">line number gutter</a>, or
 an <a href="#h_undo_history">undo history</a>, you need
-to <a href="#state.EditorStateConfig.extensions">add</a> various
-extensions to such a basic editor.</p>
+to <a href="#state.EditorStateConfig.extensions">add</a> more
+extensions to your editor.</p>
 
 <p>To quickly get started, the <a href="#basic-setup">basic-setup</a>
 package provides a bundle of extensions to set up a functioning
