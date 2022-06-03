@@ -321,11 +321,11 @@ One of these ranges is marked as the
 the browser's DOM selection will reflect. The others are drawn and
 handled entirely by the library.
 
-By default a state will only accept selections with a single range.
-You have to enable an extension (like
-[`drawSelection`](##view.drawSelection)) that
-[enables](##state.EditorState^allowMultipleSelections) multiple
-selection ranges to get access to them.
+By default a state will only accept selections with a single range. To
+get support for multiple selections, you have to include an extension
+like [`drawSelection`](##view.drawSelection) that is able to draw
+them, and set an [option](##state.EditorState^allowMultipleSelections)
+to enable them.
 
 State objects have a convenience method,
 [`changeByRange`](##state.EditorState.changeByRange) for applying an
@@ -333,17 +333,17 @@ operation to every selection range separately (which can be a bit
 awkward to do manually).
 
 ```javascript
-import {EditorState} from "@codemirror/state"
+import {EditorState, EditorSelection} from "@codemirror/state"
 
 let state = EditorState.create({doc: "abcd", selection: {anchor: 1, head: 3}})
-
 // Upcase the selection
-let tr = state.update(state.changeByRange(range => ({
-  changes: {from: range.from, to: range.to,
-            insert: state.sliceDoc(range.from, range.to).toUpperCase()},
-  // The updated selection range—in this case it stays the same
-  range
-})))
+let tr = state.update(state.changeByRange(range => {
+  let upper = state.sliceDoc(range.from, range.to).toUpperCase()
+  return {
+    changes: {from: range.from, to: range.to, insert: upper},
+    range: EditorSelection.range(range.from, range.from + upper.length)
+  }
+}))
 console.log(tr.state.doc.toString()) // "aBCd"
 ```
 
@@ -358,7 +358,7 @@ to](##state.StateEffect^appendConfig) or
 [replace](##state.StateEffect^reconfigure) the current configuration.
 
 The direct effects of a state's configuration are the
-[fields](##state.StateField) it stores, and the values associated with
+[fields](##state.StateField) it stores and the values associated with
 [facets](##state.Facet) for that state.
 
 ### Facets
@@ -366,7 +366,7 @@ The direct effects of a state's configuration are the
 A _facet_ is an extension point. Different extension values can
 [_provide_](##state.Facet.of) values for the facet. And anyone with
 access to the state and the facet can
-[read](##state.EditorState.facet) its combined value. Depending on the
+[read](##state.EditorState.facet) its output value. Depending on the
 facet, that may just be an array of provided values, or some value
 computed from those.
 
@@ -531,8 +531,10 @@ of being (synchronously) applied. Multiple updates applied while a
 measure phase is still pending are not a problem—those will just cause
 their measure phases to be combined.
 
-When you are done with a view instance, you can call its
-[`destroy`](##view.EditorView.destroy) method to dispose of it.
+When you are done with a view instance, you must call its
+[`destroy`](##view.EditorView.destroy) method to dispose of it,
+releasing any resources (global event handlers and mutation
+observers) that it allocated.
 
 ### DOM Structure
 
@@ -586,9 +588,9 @@ targeted by themes. A theme is an extension created with
 theme extension is active) and defines styles scoped by that class.
 
 A theme declaration defines any number of CSS rules using
-[style-mod](https://github.com/marijnh/style-mod) notation. The editor
-uses class names prefixed by `"cm-"`. This code creates a crude theme
-that makes the default text color in the editor orange:
+[style-mod](https://github.com/marijnh/style-mod) notation. This code
+creates a crude theme that makes the default text color in the editor
+orange:
 
 ```javascript
 import {EditorView} from "@codemirror/view"
@@ -636,7 +638,7 @@ imperatively, usually by [dispatching](##view.EditorView.dispatch) a
 transaction.
 
 When multiple commands are bound to a given key, they are tried one at
-a time until one of them returns `true`.
+a time, in order of precedence, until one of them returns `true`.
 
 Commands that only act on the state, not the entire view, can use the
 [`StateCommand`](##state.StateCommand) type instead, which is a
@@ -689,9 +691,9 @@ your state field.
 It can be tempting to try to avoid taking the step of putting state in
 an actual state field—there's a bit of verbosity involved in declaring
 one, and firing off a whole transaction for every state change may
-feel a bit heavyweight. But in almost all cases, it _really_ helps to
-tie your state into the editor-wide state update cycle, because it
-makes it a lot easier to keep everything in sync.
+feel a bit heavyweight. But in almost all cases, it is a _really_ good
+idea to tie your state into the editor-wide state update cycle,
+because it makes it a lot easier to keep everything in sync.
 
 ### Affecting the View
 
@@ -751,18 +753,10 @@ influence what the document looks like. They come in four types:
  - [Line decorations](##view.Decoration^line) can add attributes to a
    line's wrapping element.
 
-Decorations can be provided in two ways. There is a [state
-facet](##view.EditorView^decorations) that allows you to provide
-decorations at the level of the editor state, usually in a way
-[derived](##state.StateField^define^config.provide) from a state
-field. This doesn't allow you to decorate only the viewport (because
-the state doesn't know about that), so it is mostly useful for things
-like folded regions or lint annotations.
-
-The other way to decorate is from a [view
-plugin](##view.PluginSpec.decorations). This is used by features like
-syntax or search-match highlighting, since view plugins can read the
-current viewport to avoid doing work for currently-invisible content.
+Decorations are provided through a
+[facet](##view.EditorView^decorations). Every time the view is
+updated, the content of this facet is used to style the visible
+content.
 
 Decorations are kept in [sets](##state.RangeSet), which are again
 immutable data structures. Such sets can be
@@ -770,6 +764,19 @@ immutable data structures. Such sets can be
 positions of their content to compensate for the change) or
 [rebuilt](##state.RangeSetBuilder) on updates, depending on the use
 case.
+
+There are two ways in which decorations can be provided: directly, by
+putting the range set value in the facet (often by
+[deriving](##state.StateField^define^config.provide) it from a field),
+or indirectly, by providing a function from a view to a range set.
+
+Only directly provided decoration sets may influence the vertical
+block structure of the editor, but only indirectly provided ones can
+read the editor's viewport (which can be useful if you want to, for
+example, decorate only the [visible
+content](##view.EditorView.visibleRanges)). The reason for this
+restriction is that the viewport is computed _from_ the block
+structure, so that must be known before the viewport can be read.
 
 ### Extension Architecture
 
