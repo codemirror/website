@@ -15,41 +15,18 @@
 
 <h1>Extensible Code Editor</h1>
 
-<p>CodeMirror 6 is a rewrite of
-the <a href="https://codemirror.net">CodeMirror</a> code editor. It
-greatly improves the library's accessibility and touchscreen support,
-provides better content analysis and a modern programming interface.
-The new system matches the existing code in features and performance.
-It is not API-compatible with the old code.</p>
-
-<p>The project is in the beta phase—there's a stable interface, but
-small breaking changes might still happen. It is being used in
-production in a few mid-size systems, but is not as battle-tested as
-the old version.</p>
+<p>CodeMirror is a code editor component for the web. It can provide a
+text input field with features like line gutters, syntax highlighting,
+and autocompletion in a website.</p>
 
 <div id=editor></div>
 
-<h2 class=hr id=features>Features</h2>
-
-<ul class=grid-list>
-  <li>
-    <h3>Accessible</h3>
-    <p>This version of CodeMirror was designed from the start with
-    accessibility in mind, avoiding a number of pitfalls that the
-    current crop of editors suffer from.</p>
-  </li>
-  <li>
-    <h3>Touchscreen Support</h3>
-    <p>Using a native editable control allows you to use the editor on
-    a phone or tablet with the platform's native selection and editing
-    behavior.</p>
-  </li>
+<ul class=grid-list id=features>
   <li>
     <h3>Extensible</h3>
-    <p>A more structured extension interface allows you to implement
-    complicated extensions in a robust way, without the race
-    conditions and complexity they would involve in the old
-    system.</p>
+    <p>The structured extension interface allows you to implement
+    complicated extensions robustly, in a way that composes smoothly
+    with other extensions.</p>
   </li>
   <li>
     <h3>Modular</h3>
@@ -59,9 +36,21 @@ the old version.</p>
     to.</p>
   </li>
   <li>
+    <h3>Accessible</h3>
+    <p>The library was designed from the start with accessibility in
+    mind, avoiding a number of pitfalls that the current crop of
+    editors suffer from.</p>
+  </li>
+  <li>
+    <h3>Touchscreen Support</h3>
+    <p>Using a native editable control allows you to use the editor on
+    a phone or tablet with the platform's native selection and editing
+    behavior.</p>
+  </li>
+  <li>
     <h3>Full Parsing</h3>
     <p>The recommended way to write language integration for
-    CodeMirror 6 involves
+    CodeMirror involves
     a <a href="https://lezer.codemirror.net">full parse tree</a>,
     which makes code analysis easier and more powerful.</p>
   </li>
@@ -69,7 +58,7 @@ the old version.</p>
     <h3>Fast</h3>
     <p>By carefully doing only the work that needs to be done, the
     library manages to be fast even with gigantic documents and
-    long lines.</p>
+    very long lines.</p>
   </li>
 </ul>
 
@@ -120,14 +109,16 @@ language, you may still find a highlighter in there.</p>
 
 <h2 class=hr id=sponsors>Sponsors</h2>
 
-<p>These wonderful companies and organizations helped fund the work on CodeMirror 6.</p>
+<p>These wonderful companies and organizations help fund development and maintenance of CodeMirror.</p>
 
 <style>
 
 div.sponsors h3 {
   color: #777;
-  font-size: 15px;
+  font-size: 16px;
   text-align: right;
+  font-family: inherit;
+  font-weight: inherit;
   margin: 0;
   min-width: 6em;
   margin-bottom: 4px;
@@ -153,6 +144,9 @@ div.silver div.sponsorlist, div.bronze div.sponsorlist {
   row-gap: 10px;
   column-gap: 6px;
 }
+div.sponsors a.textual, div.sponsors a.captioned {
+  color: black;
+}
 
 div.sponsors.diamond img, div.sponsors.gold img {
   max-width: calc(100% - 2em);
@@ -165,7 +159,6 @@ div.sponsors.gold a img {
 }
 div.sponsors.gold a.captioned {
   font-size: 200%;
-  color: black;
 }
 div.sponsors.gold a.captioned img {
   vertical-align: middle;
@@ -196,31 +189,33 @@ a.captioned img {
 <div class="sponsors diamond">
   <h3>Diamond</h3>
   <div class=sponsorlist>
-    <a href="https://automattic.com/"><img style="margin-bottom: 20px" src="style/logo/automattic-logo-2x.png" alt="Automattic" load=lazy></a>
-    <a href="https://www.mozilla.org/en-US/moss/"><img src="style/logo/mozilla.png" alt="Mozilla" load=lazy></a>
-    <a href="https://prototypefund.de/"><img src="style/logo/bmbf.jpg" alt="Bundesministerium für Bildung und Forschung" load=lazy></a>
+    <a href="https://automattic.com/"><img style="margin-bottom: 20px" src="style/logo/automattic-logo-2x.png" alt="Automattic" loading=lazy></a>
+    <a href="https://www.mozilla.org/en-US/moss/"><img src="style/logo/mozilla.png" alt="Mozilla" loading=lazy></a>
+    <a href="https://prototypefund.de/"><img src="style/logo/bmbf.jpg" alt="Bundesministerium für Bildung und Forschung" loading=lazy></a>
   </div>
 </div>
 <div class="sponsors gold">
   <h3>Gold</h3>
   <div class=sponsorlist>
-    <a href="https://wikimediafoundation.org/"><img src="style/logo/wikimedia.svg" alt="Wikimedia Foundation" load=lazy></a>
-    <a href="https://observablehq.com/"><img src="style/logo/observable.svg" alt="Observable" load=lazy></a>
-    <a href="https://holmusk.com/" class=captioned><img src="style/logo/holmusk.svg" alt="" load=lazy>Holmusk</a>
-    <a href="https://repl.it/"><img src="style/logo/replit.svg" alt="Repl.it" load=lazy></a>
+    <a href="https://www.desmos.com/"><img src="style/logo/desmos.svg" alt="Desmos" loading=lazy></a>
+    <a href="https://holmusk.com/" class=captioned><img src="style/logo/holmusk.svg" alt="" loading=lazy>Holmusk</a>
+    <a href="https://observablehq.com/"><img src="style/logo/observable.svg" alt="Observable" loading=lazy></a>
+    <a href="https://repl.it/"><img src="style/logo/replit.svg" alt="Repl.it" loading=lazy></a>
+    <a href="https://wikimediafoundation.org/"><img src="style/logo/wikimedia.svg" alt="Wikimedia Foundation" loading=lazy></a>
   </div>
 </div>
 <div class="sponsors silver">
   <h3>Silver</h3>
   <div class=sponsorlist>
-    <a href="https://cargo.site/"><img src="style/logo/cargo.svg" alt="Cargo" style="padding: 0 5px"></a>
-    <a href="https://www.dataiku.com/"><img src="style/logo/dataiku.png" alt="Dataiku" load=lazy></a>
-    <a href="https://www.overleaf.com/"><img src="style/logo/overleaf.png" alt="Overleaf" load=lazy></a>
-    <a href="https://4me.com"><img src="style/logo/4me.svg" alt="4me" style="border-radius: 0" load=lazy></a>
-    <a href="https://www.airplane.dev"><img src="style/logo/airplane.svg" alt="Airplane" load=lazy></a>
-    <a href="https://www.prisma.io"><img src="style/logo/prisma.svg" alt="Prisma" load=lazy></a>
-    <a href="https://moment.dev/"><img src="style/logo/moment.svg" alt="Moment" load=lazy></a>
-    <a href="https://rockset.com"><img src="style/logo/rockset.svg" alt="Rockset" load=lazy></a>
+    <a href="https://cargo.site/"><img src="style/logo/cargo.svg" alt="Cargo" style="padding: 0 5px" loading=lazy></a>
+    <a href="https://codepen.io/"><img src="style/logo/codepen.svg" alt="CodePen" loading=lazy></a>
+    <a href="https://www.dataiku.com/"><img src="style/logo/dataiku.png" alt="Dataiku" loading=lazy></a>
+    <a href="https://www.overleaf.com/"><img src="style/logo/overleaf.png" alt="Overleaf" loading=lazy></a>
+    <a href="https://4me.com"><img src="style/logo/4me.svg" alt="4me" style="border-radius: 0" loading=lazy></a>
+    <a href="https://www.airplane.dev"><img src="style/logo/airplane.svg" alt="Airplane" loading=lazy></a>
+    <a href="https://www.prisma.io"><img src="style/logo/prisma.svg" alt="Prisma" loading=lazy></a>
+    <a href="https://moment.dev/"><img src="style/logo/moment.svg" alt="Moment" loading=lazy></a>
+    <a href="https://rockset.com"><img src="style/logo/rockset.svg" alt="Rockset" loading=lazy></a>
   </div>
 </div>
 <div class="sponsors bronze">
@@ -228,15 +223,17 @@ a.captioned img {
   <div class=sponsorlist>
     <a href="https://www.amplenote.com/" class=textual>Amplenote</a>
     <a href="https://startupandrew.com/" class=textual>Andrew Lee</a>
-    <a href="https://anvil.works"><img src="style/logo/anvil.svg" alt="Anvil" load=lazy></a>
-    <a href="https://www.artcompiler.com" class=captioned><img src="style/logo/artcompiler.svg" alt="" load=lazy>ARTCOMPILER</a>
-    <a href="https://buildkite.com/"><img src="style/logo/buildkite.png" alt="Buildkite" load=lazy></a>
-    <a href="https://www.nuclino.com/"><img src="style/logo/nuclino.png" alt="Nuclino" load=lazy></a>
-    <a href="https://obsidian.md"><img src="style/logo/obsidian.png" alt="Obsidian" load=lazy></a>
-    <a href="https://www.pobox.com/"><img src="style/logo/pobox.png" alt="Pobox" load=lazy></a>
-    <a href="https://primo.af"><img src="style/logo/primo.svg" alt="primo" load=lazy></a>
-    <a href="https://www.superhi.com/"><img src="style/logo/superhi.png" alt="superhi" load=lazy></a>
-    <a href="https://supernotes.app"><img src="style/logo/supernotes.png" alt="Supernotes" load=lazy></a>
+    <a href="https://anvil.works"><img src="style/logo/anvil.svg" alt="Anvil" loading=lazy></a>
+    <a href="https://www.artcompiler.com" class=captioned><img src="style/logo/artcompiler.svg" alt="" loading=lazy>ARTCOMPILER</a>
+    <a href="https://buildkite.com/"><img src="style/logo/buildkite.png" alt="Buildkite" loading=lazy></a>
+    <a href="https://www.executeprogram.com"><img src="style/logo/executeprogram.svg" alt="Execute Program" loading=lazy></a>
+    <a href="https://www.jetbtrains.com/"><img src="style/logo/jetbrains.svg" alt="JetBrains" loading=lazy></a>
+    <a href="https://www.nuclino.com/"><img src="style/logo/nuclino.png" alt="Nuclino" loading=lazy></a>
+    <a href="https://obsidian.md"><img src="style/logo/obsidian.png" alt="Obsidian" loading=lazy></a>
+    <a href="https://www.pobox.com/"><img src="style/logo/pobox.png" alt="Pobox" loading=lazy></a>
+    <a href="https://primo.af"><img src="style/logo/primo.svg" alt="primo" loading=lazy></a>
+    <a href="https://www.superhi.com/"><img src="style/logo/superhi.png" alt="superhi" loading=lazy></a>
+    <a href="https://supernotes.app"><img src="style/logo/supernotes.png" alt="Supernotes" loading=lazy></a>
   </div>
 </div>
 
