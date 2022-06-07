@@ -36,16 +36,15 @@ const germanPhrases = {
 
 //!create
 
-import {EditorView, EditorState, basicSetup} from "@codemirror/basic-setup"
+import {EditorView, basicSetup} from "codemirror"
+import {EditorState} from "@codemirror/state"
 
 ;(window as any).view = new EditorView({
-  state: EditorState.create({
-    doc: `CodeMirror auf Deutsch übersetzt
+  doc: `CodeMirror auf Deutsch übersetzt
 
 Versuche zum Beispiel Strg-F für die Suchfunktion, oder bewege die
 Mauszeiger über dieses Zeichen: \u0011
 `,
-    extensions: [basicSetup, EditorState.phrases.of(germanPhrases)]
-  }),
+  extensions: [basicSetup, EditorState.phrases.of(germanPhrases)],
   parent: document.querySelector("#editor")
 })

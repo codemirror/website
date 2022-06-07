@@ -1,6 +1,7 @@
 //!state
 
-import {EditorState, basicSetup} from "@codemirror/basic-setup"
+import {basicSetup} from "codemirror"
+import {EditorState} from "@codemirror/state"
 
 let startState = EditorState.create({
   doc: "The document\nis\nshared",

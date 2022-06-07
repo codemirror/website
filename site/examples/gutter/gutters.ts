@@ -76,14 +76,12 @@ const breakpointGutter = [
 
 //!show
 
-import {EditorState, basicSetup} from "@codemirror/basic-setup"
+import {basicSetup} from "codemirror"
 import {lineNumbers} from "@codemirror/view"
 
 new EditorView({
-  state: EditorState.create({
-    doc: "Some\ntext\nwith\n\nblank\n\nlines\n.\n",
-    extensions: [breakpointGutter, basicSetup, emptyLineGutter]
-  }),
+  doc: "Some\ntext\nwith\n\nblank\n\nlines\n.\n",
+  extensions: [breakpointGutter, basicSetup, emptyLineGutter],
   parent: document.querySelector("#editor")
 })
 

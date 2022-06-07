@@ -19,16 +19,14 @@ const autoLanguage = EditorState.transactionExtender.of(tr => {
 
 //!enable
 
-import {EditorView, basicSetup} from "@codemirror/basic-setup"
+import {EditorView, basicSetup} from "codemirror"
 
 new EditorView({
-  state: EditorState.create({
-    doc: 'console.log("hello")',
-    extensions: [
-      basicSetup,
-      languageConf.of(javascript()),
-      autoLanguage
-    ]
-  }),
+  doc: 'console.log("hello")',
+  extensions: [
+    basicSetup,
+    languageConf.of(javascript()),
+    autoLanguage
+  ],
   parent: document.querySelector("#editor")
 })

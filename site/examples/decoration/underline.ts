@@ -54,12 +54,10 @@ export const underlineKeymap = keymap.of([{
 
 //!create
 
-import {basicSetup, EditorState} from "@codemirror/basic-setup"
+import {basicSetup} from "codemirror"
 
 new EditorView({
-  state: EditorState.create({
-    doc: "Select text and press Ctrl-h (Cmd-h) to add an underline\nto it.\n",
-    extensions: [underlineKeymap, basicSetup]
-  }),
+  doc: "Select text and press Ctrl-h (Cmd-h) to add an underline\nto it.\n",
+  extensions: [underlineKeymap, basicSetup],
   parent: document.querySelector("#editor-underline")
 })

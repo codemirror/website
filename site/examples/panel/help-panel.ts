@@ -55,12 +55,10 @@ export function helpPanel() {
 
 //!create
 
-import {basicSetup, EditorState} from "@codemirror/basic-setup"
+import {basicSetup} from "codemirror"
 
 ;(window as any).view = new EditorView({
-  state: EditorState.create({
-    doc: "In this editor, F1 is bound to a panel-toggling\ncommand.\n",
-    extensions: [helpPanel(), basicSetup]
-  }),
+  doc: "In this editor, F1 is bound to a panel-toggling\ncommand.\n",
+  extensions: [helpPanel(), basicSetup],
   parent: document.querySelector("#editor")
 })

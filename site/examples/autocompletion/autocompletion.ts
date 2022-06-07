@@ -1,17 +1,15 @@
 //!htmlEditor
 
-import {EditorView, EditorState, basicSetup} from "@codemirror/basic-setup"
+import {EditorView, basicSetup} from "codemirror"
 import {autocompletion} from "@codemirror/autocomplete"
 import {html} from "@codemirror/lang-html"
 
 new EditorView({
-  state: EditorState.create({
-    doc: "<!doctype html>\n<html>\n  \n</html>",
-    extensions: [
-      basicSetup,
-      html(),
-    ]
-  }),
+  doc: "<!doctype html>\n<html>\n  \n</html>",
+  extensions: [
+    basicSetup,
+    html(),
+  ],
   parent: document.querySelector("#editor-html")
 })
 
@@ -33,15 +31,11 @@ function myCompletions(context: CompletionContext) {
   }
 }
 
-let state = EditorState.create({
-  doc: "Press Ctrl-Space in here...\n",
-  extensions: [basicSetup, autocompletion({override: [myCompletions]})]
-})
-
 //!createOverride
 
 new EditorView({
-  state,
+  doc: "Press Ctrl-Space in here...\n",
+  extensions: [basicSetup, autocompletion({override: [myCompletions]})],
   parent: document.querySelector("#editor-override")
 })
 
@@ -101,14 +95,12 @@ const globalJavaScriptCompletions = javascriptLanguage.data.of({
 //!createJavaScriptEditor
 
 new EditorView({
-  state: EditorState.create({
-    doc: "// Get JavaScript completions here\ndocument.b",
-    extensions: [
-      basicSetup,
-      javascriptLanguage,
-      globalJavaScriptCompletions,
-      autocompletion()
-    ]
-  }),
+  doc: "// Get JavaScript completions here\ndocument.b",
+  extensions: [
+    basicSetup,
+    javascriptLanguage,
+    globalJavaScriptCompletions,
+    autocompletion()
+  ],
   parent: document.querySelector("#editor-javascript")
 })

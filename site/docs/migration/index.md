@@ -18,7 +18,7 @@ build step before you can use them.
 In addition, the library has been split into a number of separate
 packages under the `@codemirror` scope. Depending on how closely you
 want to configure the editor and how much features you want to load,
-you could start with the [`@codemirror/basic-setup`](##basic-setup),
+you could start with the [basic setup](##codemirror.basicSetup),
 or hand-pick the core modules you need from the list provided in the
 [reference manual](../ref/).
 

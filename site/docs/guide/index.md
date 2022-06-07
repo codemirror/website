@@ -61,16 +61,15 @@ Many things that you'd expect in an editor, such as the [line number
 gutter](##view.lineNumbers) or [undo history](##h_undo_history), are
 implemented as extensions to the generic core, and need to be
 explicitly added to a configuration to be enabled. To make it easy to
-get started, the [`@codemirror/basic-setup`](##basic-setup) package
-pulls in most of the things you need for a baseline editor (except a
-language package).
+get started, the [`codemirror`](##codemirror) package pulls in most of
+the things you need for a baseline editor (except a language package).
 
 ```javascript
-import {EditorState, EditorView, basicSetup} from "@codemirror/basic-setup"
+import {EditorView, basicSetup} from "codemirror"
 import {javascript} from "@codemirror/lang-javascript"
 
 let view = new EditorView({
-  state: EditorState.create({extensions: [basicSetup, javascript()]}),
+  extensions: [basicSetup, javascript()],
   parent: document.body
 })
 ```

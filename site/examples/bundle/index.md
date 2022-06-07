@@ -37,13 +37,11 @@ write a main script (say, `editor.js`) that imports the library and
 creates the [editor view](##view.EditorView).
 
 ```javascript
-import {EditorState, EditorView, basicSetup} from "@codemirror/basic-setup"
+import {EditorView, basicSetup} from "codemirror"
 import {javascript} from "@codemirror/lang-javascript"
 
 let editor = new EditorView({
-  state: EditorState.create({
-    extensions: [basicSetup, javascript()]
-  }),
+  extensions: [basicSetup, javascript()],
   parent: document.body
 })
 ```
@@ -56,7 +54,7 @@ under `node_modules/@codemirror/lang-javascript/dist/index.js`.
 
 ```shell
 # The CodeMirror packages used in our script
-npm i @codemirror/basic-setup @codemirror/lang-javascript
+npm i codemirror @codemirror/lang-javascript
 # Rollup and its plugin
 npm i rollup @rollup/plugin-node-resolve
 ```

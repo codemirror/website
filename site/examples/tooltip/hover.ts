@@ -23,12 +23,10 @@ export const wordHover = hoverTooltip((view, pos, side) => {
 
 //!create
 
-import {EditorView, EditorState, basicSetup} from "@codemirror/basic-setup"
+import {EditorView, basicSetup} from "codemirror"
 
 new EditorView({
-  state: EditorState.create({
-    doc: "Hover over words to get tooltips\n",
-    extensions: [basicSetup, wordHover]
-  }),
+  doc: "Hover over words to get tooltips\n",
+  extensions: [basicSetup, wordHover],
   parent: document.querySelector("#hover-editor")!
 })

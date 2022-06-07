@@ -90,14 +90,12 @@ const checkboxPlugin = ViewPlugin.fromClass(class {
 
 //!create
 
-import {basicSetup, EditorState} from "@codemirror/basic-setup"
+import {basicSetup} from "codemirror"
 import {javascript} from "@codemirror/lang-javascript"
 
 new EditorView({
-  state: EditorState.create({
-    doc: "let value = true\nif (!value == false)\n  console.log(\"good\")\n",
-    extensions: [checkboxPlugin, basicSetup, javascript()]
-  }),
+  doc: "let value = true\nif (!value == false)\n  console.log(\"good\")\n",
+  extensions: [checkboxPlugin, basicSetup, javascript()],
   parent: document.querySelector("#editor-checkbox")
 })
 

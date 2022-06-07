@@ -21,7 +21,7 @@ events. Code using the history doesn't have to worry about that
 though—it can just drop the extension value produced by the function
 into its configuration to install all the necessary parts.
 
-The [basic setup](##basic-setup.basicSetup) is a larger example of
+The [basic setup](##codemirror.basicSetup) is a larger example of
 this—it holds an array throwing together a whole cartload of different
 extensions, which together configure a basic code editor.
 
@@ -109,7 +109,7 @@ it into [_compartments_](##state.Compartment). Transactions can update
 the configuration by replacing the content of individual compartments.
 
 ```javascript
-import {basicSetup, EditorView} from "@codemirror/basic-setup"
+import {basicSetup, EditorView} from "codemirror"
 import {EditorState, Compartment} from "@codemirror/state"
 import {python} from "@codemirror/lang-python"
 

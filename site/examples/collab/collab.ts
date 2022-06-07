@@ -1,5 +1,5 @@
 import {Update, receiveUpdates, sendableUpdates, collab, getSyncedVersion} from "@codemirror/collab"
-import {basicSetup} from "@codemirror/basic-setup"
+import {basicSetup} from "codemirror"
 import {ChangeSet, EditorState, Text} from "@codemirror/state"
 import {EditorView, ViewPlugin, ViewUpdate} from "@codemirror/view"
 

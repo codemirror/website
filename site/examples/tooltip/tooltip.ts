@@ -41,7 +41,7 @@ function getCursorTooltips(state: EditorState): readonly Tooltip[] {
 
 //!baseTheme
 
-import {EditorView} from "@codemirror/basic-setup"
+import {EditorView} from "@codemirror/view"
 
 const cursorTooltipBaseTheme = EditorView.baseTheme({
   ".cm-tooltip.cm-tooltip-cursor": {
@@ -67,12 +67,10 @@ export function cursorTooltip() {
 
 //!create
 
-import {basicSetup} from "@codemirror/basic-setup"
+import {basicSetup} from "codemirror"
 
 new EditorView({
-  state: EditorState.create({
-    doc: "Move through this text to\nsee your tooltip\n",
-    extensions: [basicSetup, cursorTooltip()]
-  }),
+  doc: "Move through this text to\nsee your tooltip\n",
+  extensions: [basicSetup, cursorTooltip()],
   parent: document.querySelector("#editor")!
 })

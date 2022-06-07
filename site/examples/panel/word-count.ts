@@ -41,12 +41,10 @@ export function wordCounter() {
 
 //!create
 
-import {basicSetup, EditorState} from "@codemirror/basic-setup"
+import {basicSetup} from "codemirror"
 
 new EditorView({
-  state: EditorState.create({
-    doc: "Type here and the editor will count your\nwords.",
-    extensions: [basicSetup, wordCounter()]
-  }),
+  doc: "Type here and the editor will count your\nwords.",
+  extensions: [basicSetup, wordCounter()],
   parent: document.querySelector("#count-editor")
 })

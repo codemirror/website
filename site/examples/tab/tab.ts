@@ -1,6 +1,6 @@
 //!editor
 
-import {EditorState, basicSetup} from "@codemirror/basic-setup"
+import {basicSetup} from "codemirror"
 import {EditorView, keymap} from "@codemirror/view"
 import {indentWithTab} from "@codemirror/commands"
 import {javascript} from "@codemirror/lang-javascript"
@@ -13,13 +13,11 @@ const doc = `if (true) {
 `
 
 new EditorView({
-  state: EditorState.create({
-    doc,
-    extensions: [
-      basicSetup,
-      keymap.of([indentWithTab]),
-      javascript()
-    ]
-  }),
+  doc,
+  extensions: [
+    basicSetup,
+    keymap.of([indentWithTab]),
+    javascript()
+  ],
   parent: document.querySelector("#editor")
 })
