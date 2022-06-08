@@ -10,7 +10,7 @@ exports.changelog = function() {
       let [, version, date, body] = m
       entries.push({
         date,
-        content: (name ? `## [@codemirror/${name}](../ref/#${name})` : `## @codemirror/next`) +
+        content: (name ? `## [${name == "codemirror" ? name : "@codemirror/" + name}](../ref/#${name})` : `## @codemirror/next`) +
           ` ${version} (${date})\n${body}`
       })
     }
