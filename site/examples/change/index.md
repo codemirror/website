@@ -56,7 +56,7 @@ would wrap all ranges in underscores, for example:
 ```javascript
 view.dispatch(view.state.changeByRange(range => ({
   changes: [{from: range.from, insert: "_"}, {from: range.to, insert: "_"}],
-  range: EditorSelection.range(range.from + 2, range.to + 2)
+  range: EditorSelection.range(range.from + 1, range.to + 2)
 })))
 ```
 
