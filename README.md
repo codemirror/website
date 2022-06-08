@@ -1,7 +1,7 @@
 # CodeMirror 6 website
 
-This repository holds the sources for the [new website for CodeMirror
-6](https://codemirror.net/6).
+This repository holds the sources for the [website for
+CodeMirror](https://codemirror.net/).
 
 This expects to be checked out inside a (installed)
 [`codemirror.next`](https://github.com/codemirror/codemirror.next)

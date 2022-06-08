@@ -404,7 +404,7 @@ The new basic-setup package pulls together all the core extensions into a single
 
 You can now move through completions with PageUp and PageDown
 
-The editor view now has a [`setState`](https://codemirror.net/6/docs/ref/#view.EditorView.setState) method to reset its state (again).
+The editor view now has a [`setState`](https://codemirror.net/docs/ref/#view.EditorView.setState) method to reset its state (again).
 
 The autocomplete package now exports functionality for completing to 'snippets' (longer pieces of text with fields that can be filled in one at a time).
 
@@ -618,15 +618,15 @@ Lint sources can now be asynchronous.
 
 The `EditorView.editable` facet can now be used to control whether the content is editable.
 
-The [`selectionFilter`](https://codemirror.net/6/docs/ref/#state.EditorState^selectionFilter) facet can now be used to control selection updates.
+The [`selectionFilter`](https://codemirror.net/docs/ref/#state.EditorState^selectionFilter) facet can now be used to control selection updates.
 
-The new [`changeFilter`](https://codemirror.net/6/docs/ref/#state.EditorState^changeFilter) facet can be used to stop or modify document changes.
+The new [`changeFilter`](https://codemirror.net/docs/ref/#state.EditorState^changeFilter) facet can be used to stop or modify document changes.
 
-[`Transaction.change`](https://codemirror.net/6/docs/ref/#state.Transaction.change) now also accepts an array of changes to apply in one go.
+[`Transaction.change`](https://codemirror.net/docs/ref/#state.Transaction.change) now also accepts an array of changes to apply in one go.
 
 The history module now exports a facet that allows you to create inverted effects from a transaction, which will be stored in the history. (This allows making non-document state un/redoable.)
 
-Transactions can now contains [state effects](https://codemirror.net/6/docs/ref/#state.StateEffect), which can describe state changes for extensions, and be [integrated](https://codemirror.net/6/docs/ref/#history.invertedEffects) with the undo history.
+Transactions can now contains [state effects](https://codemirror.net/docs/ref/#state.StateEffect), which can describe state changes for extensions, and be [integrated](https://codemirror.net/docs/ref/#history.invertedEffects) with the undo history.
 
 Transactions now have a `mapRef` method to easily create a position mapping from a given intermediate document to the current document.
 
@@ -634,33 +634,33 @@ Transactions now have a `mapRef` method to easily create a position mapping from
 
 ### Breaking Changes
 
-Behavior was renamed to [`Facet`](https://codemirror.net/6/docs/ref/#state.Facet), and works somewhat differently.
+Behavior was renamed to [`Facet`](https://codemirror.net/docs/ref/#state.Facet), and works somewhat differently.
 
 The `extension` package no longer exists. Extension-related concepts are now part of the `state` package.
 
 The view no longer has its own extension system. It is entirely configured by state extensions.
 
-[View plugins](https://codemirror.net/6/docs/ref/#view.ViewPlugin) are specified through a state facet now, and have a simpler interface.
+[View plugins](https://codemirror.net/docs/ref/#view.ViewPlugin) are specified through a state facet now, and have a simpler interface.
 
 View plugins may no longer create decorations that significantly impact the height of content, to avoid the cyclic dependency between plugin decorations and the viewport.
 
-[Themes](https://codemirror.net/6/docs/ref/#view.EditorView^theme) work differently now, using [static CSS classes](https://codemirror.net/6/docs/ref/#view.themeClass) on DOM elements so that plugins don't have to update their DOM when the editor theme changes.
+[Themes](https://codemirror.net/docs/ref/#view.EditorView^theme) work differently now, using [static CSS classes](https://codemirror.net/docs/ref/#view.themeClass) on DOM elements so that plugins don't have to update their DOM when the editor theme changes.
 
 Highlighting token types now support a numeric suffix, which replaces the old `typeN` modifiers.
 
-The interface to [syntax extensions](https://codemirror.net/6/docs/ref/#state.Syntax) and [parse trees](https://codemirror.net/6/docs/ref/#state.EditorState.tree) changed.
+The interface to [syntax extensions](https://codemirror.net/docs/ref/#state.Syntax) and [parse trees](https://codemirror.net/docs/ref/#state.EditorState.tree) changed.
 
-The way transaction [annotations](https://codemirror.net/6/docs/ref/#state.Annotation) work was simplified a bit.
+The way transaction [annotations](https://codemirror.net/docs/ref/#state.Annotation) work was simplified a bit.
 
-[Range sets](https://codemirror.net/6/docs/ref/#rangeset) were rewritten and support a somewhat different interface now.
+[Range sets](https://codemirror.net/docs/ref/#rangeset) were rewritten and support a somewhat different interface now.
 
-The way [decorations](https://codemirror.net/6/docs/ref/#view.Decoration) are created now separates the creation of the decoration value from the creation of the range to which it should apply.
+The way [decorations](https://codemirror.net/docs/ref/#view.Decoration) are created now separates the creation of the decoration value from the creation of the range to which it should apply.
 
 ### New features
 
-State facets can provide [decorations](https://codemirror.net/6/docs/ref/#view.EditorView^decorations) now.
+State facets can provide [decorations](https://codemirror.net/docs/ref/#view.EditorView^decorations) now.
 
-Reading DOM layout information and similar things is now done with the [`requestMeasure`](https://codemirror.net/6/docs/ref/#view.EditorView.requestMeasure) method.
+Reading DOM layout information and similar things is now done with the [`requestMeasure`](https://codemirror.net/docs/ref/#view.EditorView.requestMeasure) method.
 
 Facets now explicitly track which fields and other facets they depend on, so that they are recomputed only when necessary.
 
@@ -668,9 +668,9 @@ Any object that has an `extension` property that holds an extension value may no
 
 Overlong lines that are inside the viewport will now be partially hidden to speed up rendering and interaction.
 
-The editor view now has a [`textDirection`](https://codemirror.net/6/docs/ref/#view.EditorView.textDirection) property telling you whether the main writing direction is left-to-right or right-to-left.
+The editor view now has a [`textDirection`](https://codemirror.net/docs/ref/#view.EditorView.textDirection) property telling you whether the main writing direction is left-to-right or right-to-left.
 
-There's now a [`visibleRanges`](https://codemirror.net/6/docs/ref/#view.EditorView.visibleRanges) property that tells you which part of the viewport is actually going to be drawn, speeding up things like highlighting when there's large amounts of collapsed code in the viewport.
+There's now a [`visibleRanges`](https://codemirror.net/docs/ref/#view.EditorView.visibleRanges) property that tells you which part of the viewport is actually going to be drawn, speeding up things like highlighting when there's large amounts of collapsed code in the viewport.
 
 ### Bug fixes
 
@@ -706,13 +706,13 @@ The state package now re-exports the `Text` type.
 
 Add an adaptor for connecting ESLint output to the CodeMirror linter package to the lang-javascript package.
 
-The [`tooltip`](https://codemirror.net/6/docs/ref/#tooltip) package provides a way to show tooltip over the editor.
+The [`tooltip`](https://codemirror.net/docs/ref/#tooltip) package provides a way to show tooltip over the editor.
 
-The new [`autocomplete`](https://codemirror.net/6/docs/ref/#autocomplete) package implements an autocompletion interface.
+The new [`autocomplete`](https://codemirror.net/docs/ref/#autocomplete) package implements an autocompletion interface.
 
-The new [`lint`](https://codemirror.net/6/docs/ref/#lint) package integrates linting with the editor by underlining issues and providing a list of problems that you can scroll through.
+The new [`lint`](https://codemirror.net/docs/ref/#lint) package integrates linting with the editor by underlining issues and providing a list of problems that you can scroll through.
 
-The `lang-javascript` package now exports an [`esLint`](https://codemirror.net/6/docs/ref/#lang-javascript.esLint) function that can be used to wire up [ESLint](https://eslint.org/) to the CodeMirror lint integration.
+The `lang-javascript` package now exports an [`esLint`](https://codemirror.net/docs/ref/#lang-javascript.esLint) function that can be used to wire up [ESLint](https://eslint.org/) to the CodeMirror lint integration.
 
 ## 0.2.0 (2019-10-28)
 
