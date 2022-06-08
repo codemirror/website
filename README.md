@@ -4,7 +4,7 @@ This repository holds the sources for the [website for
 CodeMirror](https://codemirror.net/).
 
 This expects to be checked out inside a (installed)
-[`codemirror.next`](https://github.com/codemirror/codemirror.next)
+[`codemirror/dev`](https://github.com/codemirror/dev)
 repository (it needs access to the sources to build the reference
 docs).
 
