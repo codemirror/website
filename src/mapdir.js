@@ -9,14 +9,20 @@ function write(path, data) {
   writeFileSync(path, data)
 }
 
+function writeResult(result, dest, name) {
+  if (Array.isArray(result)) {
+    for (let part of result) write(join(dest, part.name), part.content)
+  } else {
+    write(join(dest, result.name || name), result.content)
+  }
+}
+
 exports.mapFile = function mapFile(name, fullPath, dest, map) {
   let mapped = map(fullPath, name)
   if (mapped && mapped.then) {
-    return mapped.then(result => {
-      write(join(dest, result.name || name), result.content)
-    })
+    return mapped.then(result => writeResult(result, dest, name))
   } else if (mapped) {
-    write(join(dest, mapped.name || name), mapped.content)
+    writeResult(mapped, dest, name)
     return nothing
   } else if (mapped !== false) {
     let destPath = join(dest, name)
