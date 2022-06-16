@@ -27,6 +27,8 @@
     "mold-template": "^2.0.1",
     "rimraf": "^2.6.3",
     "rollup": "^2.18.0",
-    "rollup-plugin-typescript2": "^0.27.1"
+    "rollup-plugin-typescript2": "^0.27.1",
+    "acorn": "^8.7.1",
+    "acorn-walk": "^8.2.0"
   }
 }

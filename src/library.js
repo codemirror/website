@@ -57,16 +57,39 @@ exports.buildLibrary = () => {
     `\nwindow.CM = {\n  ${bundledModules.map((id, i) => JSON.stringify(id) + ": _m" + i).join(",\n  ")}\n}\n`).then(runBabel)
 }
 
+const {parse} = require("acorn")
+const {simple} = require("acorn-walk")
+
 function linkCode(code) {
-  return code.replace(/\bimport\s+(\{[^]*?\})\s+from\s+(".*?"|'.*?')/g, (all, bindings, mod) => {
-    if (bundledModules.indexOf(JSON.parse(mod)) < 0) return all
-    return `const ${bindings.replace(/ as /g, ": ")} = CM[${mod}]`
+  let tree = parse(code, {ecmaVersion: "latest", sourceType: "module"})
+  let patches = []
+  let rewrite = node => {
+    if (node && peers.has(node.value))
+      patches.push({
+        from: node.start, to: node.end,
+        text: JSON.stringify(`./${mangle(node.value)}`)
+      })
+  }
+  simple(tree, {
+    ImportDeclaration: node => {
+      if (node.source && bundledModules.indexOf(node.source.value) > -1) {
+        let imported = /\s+(\{[^}]*\}|\w+)/.exec(code.slice(node.start + 5, node.end))
+        patches.push({
+          from: node.start, to: node.end,
+          text: `const ${imported[1].replace(/ as /g, ": ")} = CM[${JSON.stringify(node.source.value)}]`
+        })
+      }
+    }
   })
+  for (let patch of patches.sort((a, b) => b.from - a.from))
+    code = code.slice(0, patch.from) + patch.text + code.slice(patch.to)
+  return code
 }
 
 exports.linkLibrary = (code, {ts, path, standalone, babel}) => {
-  let result = runRollup(standalone ? code : linkCode(code), {
-    plugins: ts ? [sucrase({transforms: ['typescript'], include: /XXX/})] : [],
-  }, {ext: "ts", path})
+  let plugins = []
+  if (ts) plugins.push(sucrase({transforms: ['typescript'], include: /XXX/}))
+  if (!standalone) plugins.push({name: "link-CM", transform: code => ({code: linkCode(code)})})
+  let result = runRollup(code, {plugins}, {ext: "ts", path})
   return babel ? result.then(runBabel) : result
 }
