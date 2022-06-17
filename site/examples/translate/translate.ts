@@ -3,6 +3,8 @@
 const germanPhrases = {
   // @codemirror/view
   "Control character": "Steuerzeichen",
+  // @codemirror/commands
+  "Selection deleted": "Auswahl gelöscht",
   // @codemirror/language
   "Folded lines": "Eingeklappte Zeilen",
   "Unfolded lines": "Ausgeklappte Zeilen",

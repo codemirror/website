@@ -6,6 +6,7 @@ const {mapDir, mapFile} = require("./mapdir")
 const {buildRef} = require("./buildref")
 const {buildLibrary, linkLibrary} = require("./library")
 const {changelog} = require("./changelog")
+const {linkMods} = require("./linkmods")
 
 const {highlightTree, classHighlighter} = require("@lezer/highlight")
 const {parser: jsParser} = require("@lezer/javascript")
@@ -124,6 +125,8 @@ function map(fullPath, name) {
     return buildLibrary().then(code => ({content: code}))
   } else if (name == "docs/changelog/index.md") {
     return renderMD(fullPath, name, content => content + "\n\n" + changelog())
+  } else if (name == "try/mods/generate") {
+    return linkMods("try/mods")
   } else if (/\.md$/.test(name)) {
     return renderMD(fullPath, name)
   } else if (/\.html$/.test(name)) {
