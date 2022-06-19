@@ -190,7 +190,7 @@ object mapping node names (or space-separated lists of node names) to
 [highlighting
 tags](https://lezer.codemirror.net/docs/ref/#highlight.tags). These
 tags describe the syntactic role of the elements, and are used by
-[higlighters](##language.HighlightStyle) to style the text.
+[highlighters](##language.HighlightStyle) to style the text.
 
 The information added by `@detectDelim` would already allow the
 automatic indentation to do a reasonable job, but because Lisps tend
