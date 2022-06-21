@@ -1,4 +1,4 @@
-# CodeMirror 6 website
+# CodeMirror website
 
 This repository holds the sources for the [website for
 CodeMirror](https://codemirror.net/).
