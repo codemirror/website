@@ -1,0 +1,176 @@
+<<head {title: "List of Extensions", type: "docs"}>>
+
+<<toc [
+  {name: "Editing", link: "#editing"},
+  {name: "Presentation", link: "#presentation"},
+  {name: "Input Handling", link: "#input"},
+  {name: "Language", link: "#language"},
+  {name: "Primitives", link: "#primitives"},
+  {name: "Extension Bundles", link: "#bundles"}
+]>>
+
+<article>
+
+<h1>List of Extensions</h1>
+
+<p>This document provides an overview of the extensions and options
+available when <a href="../../examples/config/">configuring</a> a
+CodeMirror editor.</p>
+
+<h2 id=editing>Editing</h2>
+
+<h3>Whitespace</h3>
+
+<p><strong><code><a href="../ref/#state.EditorState^tabSize">tabSize</a></code></strong> configures the size of a tab (in spaces) in your editor.</p>
+
+<p><strong><code><a href="../ref/#state.EditorState^lineSeparator">lineSeparator</a></code></strong> can be used to configure a line separator.</p>
+
+<p><strong><code><a href="../ref/#language.indentUnit">indentUnit</a></code></strong> sets the whitespace to add for one level of indentation.</p>
+
+<p><strong><code><a href="../ref/#language.indentOnInput">indentOnInput</a></code></strong> configures whether some (language-specific) inputs trigger reindentation of the current line.</p>
+
+<h3>Read-only</h3>
+
+<p>There are two facets controlling whether the editor allow modification of its content. Different combinations of these are appropriate in different circumstances.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^editable">editable</a></code></strong> determines whether the editor view behaves like an editable control (showing a cursor, etc).</p>
+
+<p><strong><code><a href="../ref/#state.EditorState^readOnly">readOnly</a></code></strong> determines whether editing commands can modify the content.</p>
+
+<h3>Editing Helpers</h3>
+
+<p><strong><code><a href="../ref/#state.EditorState^allowMultipleSelections">allowMultipleSelections</a></code></strong> can be turned on to allow the selection to have multiple ranges (see also <strong><code><a href="../ref/#view.drawSelection">drawSelection</a></code></strong>, which actually draws these secondary selections).</p>
+
+<p><strong><code><a href="../ref/#autocomplete.autocompletion">autocompletion</a></code></strong> is a set of extensions that enable content hints as the user types (or explicitly queries for completions).</p>
+
+<p><strong><code><a href="../ref/#autocomplete.closeBrackets">closeBrackets</a></code></strong> causes matching close brackets to be inserted when the user types an opening bracket.</p>
+
+<p><strong><code><a href="../ref/#language.codeFolding">codeFolding</a></code></strong> allows the user to collapse (hide) parts of the document. See also <strong><code><a href="../ref/#language.foldGutter">foldGutter</a></code></strong>.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^atomicRanges">atomicRanges</a></code></strong></p>
+
+<p><strong><code><a href="../ref/#commands.history">history</a></code></strong> provides an undo/redo history.</p>
+
+<p><strong><code><a href="../ref/#search.search">search</a></code></strong> configures the search panel.</p>
+
+<h2 id=presentation>Presentation</h2>
+
+<h3>Styling</h3>
+
+<p><strong><code><a href="../ref/#view.EditorView^theme">theme</a></code></strong> can be used to define a them (see for example <a href="https://github.com/codemirror/theme-one-dark">@codemirror/theme-one-dark</a>).</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^baseTheme">baseTheme</a></code></strong> defines generic base styling, to be included with extensions that define new UI elements.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^styleModule">styleModule</a></code></strong> is a primitive that allows you to ensure the editor loads a given CSS module.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^editorAttributes">editorAttributes</a></code></strong> adds HTML attributes to the editor's outer DOM element.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^contentAttributes">contentAttributes</a></code></strong> adds attributes to the element holding the editor's content.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^decorations">decorations</a></code></strong> is a primitive for adding styling to the editor's content, used as a building block in various extensions.</p>
+
+<h3>Presentation Features</h3>
+
+<p><strong><code><a href="../ref/#view.drawSelection">drawSelection</a></code></strong> replaces the native selection with a custom-drawn selection in traditional text editor style, with support for <a href="../ref/#state.EditorState^allowMultipleSelections">multiple selection ranges</a>.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^lineWrapping">lineWrapping</a></code></strong> enables line wrapping.</p>
+
+<p><strong><code><a href="../ref/#view.highlightActiveLine">highlightActiveLine</a></code></strong> adds an extra style to the line with the cursor (see also <strong><code><a href="../ref/#view.highlightActiveLineGutter">highlightActiveLineGutter</a></code></strong>).</p>
+
+<p><strong><code><a href="../ref/#view.highlightSpecialChars">highlightSpecialChars</a></code></strong> replaces non-printable or otherwise confusing characters with a placeholder widget.</p>
+
+<p><strong><code><a href="../ref/#view.scrollPastEnd">scrollPastEnd</a></code></strong> allows the user to scroll down until the last line is at the top of the viewport.</p>
+
+<p><strong><code><a href="../ref/#language.bracketMatching">bracketMatching</a></code></strong> highlights the bracket that matches the one the cursor is currently on (if any).</p>
+
+<p><strong><code><a href="../ref/#search.highlightSelectionMatches">highlightSelectionMatches</a></code></strong> highlights instances of the currently selected text.</p>
+
+<p><strong><code><a href="../ref/#view.placeholder">placeholder</a></code></strong> displays a placeholder text when the editor is empty.</p>
+
+<p><strong><code><a href="../ref/#state.EditorState^phrases">phrases</a></code></strong> allows you to <a href="../../examples/translate/">translate</a> the text used in the editor interface.</p>
+
+<h3>Gutters</h3>
+
+<p><strong><code><a href="../ref/#view.lineNumbers">lineNumbers</a></code></strong> adds a line number gutter to the side of the editor.</p>
+
+<p><strong><code><a href="../ref/#language.foldGutter">foldGutter</a></code></strong> provides a gutter that shows which lines can be folded and whether they currently are folded.</p>
+
+<p><strong><code><a href="../ref/#lint.lintGutter">lintGutter</a></code></strong> lists <a href="../ref/#lint">lint</a> errors beside the lines in which they occur.</p>
+
+<p><strong><code><a href="../ref/#view.gutters">gutters</a></code></strong> can be used to configure the behavior of the gutters.</p>
+
+<p><strong><code><a href="../ref/#view.highlightActiveLineGutter">highlightActiveLineGutter</a></code></strong> adds a style to the gutters alongside the line with the cursor on it.</p>
+
+<p><strong><code><a href="../ref/#view.gutter">gutter</a></code></strong> is a primitive for defining custom editor gutters.</p>
+
+<h3>Tooltips</h3>
+
+<p><strong><code><a href="../ref/#view.tooltips">tooltips</a></code></strong> configures the behavior of editor tooltips (such as autocompletion prompts).</p>
+
+<p><strong><code><a href="../ref/#view.hoverTooltip">hoverTooltip</a></code></strong> can be used to display a tooltip when the pointer hovers over some parts of the content.</p>
+
+<h2 id=input>Input Handling</h2>
+
+<p><strong><code><a href="../ref/#view.EditorView^domEventHandlers">domEventHandlers</a></code></strong> provides handlers for raw browser events.</p>
+
+<p><strong><code><a href="../ref/#view.dropCursor">dropCursor</a></code></strong> shows a pseudo-cursor at the current drop point when the user drags content over the editor.</p>
+
+<p><strong><code><a href="../ref/#view.keymap">keymap</a></code></strong> is the facet used to add keymaps to the editor. The core libraries define a number of keymaps: <strong><code><a href="../ref/#commands.standardKeymap">standardKeymap</a></code></strong>, <strong><code><a href="../ref/#commands.defaultKeymap">defaultKeymap</a></code></strong>, <strong><code><a href="../ref/#language.foldKeymap">foldKeymap</a></code></strong>, <strong><code><a href="../ref/#commands.historyKeymap">historyKeymap</a></code></strong>, <strong><code><a href="../ref/#search.searchKeymap">searchKeymap</a></code></strong>, <strong><code><a href="../ref/#autocomplete.completionKeymap">completionKeymap</a></code></strong>, <strong><code><a href="../ref/#autocomplete.closeBracketsKeymap">closeBracketsKeymap</a></code></strong>, <strong><code><a href="../ref/#lint.lintKeymap">lintKeymap</a></code></strong>.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^inputHandler">inputHandler</a></code></strong> allows a function to intercept and handle user text input.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^mouseSelectionStyle">mouseSelectionStyle</a></code></strong> provides a hook to implement custom handling for some types of mouse selection.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^dragMovesSelection">dragMovesSelection</a></code></strong> determines when dragging text in the editor moves (versus copies) it.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^clickAddsSelectionRange">clickAddsSelectionRange</a></code></strong> configures which kind of clicks add a new selection range.</p>
+
+<p><strong><code><a href="../ref/#view.rectangularSelection">rectangularSelection</a></code></strong> makes pointer selection with Alt held down select a rectangular region.</p>
+
+<p><strong><code><a href="../ref/#view.crosshairCursor">crosshairCursor</a></code></strong> displays the pointer as a cross when Alt is held.</p>
+
+<h2 id=language>Language</h2>
+
+<p>Language-related extensions are usually imported from language-specific packages. For example, <a href="https://github.com/codemirror/lang-javascript">@codemirror/lang-javascript</a> exports <code>javascript()</code>, which can be added to a configuration to get JavaScript highlighting and completion.</p>
+
+<p><strong><code><a href="../ref/#language.Language">Language</a></code></strong> objects are added to a configuration to select the language to use.</p>
+
+<p><strong><code><a href="../ref/#language.Language.data">Language.data</a></code></strong> can be used to register <a href="../ref/#state.EditorState.languageDataAt">language-specific data</a> (such as an <a href="../../examples/autocompletion/">autocompletion source</a>).</p>
+
+<p><strong><code><a href="../ref/#language.syntaxHighlighting">syntaxHighlighting</a></code></strong> enables a given code highlighting style.</p>
+
+<p><strong><code><a href="../ref/#language.foldService">foldService</a></code></strong> defines a source of code folding information. Usually best specified <a href="../ref/#language.foldNodeProp">through</a> the syntax tree.</p>
+
+<p><strong><code><a href="../ref/#language.indentService">indentService</a></code></strong> defines a source of autoindentation. Again, best <a href="../ref/#language.indentNodeProp">provided</a> via the syntax tree.</p>
+
+<p><strong><code><a href="../ref/#lint.linter">linter</a></code></strong> can be used to register a linter, and show the diagnostics it produces in the editor (see also <strong><code><a href="../ref/#lint.lintGutter">lintGutter</a></code></strong>).</p>
+
+<h2 id=primitives>Primitives</h2>
+
+<p><strong><code><a href="../ref/#view.StateField">StateField</a></code></strong>s are added to the editor by including them in its set of extensions.</p>
+
+<p><strong><code><a href="../ref/#view.ViewPlugin">ViewPlugin</a></code></strong> instances can be used as extensions, registering their plugin.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^exceptionSink">exceptionSink</a></code></strong> is used to route exceptions caught by the editor to your code.</p>
+
+<p><strong><code><a href="../ref/#view.EditorView^updateListener">updateListener</a></code></strong> registers a function that will be called for every update to the editor.</p>
+
+<h3>Transactions</h3>
+
+<p>The following facets can be used to inspect and alter <a href="../ref/#state.Transaction">transactions</a> before they take effect.</p>
+
+<p><strong><code><a href="../ref/#state.EditorState^changeFilter">changeFilter</a></code></strong> filters or suppresses document changes.</p>
+
+<p><strong><code><a href="../ref/#state.EditorState^transactionFilter">transactionFilter</a></code></strong> can modify, extend, or cancel entire transaction.</p>
+
+<p><strong><code><a href="../ref/#state.EditorState^transactionExtender">transactionExtender</a></code></strong> adds extra metadata or effects to transactions.</p>
+
+<h2 id=bundles>Extension Bundles</h2>
+
+<p><strong><code><a href="../ref/#codemirror.basicSetup">basicSetup</a></code></strong> is an array of extensions that enables many of the features listed on this page.</p>
+
+<p><strong><code><a href="../ref/#codemirror.minimalSetup">minimalSetup</a></code></strong> is a much more minimal collection of extensions, containing just the ones that are recommended for every editor.</p>
+
+</article>
+
+<<foot>>
