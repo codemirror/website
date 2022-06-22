@@ -15,64 +15,116 @@
 
 <h1>Extensible Code Editor</h1>
 
-<p>CodeMirror is a code editor component for the web. It can provide a
-text input field with features like line gutters, syntax highlighting,
-and autocompletion in a website.</p>
+<p>CodeMirror is a code editor component for the web. It can be used
+in websites to implement a text input field with support for many
+editing features, and has a rich programming interface to allow
+further extension.</p>
 
 <div id=editor></div>
 
-<ul class=grid-list id=features>
+<p>This is a CodeMirror field, configured for editing JavaScript code.</p>
+
+<h2 class=hr id=features>Features</h2>
+
+<ul class="grid-list-3">
   <li>
-    <h3>Extensible</h3>
-    <p>The structured extension interface allows you to implement
-    complicated extensions robustly, in a way that composes smoothly
-    with other extensions.</p>
+    <h3>Accessibility</h3>
+    <p>Works well with screen readers and keyboard-only users.</p>
   </li>
   <li>
-    <h3>Modular</h3>
-    <p>The system's core is extremely generic, and even basic features
-    like syntax highlighting and line number gutters are implemented
-    as extensions, allowing you to omit or replace them if you need
-    to.</p>
+    <h3>Mobile Support</h3>
+    <p>Use the platform's native selection and editing features on phones.</p>
   </li>
-  <li>
-    <h3>Accessible</h3>
-    <p>The library was designed from the start with accessibility in
-    mind, avoiding a number of pitfalls that the current crop of
-    editors suffer from.</p>
-  </li>
-  <li>
-    <h3>Touchscreen Support</h3>
-    <p>Using a native editable control allows you to use the editor on
-    a phone or tablet with the platform's native selection and editing
-    behavior.</p>
-  </li>
-  <li>
+  <li><a href="docs/ref/#view.EditorView.bidiSpans" class=blocklink>
+    <h3>Bidirectional Text</h3>
+    <p>Support mixing of right-to-left and left-to-right text.</p>
+  </a></li>
+  <li><a href="examples/lang-package/" class=blocklink>
+    <h3>Syntax Highlighting</h3>
+    <p>Color code to reflect syntactic structure.</p>
+  </a></li>
+  <li><a href="docs/ref/#view.lineNumbers" class=blocklink>
+    <h3>Line Numbers</h3>
+    <p>Display gutters with line numbers or other information next to the code.</p>
+  </a></li>
+  <li><a href="examples/autocompletion/" class=blocklink>
+    <h3>Autocompletion</h3>
+    <p>Provide language-specific completion hints in the editor.</p>
+  </a></li>
+  <li><a href="docs/ref/#language.foldCode" class=blocklink>
+    <h3>Code Folding</h3>
+    <p>Temporarily hide parts of the document.</p>
+  </a></li>
+  <li><a href="docs/ref/#search" class=blocklink>
+    <h3>Search/Replace</h3>
+    <p>Editor-specific search, regexp search, and replace functionality.</p>
+  </a></li>
+  <li><a href="docs/ref/#language.syntaxTree" class=blocklink>
     <h3>Full Parsing</h3>
-    <p>The recommended way to write language integration for
-    CodeMirror involves
-    a <a href="https://lezer.codemirror.net">full parse tree</a>,
-    which makes code analysis easier and more powerful.</p>
-  </li>
-  <li>
-    <h3>Fast</h3>
-    <p>By carefully doing only the work that needs to be done, the
-    library manages to be fast even with gigantic documents and
-    very long lines.</p>
-  </li>
+    <p>Detailed parse trees allow many types of language integration.</p>
+  </a></li>
+  <li><a href="docs/guide/#extension" class=blocklink>
+    <h3>Extension Interface</h3>
+    <p>Robustly implement demanding editor extensions.</p>
+  </a></li>
+  <li><a href="docs/guide/#modularity" class=blocklink>
+    <h3>Modularity</h3>
+    <p>Most features are implemented on top of a generic public API.</p>
+  </a></li>
+  <li><a href="examples/million/" class=blocklink>
+    <h3>Speed</h3>
+    <p>Remains responsive even on huge documents and long lines.</p>
+  </a></li>
+  <li><a href="docs/ref/#autocomplete.closeBrackets" class=blocklink>
+    <h3>Bracket Closing</h3>
+    <p>Automatically insert matching brackets during typing.</p>
+  </a></li>
+  <li><a href="docs/ref/#lint" class=blocklink>
+    <h3>Linting</h3>
+    <p>Show error and warning messages in the editor.</p>
+  </a></li>
+  <li><a href="examples/decoration/" class=blocklink>
+    <h3>Flexible Styling</h3>
+    <p>Mix font styles and sizes, add widgets in the content.</p>
+  </a></li>
+  <li><a href="docs/ref/#view.keymap" class=blocklink>
+    <h3>Key Bindings</h3>
+    <p>Declaratively bind commands to key presses.</p>
+  </a></li>
+  <li><a href="examples/styling/#themes" class=blocklink>
+    <h3>Theming</h3>
+    <p>Import or create custom visual editor styles.</p>
+  </a></li>
+  <li><a href="examples/collab/" class=blocklink>
+    <h3>Collaborative Editing</h3>
+    <p>Allow multiple users to edit the same document.</p>
+  </a></li>
+  <li><a href="docs/ref/#commands.history" class=blocklink>
+    <h3>Undo History</h3>
+    <p>Undo and redo functionality with collab editing support.</p>
+  </a></li>
+  <li><a href="docs/ref/#state.EditorState^allowMultipleSelections" class=blocklink>
+    <h3>Multiple Selections</h3>
+    <p>Select and edit multiple ranges of the document at once.</p>
+  </a></li>
+  <li><a href="examples/translate/" class=blocklink>
+    <h3>Internationalization</h3>
+    <p>Provide custom text to display or announce to the user.</p>
+  </a></li>
 </ul>
 
 <h2 class=hr id=about>About</h2>
 
-<p>CodeMirror is open source
+<p>CodeMirror is open source under a permissive license
 (<a href="https://github.com/codemirror/dev/blob/master/LICENSE">MIT</a>).
 It is being developed
 on <a href="https://github.com/codemirror/dev">GitHub</a>.
 Contributions are welcome.</p>
 
-<p style="margin-left: 15px"><strong>If you are using CodeMirror <u>commercially</u>, there is
-a <u>social</u> expectation that you help fund its maintenance. &nbsp;
-<a href="http://marijnhaverbeke.nl/fund/">Start here.</a></strong></p>
+<p style="margin-left: 15px"><strong>If you are using
+CodeMirror <u>commercially</u>, there is a <u>social</u> (but no
+legal) expectation that you help fund its maintenance.
+<a href="http://marijnhaverbeke.nl/fund/">Start here</a></strong>.</p>
 
 <p>The library supports browsers up from Internet Explorer 11
 (with <a href="examples/ie11/">some polyfills</a>).</p>
@@ -88,7 +140,10 @@ conduct</a> that applies to communication around the project.</p>
 
 <h2 class=hr id=languages>Language Support</h2>
 
-<ul class="grid-list compact">
+<p>A full parser package, often with language-specific integration and
+extension code, exists for the following languages:</p>
+
+<ul class="grid-list-5">
   <li><a href="https://github.com/codemirror/lang-css" class=blocklink><strong>CSS</strong></a>
   <li><a href="https://github.com/codemirror/lang-cpp" class=blocklink><strong>C++</strong></a>
   <li><a href="https://github.com/codemirror/lang-html" class=blocklink><strong>HTML</strong></a>
@@ -104,7 +159,7 @@ conduct</a> that applies to communication around the project.</p>
 
 <p>There is also a collection
 of <a href="https://github.com/codemirror/legacy-modes">CodeMirror 5
-modes</a> that can be used—if no full support is available for your
+modes</a> that can be used. If no full support is available for your
 language, you may still find a highlighter in there.</p>
 
 <h2 class=hr id=sponsors>Sponsors</h2>
@@ -139,10 +194,10 @@ div.diamond div.sponsorlist, div.gold div.sponsorlist {
 }
 
 div.silver div.sponsorlist, div.bronze div.sponsorlist {
-  justify-content: space-between;
+  justify-content: start;
   flex-wrap: wrap;
   row-gap: 10px;
-  column-gap: 6px;
+  column-gap: 16px;
 }
 div.sponsors a.textual, div.sponsors a.captioned {
   color: black;
