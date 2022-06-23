@@ -63,20 +63,13 @@ const {simple} = require("acorn-walk")
 function linkCode(code) {
   let tree = parse(code, {ecmaVersion: "latest", sourceType: "module"})
   let patches = []
-  let rewrite = node => {
-    if (node && peers.has(node.value))
-      patches.push({
-        from: node.start, to: node.end,
-        text: JSON.stringify(`./${mangle(node.value)}`)
-      })
-  }
   simple(tree, {
     ImportDeclaration: node => {
       if (node.source && bundledModules.indexOf(node.source.value) > -1) {
         let imported = /\s+(\{[^}]*\}|\w+)/.exec(code.slice(node.start + 5, node.end))
         patches.push({
           from: node.start, to: node.end,
-          text: `const ${imported[1].replace(/ as /g, ": ")} = CM[${JSON.stringify(node.source.value)}]`
+          text: `const ${imported[1].replace(/ as /g, ": ")} = CM[${JSON.stringify(node.source.value)}];`
         })
       }
     }
