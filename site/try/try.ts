@@ -223,8 +223,8 @@ for (let i = 0; i < tabs.length; i++)
 
 ;(document.querySelector("#run") as HTMLElement).onclick = () => run()
 ;(document.querySelector("#share") as HTMLElement).onclick = e => {
-  navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?code=" +
-    encodeURIComponent(view.state.doc.toString()))
+  navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" +
+    btoa(view.state.doc.toString()))
   showNotification(e.target as HTMLElement, "URL copied!")
 }
 let exampleSelect = document.querySelector("#examples") as HTMLSelectElement
@@ -241,6 +241,7 @@ exampleSelect.onchange = () => {
 }
 
 let urlCode = /[?&]code=([^&]+)/.exec(document.location.search)
+let urlBCode = /[?&]c=([^&]+)/.exec(document.location.search)
 let urlExample = /[?&]example=([^&]+)/.exec(document.location.search)
 let view
 
@@ -257,6 +258,7 @@ function loadCode(code: string) {
   else view = new EditorView({state, parent: tabs[0]})
 }
 loadCode(urlCode ? decodeURIComponent(urlCode[1])
+  : urlBCode ? atob(urlBCode[1])
   : urlExample && examples.hasOwnProperty(decodeURIComponent(urlExample[1])) ? examples[decodeURIComponent(urlExample[1])]
   : getDefaultCode())
 
