@@ -18,7 +18,7 @@ exports.buildRef = function buildRef(highlight) {
       extendMarkdown: m => m.use(require("markdown-it-anchor"), {
         slugify: s => "h_" + String(s).toLowerCase().replace(/[^a-z0-9]+/g, "_")
       }),
-      breakAt: 45,
+      breakAt: 55,
       processType(type) {
         let ext = null
         // Kludge to de-inline the Extension type when it is found in a union type
