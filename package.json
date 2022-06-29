@@ -14,6 +14,7 @@
     "@lezer/lr": "^1.0.0",
     "@lezer/highlight": "^1.0.0",
     "@lezer/javascript": "^1.0.0",
+    "@lezer/lezer": "^1.0.0",
     "@lezer/html": "^1.0.0",
     "@lezer/css": "^1.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",

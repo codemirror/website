@@ -89,7 +89,7 @@ This first rule expresses that a document should be parsed as any
 number of `expression`s, and the top node of the syntax tree should be
 called `Program`.
 
-```
+```lezer
 @top Program { expression* }
 ```
 
@@ -99,7 +99,7 @@ application, which is any number of expressions wrapped in
 parentheses. (The branch for `Application` uses an _inline rule_ to
 combine the definition of the rule with its only use.)
 
-```
+```lezer
 expression {
   Identifier |
   String |
@@ -115,7 +115,7 @@ tree small and clean).
 
 Next, we define our tokens.
 
-```
+```lezer
 @tokens {
   Identifier { $[a-zA-Z_0-9]+ }
 
@@ -146,7 +146,7 @@ Skippable tokens, like space and comments, are declared in the same
 way as other tokens, and declared as skippable with a declaration like
 this.
 
-```
+```lezer
 @skip { space | LineComment }
 ```
 
@@ -157,7 +157,7 @@ it to add
 to those node types, which the editor can use for things like bracket
 matching and automatic indentation.
 
-```
+```lezer
 @detectDelim
 ```
 

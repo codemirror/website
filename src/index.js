@@ -12,6 +12,7 @@ const {highlightTree, classHighlighter} = require("@lezer/highlight")
 const {parser: jsParser} = require("@lezer/javascript")
 const {parser: htmlParser} = require("@lezer/html")
 const {parser: cssParser} = require("@lezer/css")
+const {parser: lezerParser} = require("@lezer/lezer")
 
 const escapeHtml = markdownIt().utils.escapeHtml
 
@@ -20,6 +21,7 @@ const parsers = {
   css: cssParser,
   javascript: jsParser,
   typescript: jsParser.configure({dialect: "ts"}),
+  lezer: lezerParser,
   shell: null
 }
 
@@ -27,7 +29,7 @@ function highlight(str, lang) {
   if (lang && !parsers.hasOwnProperty(lang))
     console.warn("No highlighting available for " + lang)
   let parser = parsers[lang]
-  if (!parser) return str
+  if (!parser) return escapeHtml(str)
   let result = "", pos = 0
   highlightTree(parser.parse(str), classHighlighter, (from, to, cls) => {
     if (from > pos) result += escapeHtml(str.slice(pos, from))
