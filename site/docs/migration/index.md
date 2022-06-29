@@ -66,16 +66,13 @@ state](##state.EditorState) and provide that to the view.
 
 ```javascript
 import {keymap, EditorView} from "@codemirror/view"
-import {EditorState} from "@codemirror/state"
 import {defaultKeymap, history, historyKeymap} from "@codemirror/commands"
 
 let view = new EditorView({
-  state: EditorState.create({
-    extensions: [
-      history(),
-      keymap.of([...defaultKeymap, ...historyKeymap]),
-    ]
-  }),
+  extensions: [
+    history(),
+    keymap.of([...defaultKeymap, ...historyKeymap]),
+  ],
   parent: document.body
 })
 ```
@@ -300,12 +297,11 @@ part.
 let tabSize = new Compartment
 
 let view = new EditorView({
-  state: EditorState.create({
-    extensions: [
-      // ...
-      tabSize.of(EditorState.tabSize.of(2))
-    ]
-  })
+  extensions: [
+    // ...
+    tabSize.of(EditorState.tabSize.of(2))
+  ],
+  // ...
 })
 
 function setTabSize(size) {
@@ -384,9 +380,7 @@ similar behavior:
 
 ```javascript
 function editorFromTextArea(textarea, extensions) {
-  let view = new EditorView({
-    state: EditorState.create({doc: textarea.value, extensions})
-  })
+  let view = new EditorView({doc: textarea.value, extensions})
   textarea.parentNode.insertBefore(view.dom, textarea)
   textarea.style.display = "none"
   if (textarea.form) textarea.form.addEventListener("submit", () => {

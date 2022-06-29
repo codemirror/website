@@ -14,16 +14,14 @@ for (let i = 0; lines.length < 2e6; i++) lines.push(repeated[i % repeated.length
 lines.push(`</body>`, ``)
 
 ;(window as any).view = new EditorView({
-  state: EditorState.create({
-    doc: Text.of(lines),
-    extensions: [
-      keymap.of([...defaultKeymap, ...historyKeymap]),
-      history(),
-      drawSelection(),
-      syntaxHighlighting(defaultHighlightStyle),
-      lineNumbers(),
-      html()
-    ]
-  }),
+  doc: Text.of(lines),
+  extensions: [
+    keymap.of([...defaultKeymap, ...historyKeymap]),
+    history(),
+    drawSelection(),
+    syntaxHighlighting(defaultHighlightStyle),
+    lineNumbers(),
+    html()
+  ],
   parent: document.querySelector("#editor")
 })
