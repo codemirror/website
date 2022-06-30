@@ -18,7 +18,7 @@ for actual deployment, you'll want to do classical bundling for the
 time being.)
 
 Bundlers are tools that take a given main script (or in some cases
-multiple script), and produce a new, generally bigger, script that has
+multiple scripts), and produce a new, generally bigger, script that has
 all (or some) of the script's dependencies (and _their_ dependencies,
 and so on) included. This makes it easier to run modern JavaScript
 systems, which tend to consist of a whole graph of dependencies, in
@@ -62,7 +62,8 @@ npm i rollup @rollup/plugin-node-resolve
 With these, we can run rollup to create the bundle file.
 
 ```shell
-node_modules/.bin/rollup editor.js -f iife -o editor.bundle.js -p @rollup/plugin-node-resolve
+node_modules/.bin/rollup editor.js -f iife -o editor.bundle.js \
+  -p @rollup/plugin-node-resolve
 ```
 
 The `-f iife` file tells Rollup that the output file should be
@@ -98,3 +99,37 @@ your HTML page.
 <h1>CodeMirror!</h1>
 <script src="editor.bundle.js"></script>
 ```
+
+## Bundle Size
+
+Because the library is a hundred-thousand-line marvel of JavaScript
+engineering, shipped with its full source code (including comments and
+whitespace), bundles built in the most straightforward way can get
+somewhat big (around 1 megabyte for the [basic
+setup](../../docs/ref/#codemirror.basicSetup) and a language mode).
+You can more than halve this by using something like
+[Terser](https://terser.org/) or [Babel](https://babeljs.io/) to strip
+the comments and whitespace, and rename variables to use shorter
+names, getting the full bundle down to around 400 kilobytes (135
+kilobytes when gzipped for transfer over the network).
+
+The library is built in such a way that unused code can be eliminated
+by a smart bundler like Rollup (a feature called “tree shaking”). The
+most minimal editor (see below) avoids loading a bunch of extensions,
+taking the full bundle size down to 700 kilobytes and reducing the
+stripped code to 250 kilobytes (75 kilobytes gzipped).
+
+```javascript
+import {EditorView, minimalSetup} from "codemirror"
+
+let editor = new EditorView({
+  extensions: minimalSetup,
+  parent: document.body
+})
+```
+
+When you need to support multiple languages, it can often be useful to
+dynamically load the language support packages as needed to avoid the
+amount of code the browser has to load. The [Rollup
+documentation](https://rollupjs.org/guide/en/#code-splitting) can tell
+you more about how to do this.
