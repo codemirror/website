@@ -4,8 +4,8 @@
 
 Though it is possible to create multiple [views](##view.EditorView)
 from a single [editor state](##state.EditorState), those views will
-not, by themselves, stay in sync. States are just immutable values,
-and their updated forms will simply diverge.
+not, by themselves, stay in sync. States are immutable values, and
+their updated forms held in the different views will simply diverge.
 
 Thus, to keep the content of two views in sync, you'll have to forward
 changes made in one view to the other. A good place to do this is
@@ -14,20 +14,19 @@ function](##view.EditorView.constructor^config.dispatch), or an
 [update listener](##view.EditorView^updateListener). In this example,
 we'll use the former.
 
-We'll simply use a single start state in this example—though that
-isn't necessary, as long as both states have the same document. It
-might help, if the document can be big, to give both states the same
-[`Text`](##state.Text) instance as starting
-[document](##state.EditorStateConfig.doc), so that most of the
-document tree structure can be shared.
+To make sure there's only one undo history, we'll set up one state
+_with_ the history extension, and one without. The state for the main
+editor is set up as normal.
 
-!state
+!startState
+
+The state for the second editor doesn't track history state, and binds
+history-related keys to perform undo/redo in the main editor.
+
+!otherState
 
 Next comes the code that will be responsible for broadcasting changes
-between the editors. To work around some cyclic reference issues (the
-dispatch functions need access to the view, but are passed when
-initializing the view), the code stores the views in an array and
-refers to them by index.
+between the editors.
 
 In order to be able to distinguish between regular transactions caused
 by the user and synchronizing transactions from the other editor, we
