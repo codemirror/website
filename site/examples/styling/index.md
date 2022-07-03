@@ -236,9 +236,20 @@ are assigned to tokens by [language packages](../lang-package/)), and
 otherwise contains style properties just like the objects in a theme.
 
 When defining an editor theme, you'll usually want to provide both a
-theme extension and a highlight style that looks good with it.
+theme extension and a highlight style that looks good with it. Wrap a
+highlight style (or other
+[highlighter](https://lezer.codemirror.net/docs/ref/#highlight.Highlighter))
+in [`syntaxHighlighting`](##language.syntaxHighlighting) to create an
+extension that enables it.
 
-If you need to style tokens with plain old CSS, you can enable the
+```javascript
+import {syntaxHighlighting} from "@codemirror/language"
+
+// In your extensions...
+syntaxHighlighting(myHighlightStyle)
+```
+
+If you need to style tokens with plain old CSS, you can use the
 [`classHighlightStyle`](https://lezer.codemirror.net/docs/ref/#highlight.classHighlightStyle),
 which just adds a static class (for example `cmt-keyword`) to tokens,
 without actually defining any rules for that class.
