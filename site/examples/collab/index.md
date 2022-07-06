@@ -24,6 +24,9 @@ Here's a toy collaborative editing setup that lives within this page:
     font: inherit;
     background: inherit;
   }
+  #latency option {
+    background: #85a;
+  }
   #editors {
     padding-top: 10px;
     overflow: hidden;
