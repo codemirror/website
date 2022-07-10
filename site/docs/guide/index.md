@@ -382,7 +382,7 @@ How that combining works may differ.
    handlers as an array, sorted by precedence, so that you can try
    them one at a time until one of them handles the event.
 
- - Another common pattern is the compute the logical _or_ of the input
+ - Another common pattern is to compute the logical _or_ of the input
    values (as in
    [`allowMultipleSelections`](##state.EditorState^allowMultipleSelections))
    or reduce them in some other way (say, taking the maximum of the
@@ -420,7 +420,7 @@ changed.
 
 Transactions, created with the state's
 [`update`](##state.EditorState.update) method, combine a number of
-effect (all optional):
+effects (all optional):
 
  - It can apply [document changes](##state.TransactionSpec.changes).
 
@@ -603,7 +603,7 @@ let view = new EditorView({
 ```
 
 To allow the automatic class prefixing be done correctly, rules where
-the first element targets the editor's wrapper element (which is the
+the first element targets the editor's wrapper element (which is
 where the theme's unique class will be added), such as the
 `.cm-focused` rule in the example, must use an `&` character to
 indicate the position of the wrapper element.
