@@ -5,13 +5,13 @@
 The editor's state always holds at least one selection range. When
 [multiple
 selections](../../docs/ref/#state.EditorState^allowMultipleSelections)
-are entabled, it may have several.
+are enabled, it may have several.
 
 Ranges consist of an *anchor* (the side that doesn't move when you
 shift-select) and a *head* (the moving side). When those are the same,
 it is a cursor selection, otherwise it is a range.
 
-When there are multiple selection ranges, of them will be considered
+When there are multiple selection ranges, one of them will be considered
 the *main* range (this is also the one that the native selection will
 reflect). If you have an editor state, you can find the main selection
 range with `state.selection.main`. It is a
