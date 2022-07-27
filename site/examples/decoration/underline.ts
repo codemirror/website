@@ -3,7 +3,9 @@
 import {EditorView, Decoration, DecorationSet} from "@codemirror/view"
 import {StateField, StateEffect} from "@codemirror/state"
 
-const addUnderline = StateEffect.define<{from: number, to: number}>()
+const addUnderline = StateEffect.define<{from: number, to: number}>({
+  map: ({from, to}, change) => ({from: change.mapPos(from), to: change.mapPos(to)})
+})
 
 const underlineField = StateField.define<DecorationSet>({
   create() {
