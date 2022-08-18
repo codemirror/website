@@ -282,7 +282,6 @@ function run() {
   }
   frame.onload = () => {
     frame.contentWindow.postMessage({type: "load", code: rewriteImports(code)}, "*", [channel.port1])
-    frame.focus()
   }
   tabs[1].appendChild(frame)
   return true
