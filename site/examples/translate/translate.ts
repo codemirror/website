@@ -22,6 +22,7 @@ const germanPhrases = {
   "previous": "vorherige",
   "all": "alle",
   "match case": "groß/klein beachten",
+  "by word": "ganze Wörter",
   "replace": "ersetzen",
   "replace all": "alle ersetzen",
   "close": "schließen",
