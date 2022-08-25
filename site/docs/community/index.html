@@ -1,0 +1,189 @@
+<<head {title: "Community Resources", type: "docs", meta: {robots: "noindex,nofollow"}}>>
+
+<<toc [
+  {name: "Extensions", link: "#extensions"},
+  {name: "Language Support", link: "#language"},
+  {name: "Themes", link: "#theme"},
+  {name: "Wrappers", link: "#wrappers"},
+  {name: "Contributing", link: "#contribute"}
+]>>
+
+<article>
+
+<h1>Community Packages</h1>
+
+<p>This page lists CodeMirror-related packages maintained by the wider community. Note that the CodeMirror maintainers make no claims about the quality or fitness-for-purpose of any of these. See <a href="#contribute">below</a> for instructions on helping maintain this page.</p>
+
+<h2 id=extensions>Editor Extensions</h2>
+
+<style>
+  dt { font-weight: bold; font-size: 110% }
+</style>
+
+<dl>
+  <dt><a href="https://github.com/uiwjs/react-codemirror/tree/master/extensions/color">
+    @uiw/codemirror-extensions-color
+  </a></dt>
+  <dd>Pops up an interactive color picker over color codes in the document.</dd>
+
+  <dt><a href="https://github.com/replit/codemirror-emacs">
+    @replit/codemirror-emacs
+  </a></dt>
+  <dd>Emacs key bindings for CodeMirror.</dd>
+
+  <dt><a href="https://github.com/uiwjs/react-codemirror/tree/master/extensions/hyper-link">
+    @uiw/codemirror-extensions-hyper-link
+  </a></dt>
+  <dd>Make links inside the editor followable.</dd>
+
+  <dt><a href="https://github.com/replit/codemirror-indentation-markers">
+    @replit/codemirror-indentation-markers
+  </a></dt>
+  <dd>Displays indentation guides/markers on indented lines.</dd>
+
+  <dt><a href="https://github.com/furqansoftware/codemirror-languageserver">
+    codemirror-languageserver
+  </a></dt>
+  <dd>Integrate the editor with an <a href="https://microsoft.github.io/language-server-protocol/">LSP</a> server over a web socket.</dd>
+
+  <dt><a href="https://github.com/uiwjs/react-codemirror/tree/master/extensions/line-numbers-relative">
+    @uiw/codemirror-extensions-line-numbers-relative
+  </a></dt>
+  <dd>Count line numbers relative to the line that has the cursor.</dd>
+
+  <dt><a href="https://github.com/liqvidjs/plugins/tree/main/packages/codemirror">
+    @lqv/codemirror
+  </a></dt>
+  <dd>CodeMirror plugin for the <a href="https://liqvidjs.org/">Liqvid</a> web-based video format. See also <a href="https://github.com/liqvidjs/plugins/tree/main/packages/codebooth">@lqv/codebooth</a>.</dd>
+
+  <dt><a href="https://github.com/uiwjs/react-codemirror/tree/master/extensions/mentions">
+    @uiw/codemirror-extensions-mentions
+  </a></dt>
+  <dd>Add completable @-mentions in CodeMirror.</dd>
+
+  <dt><a href="https://github.com/replit/codemirror-vim">
+    @replit/codemirror-vim
+  </a></dt>
+  <dd>VIM key bindings for CodeMirror.</dd>
+
+  <dt><a href="https://github.com/replit/codemirror-vscode-keymap">
+    @replit/codemirror-vscode-keymap
+  </a></dt>
+  <dd>A set of VS Code-style key bindings.</dd>
+
+  <dt><a href="https://github.com/yjs/y-codemirror.next/blob/main/package.json">
+    y-codemirror.next
+  </a></dt>
+  <dd><a href="https://yjs.dev/">Yjs</a>-based collaborative editing plugin.</dd>
+</dl>
+
+<h2 id=language>Language Support</h2>
+
+<dl>
+  <dt><a href="https://github.com/nextjournal/clojure-mode">
+    clojure-mode
+  </a></dt>
+  <dd><a href="https://clojure.org/">Clojure</a> language integration for CodeMirror.</dd>
+
+  <dt><a href="https://github.com/yskszk63/cm-lang-dot">
+    cm-lang-dot
+  </a></dt>
+  <dd><a href="https://graphviz.org/">Graphviz</a> dot language support.</dd>
+
+  <dt><a href="https://github.com/jared-hughes/codemirror-lang-j">
+    codemirror-lang-j
+  </a></dt>
+  <dd>Integration for the <a href="https://jsoftware.com/">J</a> programming language.</dd>
+
+  <dt><a href="https://github.com/ianthehenry/codemirror-lang-janet">
+    codemirror-lang-janet
+  </a></dt>
+  <dd>Support for the <a href="https://janet-lang.org/">Janet</a> language.</dd>
+
+  <dt><a href="https://github.com/JuliaPluto/lang-julia">
+    @plutojl/lang-julia
+  </a><dt>
+  <dd>Support for the <a href="https://julialang.org/">Julia</a> language.</dd>
+
+  <dt><a href="https://github.com/jared-hughes/codemirror-lang-golfscript">
+    codemirror-lang-golfscript
+  </a></dt>
+  <dd><a href="http://golfscript.com/golfscript/">GolfScript</a> language support.</dd>
+
+  <dt><a href="https://github.com/replit/codemirror-lang-nix">
+    @replit/codemirror-lang-nix
+  </a></dt>
+  <dd>Syntax highlighting for the <a href="https://nixos.org/">Nix</a> configuration language.</dd>
+
+  <dt><a href="https://github.com/TravisYeah/lang-r">
+    codemirror-lang-r
+  </a></dt>
+  <dd><a href="https://www.r-project.org/">R</a> programming language support.</dd>
+</dl>
+
+<h2 id=theme>Themes</h2>
+
+<dl>
+  <dt><a href="https://thememirror.net/">
+    thememirror
+  </a></dt>
+  <dd>Large collection of editor themes. With <a href="https://thememirror.net/create">theme editor</a>.</dd>
+
+  <dt><a href="https://github.com/dennis84/codemirror-themes">
+    @ddietr/codemirror-themes
+  </a></dt>
+  <dd>A collection (material, solarized, dracula, github, aura) of themes.</dd>
+
+  <dt><a href="https://github.com/codemirror/theme-one-dark/">
+    @codemirror/theme-one-dark
+  </a></dt>
+  <dd>One-dark theme. Also suitable as an example for writing a new theme.</dd>
+</dl>
+
+<h2 id=wrappers>Wrappers and Framework Integration</h2>
+
+<dl>
+  <dt><a href="https://gitlab.com/emergence-engineering/prosemirror-codemirror-block">
+    prosemirror-codemirror-block
+  </a></dt>
+  <dd>Editor code blocks in a <a href="https://prosemirror.net">ProseMirror</a> editor using CodeMirror.</dd>
+
+  <dt><a href="https://github.com/uiwjs/react-codemirror">
+    @uiw/react-codemirror
+  </a></dt>
+  <dd><a href="https://reactjs.org/">React</a> component wrapping an editor view.</dd>
+
+  <dt><a href="https://github.com/remirror/remirror/tree/HEAD/packages/remirror__extension-codemirror6">
+    @remirror/extension-codemirror6
+  </a></dt>
+  <dd>Integration of CodeMirror into the <a href="https://remirror.io/">Remirror</a> rich text editor.</dd>
+
+  <dt><a href="https://github.com/riccardoperra/solid-codemirror">
+    solid-codemirror
+  </a></dt>
+  <dd>CodeMirror integration for <a href="https://github.com/solidjs/solid">SolidJS</a>.</dd>
+
+  <dt><a href="https://github.com/surmon-china/vue-codemirror">
+    vue-codemirror
+  </a></dt>
+  <dd><a href="https://vuejs.org/">Vue</a> 3 component for CodeMirror.</dd>
+</dl>
+
+<h2 id=contribute>Contributing to this Page</h2>
+
+<p>If you spot a problem or want to add a link to this page, please
+open a pull request on GitHub
+updating <a href="https://github.com/codemirror/website/blob/master/site/docs/community/index.html">this
+HTML document</a>.</p>
+
+<p>Welcome additions are open source packages that implement some
+non-trivial functionality around CodeMirror 6 and that are maintained
+and fully implemented. If you have some hot new half-baked idea,
+please let it mature a bit before submitting here.</p>
+
+<p>Note that this page sets a noindex/nofollow meta tag so submitting
+links in the hope of improving your search rankings is futile.</p>
+
+</article>
+
+<<foot>>

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <<for name, value in meta || {}>>
-  <meta property="<<t name>>" content="<<t value>>">
+  <meta <<t /:/.test(name) ? "property" : "name">>="<<t name>>" content="<<t value>>">
 <</for>>
 
 <title><<t title || "CodeMirror">></title>
