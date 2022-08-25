@@ -11,7 +11,9 @@ use, which will be resolved into an effective configuration.
 functions, and do things like adding an input for a
 [facet](##state.Facet) or installing a [state
 field](##state.StateField). They can be grouped in arrays, and most
-practical extensions consist of multiple smaller extensions.
+practical extensions consist of multiple smaller extensions. See [this
+page](../../docs/extensions/) for a list of extensions provided by
+core libraries.
 
 For example, the [history](##commands.history) extension contains a
 state field that records the undo history, a facet that controls the
