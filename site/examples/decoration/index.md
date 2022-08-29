@@ -1,4 +1,4 @@
-!{"type": "examples", "title": "CodeMirror Decoration Example", "injectCode": ["./underline.ts", "./checkbox.ts"]}
+!{"type": "examples", "title": "CodeMirror Decoration Example", "injectCode": ["./underline.ts", "./checkbox.ts", "./placeholder.ts"]}
 
 # Example: Decorations
 
@@ -181,3 +181,39 @@ get something like this:
 
 To see an example of line decorations, check out the [zebra stripe
 example](../zebra/).
+
+## Atomic Ranges
+
+In some cases, such as with most replacing decorations larger than a
+single character, you want editing actions to treat the ranges as
+atomic elements, skipping over them during cursor motion, and
+backspacing them out in one step.
+
+The [`EditorView.atomicRanges`](##view.EditorView^atomicRanges) facet
+can be provided range sets (usually the same set that we're using for
+the decorations) and will make sure cursor motion skips the ranges in
+that set.
+
+Let's implement an extension that replaces placeholder names like
+`[[this]]` with widgets, and makes the editor treat them as atoms.
+
+[`MatchDecorator`](##view.MatchDecorator) is a helper class that can
+be used to quickly set up view plugins that decorate all matches of a
+given regular expression in the viewport.
+
+!placeholderMatcher
+
+(`PlaceholderWidget` is a straightforward subclass of
+[`WidgetType`](##view.WidgetType) that renders the given name in a
+styled element.)
+
+We'll use the matcher to create and maintain the decorations in our
+plugin. It also [provides](##view.PluginSpec.provide) the decoration
+set as atomic ranges.
+
+!placeholderPlugin
+
+<div id="editor-placeholder"></div>
+<script defer src="placeholder.js"></script>
+
+It is possible to implement something like that in a custom way with [transaction filters](##state.EditorState^transactionFilter), if you need 
