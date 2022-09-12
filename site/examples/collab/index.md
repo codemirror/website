@@ -256,7 +256,7 @@ bit of network traffic.
 remote updates is that we want to handle the case where the push
 request successfully arrives at the authority, but the network fails
 before the response comes back to the peer. If confirming local
-changes only happened on pull, it would be hard to resynchronize with
+changes only happened on push, it would be hard to resynchronize with
 the authority after such an event.)
 
 ## Dropping Old Updates
