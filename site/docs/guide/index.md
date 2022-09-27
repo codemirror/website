@@ -9,8 +9,8 @@ documentation of its interface, see the [reference manual](../ref/).
 ## Architecture Overview
 
 Because CodeMirror is structured quite a bit differently than your
-classical JavaScript library (including its own previous versions), it
-is recommended to read at least this section before jumping in, so
+classical JavaScript library (including its own previous versions), **it
+is recommended to read at least this section before jumping in**, so
 that you don't waste your time with mismatched expectations.
 
 ### Modularity
