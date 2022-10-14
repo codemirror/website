@@ -1,15 +1,7 @@
 // @babel
 
 import {basicSetup, EditorView} from "codemirror"
-import {javascript, javascriptLanguage} from "@codemirror/lang-javascript"
-import {completeFromList} from "@codemirror/autocomplete"
-
-let jsCompletion = completeFromList(Object.getOwnPropertyNames(window).map(p => {
-  return {
-    label: p,
-    type: /^[A-Z]/.test(p) ? "class" : typeof window[p] == "function" ? "function" : "variable"
-  }
-}))
+import {javascript, javascriptLanguage, scopeCompletionSource} from "@codemirror/lang-javascript"
 
 window.view = new EditorView({
   doc: `function hello(who = "world") {
@@ -18,7 +10,7 @@ window.view = new EditorView({
   extensions: [
     basicSetup,
     javascript(),
-    javascriptLanguage.data.of({autocomplete: jsCompletion})
+    javascriptLanguage.data.of({autocomplete: scopeCompletionSource(globalThis)})
   ],
   parent: document.querySelector("#editor")
 })

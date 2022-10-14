@@ -161,44 +161,26 @@ completion point, and use that to get a better picture of what kind of
 construct is being completed.
 
 As an example, this completion source for JavaScript will complete
-global variables and properties on global variables by inspecting the
-running JavaScript environment.
+(some) [JSDoc](https://jsdoc.app/) tags in block comments.
 
-!completeFromGlobalScope
+!completeJSDoc
 
 The function starts by
 [finding](https://lezer.codemirror.net/docs/ref/#common.Tree.resolveInner)
-the syntax node directly in front of the completion position, which
-we'll base the completion behavior on.
+the syntax node directly in front of the completion position. If that
+is not a block comment, or it is a block comment without a `/**` start
+marker, it returns null to indicate it has no completions.
 
-If it is a property name or a period, and the parent node above it is
-a member expression, we can try to complete a property. This code only
-handles the case where the object is a regular variable (as opposed
-to, say, another member expression, or a function call).
-
-Working with a tree like this involves knowledge about node names and
-tree structure. You can find the type of trees the parser creates for
-various constructs by looking at the parser's [test
-cases](https://github.com/lezer-parser/javascript/tree/main/test) or
-by converting syntax trees to strings.
-
-If the completion happens inside a variable name, or this is an
-explicit completion and we're not in one of the nodes where no
-completion should happen, this looks up global variable names on the
-`window` object.
-
-!completeProperties
-
-`completeProperties` crudely iterates an object's properties and
-creates a completion object for each. This could be cached with a
-`WeakMap`, or go over the object's prototypes and gather completions
-for that, or assign more precise types, but that's left as an exercise
-for the reader.
+If the completion _does_ happen in a block comment, we check whether
+the is an existing tag in front of it. If there is, that is included
+in the completion (see the `from` property in the returned object). If
+there isn't, we only complete if the completion was explicitly
+started.
 
 You can now use an extension like this to enable this completion
 source for JavaScript content.
 
-!globalJavaScriptCompletions
+!jsDocCompletions
 
 Try it out:
 

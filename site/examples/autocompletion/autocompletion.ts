@@ -39,67 +39,45 @@ new EditorView({
   parent: document.querySelector("#editor-override")
 })
 
-//!completeFromGlobalScope
+//!completeJSDoc
 
 import {syntaxTree} from "@codemirror/language"
 
-const completePropertyAfter = ["PropertyName", ".", "?."]
-const dontCompleteIn = ["TemplateString", "LineComment", "BlockComment",
-                        "VariableDefinition", "PropertyDefinition"]
+const tagOptions = [
+  "constructor", "deprecated", "link", "param", "returns", "type"
+].map(tag => ({label: "@" + tag, type: "keyword"}))
 
-function completeFromGlobalScope(context: CompletionContext) {
+function completeJSDoc(context: CompletionContext) {
   let nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
-
-  if (completePropertyAfter.includes(nodeBefore.name) &&
-      nodeBefore.parent?.name == "MemberExpression") {
-    let object = nodeBefore.parent.getChild("Expression")
-    if (object?.name == "VariableName") {
-      let from = /\./.test(nodeBefore.name) ? nodeBefore.to : nodeBefore.from
-      let variableName = context.state.sliceDoc(object.from, object.to)
-      if (typeof window[variableName] == "object")
-        return completeProperties(from, window[variableName])
-    }
-  } else if (nodeBefore.name == "VariableName") {
-    return completeProperties(nodeBefore.from, window)
-  } else if (context.explicit && !dontCompleteIn.includes(nodeBefore.name)) {
-    return completeProperties(context.pos, window)
-  }
-  return null
-}
-
-//!completeProperties
-
-function completeProperties(from: number, object: Object) {
-  let options = []
-  for (let name in object) {
-    options.push({
-      label: name,
-      type: typeof object[name] == "function" ? "function" : "variable"
-    })
-  }
+  if (nodeBefore.name != "BlockComment" ||
+      context.state.sliceDoc(nodeBefore.from, nodeBefore.from + 3) != "/**")
+    return null
+  let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
+  let tagBefore = /@\w*$/.exec(textBefore)
+  if (!tagBefore && !context.explicit) return null
   return {
-    from,
-    options,
-    validFor: /^[\w$]*$/
+    from: tagBefore ? nodeBefore.from + tagBefore.index : context.pos,
+    options: tagOptions,
+    validFor: /^(@\w*)?$/
   }
 }
 
-//!globalJavaScriptCompletions
+//!jsDocCompletions
 
 import {javascriptLanguage} from "@codemirror/lang-javascript"
 
-const globalJavaScriptCompletions = javascriptLanguage.data.of({
-  autocomplete: completeFromGlobalScope
+const jsDocCompletions = javascriptLanguage.data.of({
+  autocomplete: completeJSDoc
 })
 
 //!createJavaScriptEditor
 
 new EditorView({
-  doc: "// Get JavaScript completions here\ndocument.b",
+  doc: "/** Complete tags here\n    @pa\n */\n",
   extensions: [
     basicSetup,
     javascriptLanguage,
-    globalJavaScriptCompletions,
+    jsDocCompletions,
     autocompletion()
   ],
   parent: document.querySelector("#editor-javascript")
