@@ -62,7 +62,7 @@ array).
 !stripeDeco
 
 The `showStripes` [view plugin](##view.ViewPlugin), then, only has to
-advertise that it provides decorations (the `.decorations()` call),
+advertise that it provides decorations (the `decorations` option),
 and make sure its `decorations` property is recomputed when the
 document or the [viewport](##view.EditorView.viewport) changes.
 
