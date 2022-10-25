@@ -279,6 +279,8 @@ ul.grid-list h3 {
   font-size: 20px;
 }
 
+td { padding: 1px 0.5em }
+
 @media screen and (max-width: 830px) {
   h1 { font-size: 22px }
   a.logo {
