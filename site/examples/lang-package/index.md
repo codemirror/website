@@ -236,6 +236,10 @@ one might want to enable for the language.
 
 !support
 
+Finally, the `example()` function can be used to configer an editor like so:
+
+!editor
+
 The result looks like this:
 
 <div id=editor></div>
