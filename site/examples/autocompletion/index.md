@@ -40,7 +40,7 @@ The completions that the extension shows come from one or more
 [completion sources](##autocomplete.CompletionSource), which are
 functions that take a [completion
 context](##autocomplete.CompletionContext)—an object with information
-about the completion being requeststed—and return an
+about the completion being requested—and return an
 [object](##autocomplete.CompletionResult) that describes the range
 that's being completed and the [options](##autocomplete.Completion) to
 show. Sources may run asynchronously by returning a promise.
