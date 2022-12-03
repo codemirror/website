@@ -413,7 +413,7 @@ decorations.
 
 ```javascript
 import {StateField, StateEffect} from "@codemirror/state"
-import {EditorView, Range, Decoration} from "@codemirror/view"
+import {EditorView, Decoration} from "@codemirror/view"
 
 // Effects can be attached to transactions to communicate with the extension
 const addMarks = StateEffect.define(), filterMarks = StateEffect.define()
