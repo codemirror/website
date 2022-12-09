@@ -6,8 +6,11 @@
 <style>
   #controls {
     display: flex;
+    flex-wrap: wrap;
     column-gap: 10px;
-    padding: 5px 0;
+  }
+  #controls > * {
+    margin-bottom: 5px;
   }
   #controls button {
     font-family: sans-serif;
@@ -26,6 +29,9 @@
   }
   #controls button:active {
     background: #ccc;
+  }
+  #controls .separator {
+    flex-grow: 1;
   }
 
   #surface {
@@ -74,6 +80,11 @@
     #editor { display: block !important; border-right: 1px solid #666; }
     #editor, #output, #log { flex-basis: 50%; width: 50%; }
   }
+  @media screen and (max-width: 570px) {
+    #controls .separator {
+      flex-basis: 100%;
+    }
+  }
 
   .log-prop-table {
     display: grid;
@@ -115,7 +126,7 @@
   <button id=run title="Run code (Ctrl-Enter)" aria-title="Run code (Ctrl-Enter)">Run</button>
   <button id=share aria-title="Share code">Share</button>
   <select id=examples aria-title="Example list"><option>Select example...</option></select>
-  <div style="flex-grow: 1"></div>
+  <div class=separator></div>
   <button id=tab_editor title="Show code (Ctrl-Shift-1)" aria-label="Show code (Ctrl-Shift-1)">Code</button>
   <button id=tab_output title="Show output (Ctrl-Shift-2)" aria-label="Show code (Ctrl-Shift-2)">Output</button>
   <button id=tab_log title="Show log (Ctrl-Shift-3)" aria-label="Show log (Ctrl-Shift-3)">Log</button>
