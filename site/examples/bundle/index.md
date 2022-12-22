@@ -33,7 +33,7 @@ As far as bundler software goes, I'm a big fan of
 advantages.
 
 To use Rollup to create a bundle that loads CodeMirror, you must first
-write a main script (say, `editor.js`) that imports the library and
+write a main script (say, `editor.mjs`) that imports the library and
 creates the [editor view](##view.EditorView).
 
 ```javascript
@@ -62,7 +62,7 @@ npm i rollup @rollup/plugin-node-resolve
 With these, we can run rollup to create the bundle file.
 
 ```shell
-node_modules/.bin/rollup editor.js -f iife -o editor.bundle.js \
+node_modules/.bin/rollup editor.mjs -f iife -o editor.bundle.js \
   -p @rollup/plugin-node-resolve
 ```
 
@@ -75,13 +75,13 @@ variables don't end up in the global scope.
 
 The `-o` option indicates which output file to write to, and the `-p`
 option loads the resolution plugin. You can also create a
-configuration file (called `rollup.config.js`) and just run `rollup
+configuration file (called `rollup.config.mjs`) and just run `rollup
 -c` to take the configuration from that file.
 
 ```javascript
 import {nodeResolve} from "@rollup/plugin-node-resolve"
 export default {
-  input: "./editor.js",
+  input: "./editor.mjs",
   output: {
     file: "./editor.bundle.js",
     format: "iife"
