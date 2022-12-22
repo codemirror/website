@@ -611,7 +611,7 @@ indicate the position of the wrapper element.
 Extensions can define [base themes](##view.EditorView^baseTheme) to
 provide default styles for the elements they create. Base themes can
 use `&light` (default) and `&dark` (enabled when there's a dark theme
-active) placholders, so that even when they aren't overridden by a
+active) placeholders, so that even when they aren't overridden by a
 theme, they don't look too out of place.
 
 ```javascript
