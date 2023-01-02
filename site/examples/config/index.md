@@ -44,7 +44,7 @@ arrays of extensions are simply flattened into a sequence. Inputs to a
 given facet are then collected in the order they appear in that
 sequence.
 
-So you you specify `[keymap.of(A), keymap.of(B)]` as a configuration,
+So if you specify `[keymap.of(A), keymap.of(B)]` as a configuration,
 bindings from `A` take precedence over those in `B`. If you nest more
 deeply...
 
