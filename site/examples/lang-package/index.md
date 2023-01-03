@@ -49,7 +49,7 @@ for CodeMirror.
    [Markdown](https://github.com/codemirror/lang-markdown), but tends
    to be quite a lot of work.
 
-You can generally not use existing parsers, written for a different
+Generally, it won't be feasible for you to use existing parsers, written for a different
 purpose, to parse editor content. The way the editor parses code needs
 to be incremental, so that it can quickly update its parse when the
 document changes, without re-parsing the entire text. It also needs to
