@@ -49,13 +49,13 @@ for CodeMirror.
    [Markdown](https://github.com/codemirror/lang-markdown), but tends
    to be quite a lot of work.
 
-Generally, it won't be feasible for you to use existing parsers, written for a different
-purpose, to parse editor content. The way the editor parses code needs
-to be incremental, so that it can quickly update its parse when the
-document changes, without re-parsing the entire text. It also needs to
-be error-tolerant, so that highlighting doesn't break when you have a
-syntax error somewhere in your file. And finally, it is practical when
-it produces a syntax tree in a
+Generally, it won't be feasible to use existing parsers, written for a
+different purpose, to parse editor content. The way the editor parses
+code needs to be incremental, so that it can quickly update its parse
+when the document changes, without re-parsing the entire text. It also
+needs to be error-tolerant, so that highlighting doesn't break when
+you have a syntax error somewhere in your file. And finally, it is
+practical when it produces a syntax tree in a
 [format](https://lezer.codemirror.net/docs/ref/#common.Tree) that the
 highlighter can consume. Very few existing parsers can easily be
 integrated in such a context.
