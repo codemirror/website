@@ -2,7 +2,7 @@
 
 # Example: Document Changes
 
-Intiating an editor state change from a program is done by
+Initiating an editor state change from a program is done by
 [dispatching](##view.EditorView.dispatch) a
 [transaction](##state.Transaction).
 
