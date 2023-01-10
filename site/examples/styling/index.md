@@ -140,7 +140,7 @@ element in the rule. By default, a generated class name is prefixed to
 the rules, with a space after it (so `".cm-content"` becomes `".gen001
 .cm-content"`). But in rules that directly target the outer element
 (which gets the generated class), that doesn't work, and you have to
-place a `&` character to indicate where to insert the class selector.
+place an `&` character to indicate where to insert the class selector.
 
 Secondly, because there are two ways of showing the selection in
 CodeMirror (the native selection and the
