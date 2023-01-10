@@ -6,7 +6,7 @@ A “panel”, as supported by the [@codemirror/view](##h_panels) package,
 is a UI element shown above or below the editor. They will sit inside
 the editor's vertical space for editors with fixed height. When the
 editor is partially scrolled out of view, panels will be positioned to
-say in view.
+stay in view.
 
 This example shows how to add panels to your editor.
 
@@ -20,7 +20,7 @@ with an [effect](##state.StateEffect) to turn it on or off.
 !helpState
 
 The `provide` option wires this field up to the `showPanel` facet. The
-`createHelpPanel` function is define like this:
+`createHelpPanel` function is defined like this:
 
 !createHelpPanel
 

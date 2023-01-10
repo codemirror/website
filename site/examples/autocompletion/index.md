@@ -172,7 +172,7 @@ is not a block comment, or it is a block comment without a `/**` start
 marker, it returns null to indicate it has no completions.
 
 If the completion _does_ happen in a block comment, we check whether
-the is an existing tag in front of it. If there is, that is included
+there is an existing tag in front of it. If there is, that is included
 in the completion (see the `from` property in the returned object). If
 there isn't, we only complete if the completion was explicitly
 started.
