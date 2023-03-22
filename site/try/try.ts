@@ -24,9 +24,9 @@ function rewriteImports(code: string) {
       })
   }
   simple(tree, {
-    ExportNamedDeclaration: n => rewrite(n.source),
-    ImportDeclaration: n => rewrite(n.source),
-    ImportExpression: n => { if (n.source.type == "Literal") rewrite(n.source) }
+    ExportNamedDeclaration: n => rewrite((n as any).source),
+    ImportDeclaration: n => rewrite((n as any).source),
+    ImportExpression: n => { if ((n as any).source.type == "Literal") rewrite((n as any).source) }
   })
   for (let patch of patches.sort((a, b) => b.from - a.from))
     code = code.slice(0, patch.from) + patch.text + code.slice(patch.to)
@@ -288,7 +288,7 @@ function run() {
 }
 run()
 
-function getExamples() {
+function getExamples(): {[name: string]: string} {
   let ex = {
     "Minimal editor": `
 import {minimalSetup, EditorView} from "codemirror"
@@ -387,6 +387,33 @@ let view = new EditorView({
     basicSetup,
     markdown({codeLanguages: languages})
   ],
+  parent: document.body
+})
+`,
+    "Merge View": `
+import {MergeView} from "@codemirror/merge"
+import {EditorView, basicSetup} from "codemirror"
+import {EditorState} from "@codemirror/state"
+
+let doc = \`one
+two
+three
+four
+five\`
+
+let view = new MergeView({
+  a: {
+    doc,
+    extensions: basicSetup
+  },
+  b: {
+    doc: doc.replace(/t/g, "T") + "\nSix",
+    extensions: [
+      basicSetup,
+      EditorView.editable.of(false),
+      EditorState.readOnly.of(true)
+    ]
+  },
   parent: document.body
 })
 `,
