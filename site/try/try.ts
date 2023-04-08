@@ -407,7 +407,7 @@ let view = new MergeView({
     extensions: basicSetup
   },
   b: {
-    doc: doc.replace(/t/g, "T") + "\nSix",
+    doc: doc.replace(/t/g, "T") + "\\nSix",
     extensions: [
       basicSetup,
       EditorView.editable.of(false),
