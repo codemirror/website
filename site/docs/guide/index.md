@@ -195,7 +195,7 @@ of extensions passed to the state.
 
 ```javascript
 import {keymap} from "@codemirror/view"
-import {EditorState, Prec} from "@codemirrror/state"
+import {EditorState, Prec} from "@codemirror/state"
 
 function dummyKeymap(tag) {
   return keymap.of([{
