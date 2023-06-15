@@ -85,83 +85,11 @@ extension, and ran through
 [lezer-generator](https://lezer.codemirror.net/docs/guide/#building-a-grammar)
 to create a JavaScript file.
 
-This first rule expresses that a document should be parsed as any
-number of `expression`s, and the top node of the syntax tree should be
-called `Program`.
+To learn how to write a Lezer grammar, see the
+[examples](https://lezer.codemirror.net/examples/) on the project
+website.
 
-```lezer
-@top Program { expression* }
-```
-
-The next rule is a bit more involved. It declares that an expression
-can either be an identifier, a string, a boolean literal, or an
-application, which is any number of expressions wrapped in
-parentheses. (The branch for `Application` uses an _inline rule_ to
-combine the definition of the rule with its only use.)
-
-```lezer
-expression {
-  Identifier |
-  String |
-  Boolean |
-  Application { "(" expression* ")" }
-}
-```
-
-Rule names that start with a capital letter will end up in the syntax
-tree produced by the parser. Other rules, such as `expression`, which
-are only there to structure the grammar, will be left out (to keep the
-tree small and clean).
-
-Next, we define our tokens.
-
-```lezer
-@tokens {
-  Identifier { $[a-zA-Z_0-9]+ }
-
-  String { '"' (!["\\] | "\\" _)* '"' }
-
-  Boolean { "#t" | "#f" }
-
-  LineComment { ";" ![\n]* }
-
-  space { $[ \t\n\r]+ }
-
-  "(" ")"
-}
-```
-
-These use a syntax similar to the rule definitions, but can only
-express a _regular_ language, which roughly mean they can't be
-recursive. Quoted literals match exactly the text in the quotes, sets
-of characters can be specified with `$[]` syntax, and `![]` is used to
-match all characters _except_ the ones between the brackets.
-
-By default, tokens implicitly created by using literal strings in the
-(non-token) grammar won't be part of the syntax tree. By mentioning
-such tokens (like `"("` and `")"`) explicitly in the `@tokens` block,
-we indicate that they should be included.
-
-Skippable tokens, like space and comments, are declared in the same
-way as other tokens, and declared as skippable with a declaration like
-this.
-
-```lezer
-@skip { space | LineComment }
-```
-
-And finally, the parser generator can be asked to automatically infer
-matching delimiters with a `@detectDelim` directive. This will cause
-it to add
-[metadata](https://lezer.codemirror.net/docs/ref/#tree.NodeProp^closedBy)
-to those node types, which the editor can use for things like bracket
-matching and automatic indentation.
-
-```lezer
-@detectDelim
-```
-
-If that grammar lives in `example.grammar`, you can run
+If your grammar lives in `example.grammar`, you can run
 `lezer-generator example.grammar` to create a JavaScript module
 holding the parse tables. Or, as the [example
 repository](https://github.com/codemirror/lang-example) does, include
