@@ -79,8 +79,8 @@ the library tries to be robust when it comes to styling.
  * You can style content text with varying fonts, size, color, etc.
    The editor does not expect a monospace font or a fixed line height.
 
- * You can add vertical padding to `cm-content` and horizontal padding
-   to `cm-line`.
+ * To set the outer padding for a document, you add vertical padding
+   to `cm-content` and horizontal padding to `cm-line`.
 
  * By default, the editor adjusts to the height of its content, but
    you can make `cm-scroller` `overflow: auto`, and assign a `height`
