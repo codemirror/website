@@ -3,7 +3,7 @@
 //!authorityState
 
 import {ChangeSet, Text} from "@codemirror/state"
-import {Update} from "@codemirror/collab"
+import {Update, rebaseUpdates} from "@codemirror/collab"
 
 // The updates received so far (updates.length gives the current
 // version)
@@ -26,19 +26,26 @@ self.onmessage = event => {
     else
       pending.push(resp)
   } else if (data.type == "pushUpdates") {
-    if (data.version != updates.length) {
-      resp(false)
-    } else {
-      for (let update of data.updates) {
-        // Convert the JSON representation to an actual ChangeSet
-        // instance
-        let changes = ChangeSet.fromJSON(update.changes)
-        updates.push({changes, clientID: update.clientID})
-        doc = changes.apply(doc)
-      }
-      resp(true)
+    // Convert the JSON representation to an actual ChangeSet
+    // instance
+    let received = data.updates.map(json => ({
+      clientID: json.clientID,
+      changes: ChangeSet.fromJSON(json.changes)
+    }))
+    if (data.version != updates.length)
+      received = rebaseUpdates(received, updates.slice(data.version))
+    for (let update of received) {
+      updates.push(update)
+      doc = update.changes.apply(doc)
+    }
+    resp(true)
+    if (received.length) {
       // Notify pending requests
-      while (pending.length) pending.pop()!(data.updates)
+      let json = received.map(update => ({
+        clientID: update.clientID,
+        changes: update.changes.toJSON()
+      }))
+      while (pending.length) pending.pop()!(json)
     }
   } else if (data.type == "getDocument") {
     resp({version: updates.length, doc: doc.toString()})

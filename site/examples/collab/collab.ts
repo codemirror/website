@@ -30,9 +30,11 @@ class Connection {
 
   async request(value: any) {
     let latency = this.getLatency()
-    await (this.disconnected ? this.disconnected.wait : pause(latency))
+    if (this.disconnected) await this.disconnected.wait
+    await pause(latency)
     let result = await this._request(value)
-    await (this.disconnected ? this.disconnected.wait : pause(latency))
+    if (this.disconnected) await this.disconnected.wait
+    await pause(latency)
     return result
   }
 

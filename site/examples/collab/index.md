@@ -125,11 +125,12 @@ Collaborative systems implemented with the
    version.
 
    - If that version matches the server's version, the server
-     accepts the changes and adds them to its history.
+     accepts the changes as-is and adds them to its history.
 
-   - Otherwise, it rejects them, and the peer must wait until it
-     receives the conflicting changes, and try again after integrating
-     them.
+   - Otherwise, the server can, depending on how complex it is and on
+     whether it has access to all the changes that happened since the
+     client's version, either reject the updates, or
+     [rebase](##collab.rebaseUpdates) and accept them.
 
 The more tricky logic that a peer must apply is implemented in the
 @codemirror/collab package, but to set up a collaborative system you
@@ -168,10 +169,9 @@ This code implements the three message types that the worker handles.
    changes come in when asked for the current version (this is what
    the `pending` variable is used for).
 
- - **`pushUpdates`** is used to send an array of updates. If there are
-   no conflicts (the base version matches the authority's version),
-   the updates are stored, the document is rolled forward, and any
-   waiting `pullUpdates` requests are notified.
+ - **`pushUpdates`** is used to send an array of updates. The server
+   stores the updates, rolls its document forward, and notifies any
+   waiting `pullUpdates` requests.
 
  - **`getDocument`** is used by new peers to retrieve a starting
    state.
@@ -185,6 +185,21 @@ ignore the message-channel-related code in `resp`, since that's not
 terribly relevant here.
 
 !authorityMessage
+
+In older versions of @codemirror/collab,
+[`rebaseUpdates`](##collab.rebaseUpdates) didn't exist the way to
+handle updates where the client's version didn't match the server's
+document version was to simply reject them. The client would have to
+fetch peer updates and try again.
+
+This is still a reasonable way to implement the protocol, but it can
+in some circumstances lead to _starvation_—if a client has a higher
+latency than its peers, and those peers keep submitting changes, it
+may be unable to get its updates through for a long time, as they keep
+getting rejected. Thus, it is recommended to rebase updates whenever
+practical. If you don't store the full history of updates, but only
+recent ones, it is still reasonable to reject requests with a version
+that you don't have the update objects for anymore.
 
 ## The Peer
 
