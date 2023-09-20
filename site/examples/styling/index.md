@@ -101,6 +101,10 @@ the library tries to be robust when it comes to styling.
    automatically derived from the `direction` style of the content
    DOM.
 
+ * The library supports having CSS transforms applied to its parent
+   elements that do 2D scaling and translation. Anything else
+   (rotation, 3D transformation, shearing) _will_ break the editor.
+
 ## Themes
 
 Themes are defined with [`EditorView.theme`](##view.EditorView^theme).
