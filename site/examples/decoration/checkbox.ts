@@ -3,7 +3,7 @@
 import {WidgetType} from "@codemirror/view"
 
 class CheckboxWidget extends WidgetType {
-  constructor(readonly checked: boolean) { super() }
+  constructor(readonly checked: boolean) { super(); this.checked = checked }
 
   eq(other: CheckboxWidget) { return other.checked == this.checked }
 
