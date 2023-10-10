@@ -254,26 +254,6 @@ async function createPeer(connection: Connection) {
 }
 ```
 
-## Confirming Local Updates
-
-The view plugin above ignores the return value from `pushUpdates`. To
-make sure its own updates are confirmed, it relies entirely on them
-coming back through the pull process.
-
-If your control over the pull process is precise enough that you can
-ensure that you're not going to confirm the same updates twice (which
-_will_ break stuff), for example by making pull and push mutually
-exclusive, you could immediately use `receiveUpdates` on the local
-updates you pushed when the push comes back successful. This saves a
-bit of network traffic.
-
-(The reason local updates are confirmed through the same mechanism as
-remote updates is that we want to handle the case where the push
-request successfully arrives at the authority, but the network fails
-before the response comes back to the peer. If confirming local
-changes only happened on push, it would be hard to resynchronize with
-the authority after such an event.)
-
 ## Dropping Old Updates
 
 This implementation endlessly accumulates updates for every single
