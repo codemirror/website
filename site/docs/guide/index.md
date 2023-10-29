@@ -512,7 +512,7 @@ anyway.
 ### Update Cycle
 
 CodeMirror's view makes a serious effort to minimize the amount of DOM
-[reflows](https://sites.google.com/site/getsnippet/javascript/dom/repaints-and-reflows-manipulating-the-dom-responsibly)
+[reflows](http://web.archive.org/web/20220319231553/https://sites.google.com/site/getsnippet/javascript/dom/repaints-and-reflows-manipulating-the-dom-responsibly)
 it causes. [Dispatching](##view.EditorView.dispatch) a transaction
 will generally only cause the editor to write to the DOM, without
 reading layout information. The reading (to check whether the viewport
