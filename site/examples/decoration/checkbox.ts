@@ -72,7 +72,8 @@ const checkboxPlugin = ViewPlugin.fromClass(class {
   }
 
   update(update: ViewUpdate) {
-    if (update.docChanged || update.viewportChanged)
+    if (update.docChanged || update.viewportChanged ||
+        syntaxTree(update.startState) != syntaxTree(update.state))
       this.decorations = checkboxes(update.view)
   }
 }, {
