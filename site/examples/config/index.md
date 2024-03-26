@@ -149,11 +149,11 @@ divided into compartments. But compartments may nest, and the
 extension tree produced by some plugin may use its own compartments to
 dynamically en- or disable some extensions.
 
-If you just need to dynamically change the value of some known facet,
-it is preferable to use [computed facets](##state.Facet.compute)
-instead of reconfiguration, since those are more efficient and easier
-to keep track of (they are a form of derived state, rather than adding
-new fundamental state).
+If you just need to dynamically derive the value of some facet from
+other aspects of the state, it is preferable to use [computed
+facets](##state.Facet.compute) instead of reconfiguration, since those
+are more efficient and easier to keep track of (they are a form of
+derived state, rather than adding new fundamental state).
 
 But if you have something like an extension that wants to
 conditionally enable another extension, locally declaring a
