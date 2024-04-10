@@ -1,4 +1,4 @@
-import {EditorState, Text} from "@codemirror/state"
+import {Text} from "@codemirror/state"
 import {EditorView, drawSelection, keymap, lineNumbers} from "@codemirror/view"
 import {defaultKeymap, history, historyKeymap} from "@codemirror/commands"
 import {syntaxHighlighting, defaultHighlightStyle} from "@codemirror/language"
@@ -23,5 +23,5 @@ lines.push(`</body>`, ``)
     lineNumbers(),
     html()
   ],
-  parent: document.querySelector("#editor")
+  parent: document.querySelector("#editor")!
 })
