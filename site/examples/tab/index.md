@@ -16,15 +16,19 @@ _However_, I understand that people expect the Tab key do something
 indentation-related in code editor controls. To that purpose,
 CodeMirror has a built-in escape hatch: If you press the Escape key,
 and then press Tab directly after it, the editor never handles the Tab
-press, so that you can use that to move focus. Unfortunately, since
-CodeMirror doesn't have a built-in help feature (and probably
-shouldn't, since it's just a component, not an application), users
-won't know this.
+press, so that you can use that to move focus. In addition, the
+default keymap binds Ctrl-m (or Shift-Alt-m) on macOS to the
+[`toggleTabFocusMode` command](#commands.toggleTabFocusMode), which
+toggles a similar behavior.
+
+Unfortunately, since CodeMirror doesn't have a built-in help feature
+(and probably shouldn't, since it's just a component, not an
+application), users won't know this.
 
 So if you _really_ want to bind Tab, please start by making sure you
-mention this escape hatch somewhere in your documentation. Next, you
-can [add](##view.keymap) your own [key binding](##view.KeyBinding)
-that binds Tab to some command, or use
+mention one of these escape hatches somewhere in your documentation.
+Next, you can [add](##view.keymap) your own [key
+binding](##view.KeyBinding) that binds Tab to some command, or use
 [`indentWithTab`](##commands.indentWithTab) from the
 [commands](##commands) package.
 
