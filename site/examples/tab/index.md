@@ -1,4 +1,4 @@
-!{"type": "examples", "title": "CodeMirror Language Config Example", "injectCode": "./tab.ts"}
+!{"type": "examples", "title": "CodeMirror Tab Handling Example", "injectCode": "./tab.ts"}
 
 # Example: Tab Handling
 
