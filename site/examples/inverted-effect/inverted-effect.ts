@@ -107,10 +107,8 @@ const invertHighlight = invertedEffects.of(tr => {
   let ranges = tr.startState.field(highlightedRanges)
   tr.changes.iterChangedRanges((chFrom, chTo) => {
     ranges.between(chFrom, chTo, (rFrom, rTo) => {
-      if (rFrom >= chFrom || rTo <= chTo) {
-        let from = Math.max(chFrom, rFrom), to = Math.min(chTo, rTo)
-        if (from < to) found.push(addHighlight.of({from, to}))
-      }
+      let from = Math.max(chFrom, rFrom), to = Math.min(chTo, rTo)
+      if (from < to) found.push(addHighlight.of({from, to}))
     })
   })
   return found
