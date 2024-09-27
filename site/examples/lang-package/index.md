@@ -69,25 +69,15 @@ some mechanisms to deal with that.
 
 The Lezer
 [guide](https://lezer.codemirror.net/docs/guide/#writing-a-grammar)
-provides a more complete explanation of how to write a grammar. But
-roughly, the way it works is that you declare a number of tokens,
-which describe the way the document is split into meaningful pieces
-(identifiers, strings, comments, braces, and so on), and then provide
-rules that describe bigger constructs in term of those tokens and
-other rules.
+provides a more complete explanation of how to write a grammar. The
+[basic example](https://lezer.codemirror.net/examples/basic/) walks
+through the grammar used in this example, producing a small [grammar
+file](https://lezer.codemirror.net/examples/basic/basic.grammar).
 
-The notation borrows from extended Backus-Naur notation and regular
-expression syntax, using `|` to indicate a choice between several
-forms, `*` and `+` for repetition, and `?` for optional elements.
-
-The grammar should be put in its own file, typically with a `.grammar`
+Your grammar should be put in its own file, typically with a `.grammar`
 extension, and ran through
 [lezer-generator](https://lezer.codemirror.net/docs/guide/#building-a-grammar)
 to create a JavaScript file.
-
-To learn how to write a Lezer grammar, see the
-[examples](https://lezer.codemirror.net/examples/) on the project
-website.
 
 If your grammar lives in `example.grammar`, you can run
 `lezer-generator example.grammar` to create a JavaScript module
