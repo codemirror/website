@@ -46,8 +46,7 @@ exports.linkMods = function(modDir) {
       for (let mode of fs.readdirSync(path.join(mainDir, "mode")).filter(f => /\.js$/.test(f)))
         code.set(name + "/mode/" + mode, fs.readFileSync(path.join(mainDir, "mode", mode), "utf8"))
     } else {
-      if (!package.module && !package.exports) console.log(package)
-      let mod = path.join(package.module || package.exports.import)
+      let mod = path.join(package.module || package.exports?.import || package.main)
       code.set(name, fs.readFileSync(path.join(mainDir, mod), "utf8"))
       for (let dep of Object.keys(package.dependencies || {}).concat(Object.keys(package.peerDependencies || {}))) {
         if (!code.has(dep)) work.push(dep)
