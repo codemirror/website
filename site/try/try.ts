@@ -223,7 +223,7 @@ for (let i = 0; i < tabs.length; i++)
 
 ;(document.querySelector("#run") as HTMLElement).onclick = () => run()
 ;(document.querySelector("#share") as HTMLElement).onclick = e => {
-  navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" +
+  navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "#c=" +
     encParam(view.state.doc.toString()))
   showNotification(e.target as HTMLElement, "URL copied!")
 }
@@ -233,7 +233,7 @@ for (let name of Object.keys(examples))
 exampleSelect.onchange = () => {
   let value = exampleSelect.value
   if (examples.hasOwnProperty(value)) {
-    history.pushState({}, "", document.location.toString().replace(/[#?].*/, "") + "?example=" + encodeURIComponent(value))
+    history.pushState({}, "", document.location.toString().replace(/[#?].*/, "") + "#example=" + encodeURIComponent(value))
     loadCode(examples[value])
     run()
   }
@@ -241,8 +241,8 @@ exampleSelect.onchange = () => {
 }
 
 let urlCode = /[?&]code=([^&]+)/.exec(document.location.search)
-let urlBCode = /[?&]c=([^&]+)/.exec(document.location.search)
-let urlExample = /[?&]example=([^&]+)/.exec(document.location.search)
+let urlBCode = /[?&]c=([^&]+)/.exec(document.location.search) || /^#c=([^&]+)/.exec(document.location.hash)
+let urlExample = /[?&]example=([^&]+)/.exec(document.location.search) || /^#example=([^&]+)/.exec(document.location.hash)
 let view
 
 function encParam(code: string) {

@@ -80,7 +80,7 @@ This means that it is not currently practical to run the library
 without some kind of bundler (which packages up a modular program into
 a single big JavaScript file) or module loader. If you are new to
 bundling, I recommend looking into [rollup](https://rollupjs.org/) or
-[Webpack](https://webpack.js.org/).
+[Vite](https://vite.dev/).
 
 ### Functional Core, Imperative Shell
 
