@@ -144,30 +144,19 @@ view.dispatch(transaction)
 // And now it shows the new state.
 ```
 
-The data flow during typical user interaction looks something like
-this:
+The view listens for events, such as text input, key presses, or mouse
+interaction. It translates those into transactions that make the
+appropriate changes to the editor state, which it dispatches,
+computing a new state and synchronizing what it is displaying to that
+new state.
 
-<style>.box { color: white; display: inline-block; border-radius: 5px; padding: 6px 15px; margin: 3px 0; }</style>
-<div style="text-align: center; font-size: 120%; font-weight: bold; font-family: sans-serif;">
-  <div class=box style="background: #c33;">DOM event</div>
-  <div>↗<span style="width: 5em; display: inline-block;"></span>↘</div>
-  <div>
-    <div class=box style="margin: 0 2em 0 3em; background: #55b">view</div>
-    <div class=box style="background: #77e">transaction</div>
-  </div>
-  <div>↖<span style="width: 5em; display: inline-block;"></span>↙</div>
-  <div class=box style="background: #446;">new state</div>
-</div>
-
-The view listens for events. When DOM events come in, it (or a command
-bound to a key, or an event handler registered by an extension)
-translates them into state transactions and dispatches them. This
-builds up a new state. When that new state is given to the view, it'll
-update itself.
+It is of course also possible for transactions to come from other
+sources. But to affect the editor, they must be dispatched to the view
+component.
 
 ### Extension
 
-Since the core library is rather minimal and generic, a lot of
+The core library is rather minimal and generic, and a lot of
 functionality is implemented in system extensions. Extensions can do
 all kinds of things, from merely configuring some
 [option](##state.EditorState^tabSize), to defining new [fields in the
@@ -175,7 +164,7 @@ state object](##state.StateField), to [styling the
 editor](##view.EditorView^theme), to [injecting](##view.ViewPlugin)
 custom imperative components into the view. The system takes
 [care](https://marijnhaverbeke.nl/blog/extensibility.html) to allow
-extensions to compose without unexpected conflicts.
+such extensions to compose without unexpected conflicts.
 
 The set of active extensions is
 [kept](##state.EditorStateConfig.extensions) in the editor state (and
@@ -218,7 +207,9 @@ keymap `"A"` would be the first one to get a chance to handle the key
 combination, since it occurs before the others.
 
 A [later section](#extending-codemirror) of the guide goes into more
-detail on the kinds of extensions that exist, and how to use them.
+detail on the kinds of extensions that exist, and how to use them. See
+the [configuration example](../../examples/config/) for more example
+code related to configuration and reconfiguration.
 
 ### Document Offsets
 
@@ -259,17 +250,17 @@ import {Text} from "@codemirror/state"
 
 let doc = Text.of(["line 1", "line 2", "line 3"])
 // Get information about line 2
-console.log(doc.line(2)) // {start: 7, end: 13, ...}
+console.log(doc.line(2)) // {from: 7, to: 13, ...}
 // Get the line around position 15
-console.log(doc.lineAt(15)) // {start: 14, end: 20, ...}
+console.log(doc.lineAt(15)) // {from: 14, to: 20, ...}
 ```
 
 ## Data Model
 
 CodeMirror, being a _text_ editor, treats the document as a flat
-string. It stores this in a tree-shaped [data structure](##state.Text)
-to allow cheap updates anywhere in the document (and efficient
-indexing by line number).
+string. It stores this string split by line in a tree-shaped [data
+structure](##state.Text) to allow cheap updates anywhere in the
+document (and efficient indexing by line number).
 
 ### Document Changes
 
@@ -280,11 +271,11 @@ precisely what happens to the document, allowing things like an [undo
 history](##h_undo_history) and [collaborative editing](##collab) to be
 implemented outside the library core.
 
-When creating a change set, all changes are described in terms of the
-_original_ document—they conceptually all happen at once. (If you
-really need to combine lists of changes where later changes refer to
-the document created by earlier ones, you can use the change set
-[`compose`](##state.ChangeSet.compose) method.)
+When creating a change set, all change positions are specified in
+terms of the _original_ document—they conceptually all happen at once.
+(If you really need to combine lists of changes where later changes
+refer to the document created by earlier ones, you can use the change
+set [`compose`](##state.ChangeSet.compose) method.)
 
 ### Selection
 
@@ -293,7 +284,7 @@ a current [selection](##state.EditorSelection). Selections may consist
 of multiple [ranges](##state.SelectionRange), each of which can be a
 cursor ([empty](##state.SelectionRange.empty)) or cover a range
 between its [anchor](##state.SelectionRange.anchor) and
-[head](##state.SelectionRange.head)). Overlapping ranges are
+[head](##state.SelectionRange.head). Overlapping ranges are
 automatically merged, and ranges are sorted, so that a selection's
 [`ranges`](##state.EditorSelection.ranges) property always holds a sorted,
 non-overlapping array of ranges.
@@ -346,6 +337,11 @@ let tr = state.update(state.changeByRange(range => {
 console.log(tr.state.doc.toString()) // "aBCd"
 ```
 
+There's also
+[`replaceSelection`](##state.EditorState.replaceSelection), which
+creates a transaction that replaces all selection ranges with some
+piece of text.
+
 ### Configuration
 
 Each editor state also has a (private) reference to its
@@ -369,9 +365,9 @@ access to the state and the facet can
 facet, that may just be an array of provided values, or some value
 computed from those.
 
-The idea behind facets is that most types of extension allow multiple
-inputs, but want to compute some coherent combined value from those.
-How that combining works may differ.
+The idea behind facets is that most types of extension points allow
+multiple inputs, but want to compute some coherent combined value from
+those. How that combining works may differ.
 
  - For something like [tab size](##state.EditorState^tabSize), you
    need a single output value. So that facet takes the value with the
@@ -401,16 +397,32 @@ console.log(state.facet(EditorState.tabSize)) // 16
 console.log(state.facet(EditorState.changeFilter)) // [() => true]
 ```
 
-Facets are explicitly [defined](##state.Facet^define), producing a
-facet value. Such a value can be exported, to allow other code to
-provide and read it, or it can be kept module-private, in which case
-only that module can access it. We'll come back to that in the section
-on [writing extensions](#extending-codemirror).
+Facets are defined with [`Facet.define`](##state.Facet^define), which
+returens a facet value. Such a value can be exported, to allow other
+code to provide and read it, or it can be kept module-private, in
+which case only that module can access it. We'll come back to that in
+the section on [writing extensions](#extending-codemirror).
 
 In a given configuration, most facets tend to be static, provided only
 directly as part of the configuration. But it is also possible to have
 facet values [computed](##state.Facet.compute) from other aspects of
 the state.
+
+```javascript
+let info = Facet.define<string>()
+let state = EditorState.create({
+  doc: "abc\ndef",
+  extensions: [
+    info.of("hello"),
+    info.compute(["doc"], state => `lines: ${state.doc.lines}`)
+  ]
+})
+console.log(state.facet(info))
+// ["hello", "lines: 2"]
+```
+
+Such values are automatically recomputed when their declared inputs
+change.
 
 Facet values are only recomputed when necessary, so you can use an
 object or array identity test to cheaply check whether a facet
@@ -422,35 +434,56 @@ Transactions, created with the state's
 [`update`](##state.EditorState.update) method, combine a number of
 effects (all optional):
 
- - It can apply [document changes](##state.TransactionSpec.changes).
+ - They can apply [document changes](##state.TransactionSpec.changes).
 
- - It can explicitly move the
+ - They can explicitly move the
    [selection](##state.TransactionSpec.selection). Note that when
    there are document changes, but no explicit new selection, the
    selection will be implicitly [mapped](##state.EditorSelection.map)
    through these changes.
 
- - It can set a [flag](##state.TransactionSpec.scrollIntoView) that
-   instructs the view to scroll the (main) selection head into
-   view.
+ - They can set a [flag](##state.TransactionSpec.scrollIntoView) that
+   instructs the view to scroll the (main) selection head into view.
 
- - It can have any number of
+ - They can have any number of
    [annotations](##state.TransactionSpec.annotations), which store
    additional metadata that describes the (entire) transaction. For
    example, the [`userEvent`](##state.Transaction^userEvent)
    annotation can be used to recognize transactions generated for
    certain common operations like typing or pasting.
 
- - It can have [effects](##state.TransactionSpec.effects), which are
+ - They can have [effects](##state.TransactionSpec.effects), which are
    self-contained additional effects, typically on some extension's
    state (such as folding code or starting an autocompletion).
 
- - It can influence the state's configuration, either by providing a
+ - They can influence the state's configuration, either by providing a
    completely [new](##state.StateEffect^reconfigure) set of
    extensions, or by [replacing](##state.Compartment.reconfigure)
    specific [parts](##state.Compartment) of the configuration.
 
-To completely reset a state—for example to load a new document—it is
+Transactions are described with [specs](##state.TransactionSpec),
+which are usually written as object literals, though some methods
+(such as [`changeByRange`](##state.EditorState.changeByRange)) also
+return them. Such specs can be passed directly to
+[`EditorView.dispatch`](##view.EditorView.dispatch) to create an
+immediately dispatch a transaction, or to
+[`EditorState.update`](##state.EditorState.update) to only create it.
+
+When multiple specs are passed to these methods, they are _combined_
+into a single transaction. This can be useful to add some additional
+fields to a spec created by some helper function.
+
+Changes are described by `{from, to, insert}` objects (where `to` and
+`insert` are optional), or nested arrays of these. You can also pass
+in a [`ChangeSet`](##state.ChangeSet) object, which is the form in
+which the changes will be represented in the transaction object. The
+positions given for changes refer to the transaction's start document,
+even when there are multiple changes.
+
+Positions used in the new selection or in state effects refer to the
+_new_ document, after the changes.
+
+To completely _reset_ a state—for example to load a new document—it is
 recommended to create a new state instead of a transaction. That will
 make sure no unwanted state (such as undo history events) sticks
 around.
@@ -490,10 +523,11 @@ the way the content is displayed.
 ### Viewport
 
 One thing to be aware of is that CodeMirror doesn't render the entire
-document, when that document is big. To avoid doing some work, it
-will, when updating, detect which part of the content is currently
-visible (not scrolled out of view), and only render that plus a margin
-around it. This is called the [viewport](##view.EditorView.viewport).
+document, when that document is big. To keep the editor responsive and
+resource use low, it will, when updating, detect which part of the
+content is currently visible (not scrolled out of view), and only
+render that plus a margin around it. This is called the
+[viewport](##view.EditorView.viewport).
 
 Querying coordinates for positions outside of the current viewport
 will not work (since they are not rendered, and thus have no layout).
@@ -624,17 +658,28 @@ let myBaseTheme = EditorView.baseTheme({
 })
 ```
 
+When defining editor styling in regular CSS, you must account for the
+extra prefixed class selector that is added to injected style rules,
+or your styles will always have a lower precedence. The recommended
+approach is to include `.cm-editor` in your rules, which will go in
+the same place, and produce the same precedence, as the injected
+styles.
+
+```css
+.cm-editor .cm-content { color: purple; }
+```
+
 ### Commands
 
-[Commands](##view.Command) are functions with a specific signature.
-Their main use is [key bindings](##view.KeyBinding), but they could
-also be used for things like menu items or command palettes. A command
-function represents a user action. It takes a
-[view](##view.EditorView) and returns a boolean, `false` to indicate
-it doesn't apply in the current situation, and `true` to indicate that
-it successfully executed. The effect of the command is produced
-imperatively, usually by [dispatching](##view.EditorView.dispatch) a
-transaction.
+[Commands](##view.Command) are functions with a specific signature:
+`(view: EditorView) => boolean`. Their main use is [key
+bindings](##view.KeyBinding), but they could also be used for things
+like menu items or command palettes. A command function represents a
+user action. It takes a [view](##view.EditorView) and returns a
+boolean, `false` to indicate it doesn't apply in the current
+situation, and `true` to indicate that it successfully executed. The
+effect of the command is produced imperatively, usually by
+[dispatching](##view.EditorView.dispatch) a transaction.
 
 When multiple commands are bound to a given key, they are tried one at
 a time, in order of precedence, until one of them returns `true`.
@@ -644,6 +689,23 @@ Commands that only act on the state, not the entire view, can use the
 subtype of [`Command`](##view.Command) that just expects its argument
 to have `state` and `dispatch` properties. This is mostly useful for
 being able to test such commands without creating a view.
+
+The [`@codemirror/commands`](##commands) package exports a lot of
+different editing commands, along with some keymaps. Keymaps are
+arrays of [`KeyBinding`](##view.KeyBinding) objects, that are given to
+the [`keymap`](##view.keymap) facet to enable them in an editor.
+
+```javascript
+let myKeyExtension = keymap.of([
+  {
+    key: "Alt-c",
+    run: view => {
+      view.dispatch(view.state.replaceSelection("?"))
+      return true
+    }
+  }
+])
+```
 
 ## Extending CodeMirror
 
@@ -687,12 +749,28 @@ You will often want to use [annotations](##state.Annotation) or
 [effects](##state.StateEffect) to communicate what is happening to
 your state field.
 
+```javascript
+import {StateField, StateEffect} from "@codemirror/state"
+
+let setFullScreenMode = StateEffect.define<boolean>()
+
+let fullScreenMode = StateField.define({
+  create() { return false },
+  update(value, tr) {
+    for (let e of tr.effects)
+      if (e.is(setFullScreenMode)) value = e.value
+    return value
+  }
+})
+```
+
 It can be tempting to try to avoid taking the step of putting state in
 an actual state field—there's a bit of verbosity involved in declaring
 one, and firing off a whole transaction for every state change may
 feel a bit heavyweight. But in almost all cases, it is a _really_ good
 idea to tie your state into the editor-wide state update cycle,
-because it makes it a lot easier to keep everything in sync.
+because it makes it a lot easier to keep it in sync with the rest of
+the editor state.
 
 ### Affecting the View
 
@@ -777,6 +855,9 @@ content](##view.EditorView.visibleRanges)). The reason for this
 restriction is that the viewport is computed _from_ the block
 structure, so that must be known before the viewport can be read.
 
+There is a [decoration example](../../examples/decoration/) which
+implements some common use cases.
+
 ### Extension Architecture
 
 To create a given piece of editor functionality you often need to
@@ -815,5 +896,5 @@ reconcile configurations or thow an error when this is impossible.
 Then code that needs access to the current configuration can read that
 facet.
 
-See the [zebra stripes](../../examples/zebra) example for an
+See the [zebra stripes](../../examples/zebra/) example for an
 illustration of this approach.
