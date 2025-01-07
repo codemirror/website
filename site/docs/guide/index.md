@@ -398,7 +398,7 @@ console.log(state.facet(EditorState.changeFilter)) // [() => true]
 ```
 
 Facets are defined with [`Facet.define`](##state.Facet^define), which
-returens a facet value. Such a value can be exported, to allow other
+returns a facet value. Such a value can be exported, to allow other
 code to provide and read it, or it can be kept module-private, in
 which case only that module can access it. We'll come back to that in
 the section on [writing extensions](#extending-codemirror).
