@@ -49,7 +49,7 @@ exports.linkMods = function(modDir) {
       let mod = path.join(package.module || package.exports?.import || package.main)
       code.set(name, fs.readFileSync(path.join(mainDir, mod), "utf8"))
       for (let dep of Object.keys(package.dependencies || {}).concat(Object.keys(package.peerDependencies || {}))) {
-        if (!code.has(dep)) work.push(dep)
+        if (!code.has(dep) && dep != "vscode-languageserver-protocol") work.push(dep)
       }
     }
   }

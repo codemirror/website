@@ -37,6 +37,9 @@ exports.buildRef = function buildRef(highlight) {
         if (/\blezer[\/\\]lr\b/.test(type.typeSource)) return `https://lezer.codemirror.net/docs/ref/#lr.${type.type}`
         if (/\blezer[\/\\]highlight\b/.test(type.typeSource)) return `https://lezer.codemirror.net/docs/ref/#highlight.${type.type}`
         if (/\bstyle-mod\b/.test(type.typeSource)) return "https://github.com/marijnh/style-mod#documentation"
+        if (/\bvscode-languageserver-/.test(type.typeSource))
+          return `https://microsoft.github.io/language-server-protocol/specifications/specification-current#` +
+            type.type[0].toLowerCase() + type.type.slice(1)
       }, browserImports]
     }
   }
