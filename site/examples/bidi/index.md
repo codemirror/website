@@ -69,7 +69,7 @@ If you need to isolate ranges using some other mechanism, you can use
 `unicode-bidi: isolate` style (and optionally an explicit
 `direction`). But to make the editor's cursor motion aware of these,
 you must also use the
-[`bidiIsolatedRanges`](##view.EditorView.bidiIsolatedRanges) facet to
+[`bidiIsolatedRanges`](##view.EditorView^bidiIsolatedRanges) facet to
 tell it that these decorations provide isolates.
 
 <script defer src="../../codemirror.js"></script>
