@@ -30,8 +30,6 @@ and use that to determine which way to go (possibly using the
 `forward` argument to something like
 [`moveByChar`](##view.EditorView.moveByChar)).
 
-!cursorSemicolonLeft
-
 When writing extensions, take care to not assume a left-to-right
 layout. Either set up your CSS to use [direction-aware
 properties](https://drafts.csswg.org/css-logical/#position-properties)
@@ -56,33 +54,23 @@ base direction. This results in an unreadable mess.
 Thus, it can be useful to add elements with a [`unicode-bidi:
 isolate`](https://developer.mozilla.org/en-US/docs/Web/CSS/unicode-bidi#isolate)
 style around sections that should be ordered separate from the
-surrounding text. This bit of code does that for HTML tags:
+surrounding text. The [`bidiIsolates`](##language.bidiIsolates)
+extension does that, based on
+[metadata](https://lezer.codemirror.net/docs/ref/#common.NodeProp^isolate)
+added to the syntax tree.
 
-!htmlIsolates
-
-This computes a set of [decorations](../decoration/) and keeps it up
-to date as the editor state changes. It provides the set to _both_ the
-[decoration](##view.EditorView.decorations) and [isolated
-range](##view.EditorView.bidiIsolatedRanges) facets—the first makes
-sure the editable HTML is rendered appropriately, the second that
-CodeMirror's own order computations match the rendered order.
-
-Because styling something as isolated only works if it is rendered as
-a single HTML element, we don't want other decorations to break up the
-isolating decorations. Because lower-precedence decorations are
-rendered around higher-precedence ones, we use
-[`Prec.lowest`](##state.Prec.lowest) to give this extension a very low
-precedence.
-
-`computeIsolates` uses the syntax tree to compute decorations for HTML
-tags in the visible ranges.
-
-!computeIsolates
-
-Here's an editor showing this extension in action. Note that the HTML
-tags are shown coherently left-to-right.
+Here's an editor has that exention enabled. Note that the HTML tags
+are shown coherently left-to-right.
 
 <div id=isolate_editor style="direction: rtl"></div>
+
+If you need to isolate ranges using some other mechanism, you can use
+[decorations](../decoration/) to style pieces of code with a
+`unicode-bidi: isolate` style (and optionally an explicit
+`direction`). But to make the editor's cursor motion aware of these,
+you must also use the
+[`bidiIsolatedRanges`](##view.EditorView.bidiIsolatedRanges) facet to
+tell it that these decorations provide isolates.
 
 <script defer src="../../codemirror.js"></script>
 <script defer src="bidi.js"></script>
