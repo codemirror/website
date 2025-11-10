@@ -20,7 +20,7 @@ cursor should move left, regardless of the direction of the text at
 the cursor position.
 
 Some other commands work in a _logical_ direction—for example
-Backspace deletes _before_ of the cursor, which is to the left in
+Backspace deletes _before_ the cursor, which is to the left in
 left-to-right text, and to the right in right-to-left text. Similarly,
 Delete deletes text _after_ the cursor.
 
