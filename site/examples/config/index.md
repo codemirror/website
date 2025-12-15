@@ -265,7 +265,7 @@ gets replaced.
 
 !enable
 
-The result acts like this:
+The result acts like this ([sandbox link](!!language.ts)):
 
 <div id=editor></div>
 <script defer src="../../codemirror.js"></script>

@@ -141,5 +141,5 @@ or shift-ctrl/cmd-h to remove highlighting.
 Try undoing and redoing a highlight action.
 `,
   extensions: [rangeHighlighting(), basicSetup],
-  parent: document.querySelector("#editor")
+  parent: document.querySelector("#editor") || document.body
 })

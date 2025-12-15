@@ -55,12 +55,12 @@ function syncDispatch(tr: Transaction, view: EditorView, other: EditorView) {
 
 let mainView = new EditorView({
   state: startState,
-  parent: document.querySelector("#editor1"),
+  parent: document.querySelector("#editor1") || document.body,
   dispatch: tr => syncDispatch(tr, mainView, otherView)
 })
 
 let otherView = new EditorView({
   state: otherState,
-  parent: document.querySelector("#editor2"),
+  parent: document.querySelector("#editor2") || document.body,
   dispatch: tr => syncDispatch(tr, otherView, mainView)
 })

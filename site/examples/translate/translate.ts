@@ -49,5 +49,5 @@ Versuche zum Beispiel Strg-F für die Suchfunktion, oder bewege die
 Mauszeiger über dieses Zeichen: \u0011
 `,
   extensions: [basicSetup, EditorState.phrases.of(germanPhrases)],
-  parent: document.querySelector("#editor")
+  parent: document.querySelector("#editor") || document.body
 })

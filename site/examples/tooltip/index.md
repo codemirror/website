@@ -16,7 +16,7 @@ synchronization problems.
 ## Cursor Position
 
 This first example implements a tooltip that displays a row:column
-position above the cursor.
+position above the cursor ([sandbox link](!!tooltip.ts)).
 
 <div id=editor></div>
 <script defer src="../../codemirror.js"></script>
@@ -73,7 +73,7 @@ needed to enable this feature: the field and the base theme.
 The tooltip package also exports a helper function
 [`hoverTooltip`](##view.hoverTooltip), which can be used to define
 tooltips that show up when the user hovers over the document. This
-demo will show tooltips with the word you're hovering over.
+demo will show tooltips with the word you're hovering over ([sandbox link](!!hover.ts)).
 
 <div id=hover-editor></div>
 <script defer src="hover.js"></script>

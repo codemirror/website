@@ -35,7 +35,7 @@ the field on and off.
 
 And tie everything together in the `helpPanel` function, which creates
 the extension that enables the field, the key binding, and a simple
-styling for the panel.
+styling for the panel ([sandbox link](!!help-panel.ts)).
 
 !helpPanel
 
@@ -66,7 +66,7 @@ that re-counts the words every time the document changes.
 !wordCountPanel
 
 And finally, a function that build the extension that enables the
-panel in an editor.
+panel in an editor ([sandbox link](!!word-count.ts)).
 
 !wordCounter
 

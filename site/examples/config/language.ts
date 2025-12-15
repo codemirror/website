@@ -28,5 +28,5 @@ new EditorView({
     languageConf.of(javascript()),
     autoLanguage
   ],
-  parent: document.querySelector("#editor")
+  parent: document.querySelector("#editor") || document.body
 })

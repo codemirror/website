@@ -37,7 +37,7 @@ to the other editor.
 
 !syncDispatch
 
-Now we can create the views, and see them in action.
+Now we can create the views, and see them in action ([sandbox](!!split.ts)).
 
 !setup
 

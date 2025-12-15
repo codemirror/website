@@ -62,5 +62,5 @@ import {minimalSetup} from "codemirror"
 new EditorView({
   doc: "Dear [[name]],\nYour [[item]] is on its way. Please see [[order]] for details.\n",
   extensions: [placeholders, minimalSetup],
-  parent: document.querySelector("#editor-placeholder")
+  parent: document.querySelector("#editor-placeholder") || document.body
 })

@@ -42,7 +42,7 @@ for other languages on it.
 
 Given that, you can include an expression like
 `EditorState.phrases.of(germanPhrases)` in your configuration to
-enable the translation.
+enable the translation ([sandbox link](!!translate.ts)).
 
 <div id=editor></div>
 <script defer src="../../codemirror.js"></script>

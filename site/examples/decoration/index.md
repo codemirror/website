@@ -109,6 +109,8 @@ happen.
 
 !underlineKeymap
 
+This code is also available [in the sandbox](!!underline.ts).
+
 <div id="editor-underline"></div>
 <script defer src="../../codemirror.js"></script>
 <script defer src="underline.js"></script>
@@ -174,7 +176,7 @@ actually toggle booleans.
 !toggleBoolean
 
 After adding the plugin as an extension to a (JavaScript) editor, you
-get something like this:
+get something like this ([sandbox of this code](!!checkbox.ts)):
 
 <div id="editor-checkbox"></div>
 <script defer src="checkbox.js"></script>
@@ -209,11 +211,13 @@ styled element.)
 
 We'll use the matcher to create and maintain the decorations in our
 plugin. It also [provides](##view.PluginSpec.provide) the decoration
-set as atomic ranges.
+set as atomic ranges. ([Sandbox link](!!placeholder.ts)).
 
 !placeholderPlugin
 
 <div id="editor-placeholder"></div>
 <script defer src="placeholder.js"></script>
 
-It is possible to implement something like that in a custom way with [transaction filters](##state.EditorState^transactionFilter), if you need 
+It is possible to implement something like that in a custom way with
+[transaction filters](##state.EditorState^transactionFilter), if you
+need

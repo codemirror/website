@@ -60,5 +60,5 @@ import {basicSetup} from "codemirror"
 ;(window as any).view = new EditorView({
   doc: "In this editor, F1 is bound to a panel-toggling\ncommand.\n",
   extensions: [helpPanel(), basicSetup],
-  parent: document.querySelector("#editor")
+  parent: document.querySelector("#editor") || document.body
 })

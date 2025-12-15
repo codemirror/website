@@ -1,4 +1,4 @@
-!{"type": "examples", "title": "CodeMirror Autocompletion Example", "injectCode": ["./autocompletion.ts"]}
+!{"type": "examples", "title": "CodeMirror Autocompletion Example", "injectCode": ["./autocompletion.ts", "./jsdoc.ts"]}
 
 # Example: Autocompletion
 
@@ -182,9 +182,10 @@ source for JavaScript content.
 
 !jsDocCompletions
 
-Try it out:
+Try it out ([sandbox link](!!jsdoc.ts)):
 
 <div id="editor-javascript"></div>
 
 <script defer src="../../codemirror.js"></script>
 <script defer src="autocompletion.js"></script>
+<script defer src="jsdoc.js"></script>

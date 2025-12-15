@@ -82,6 +82,6 @@ import {lineNumbers} from "@codemirror/view"
 new EditorView({
   doc: "Some\ntext\nwith\n\nblank\n\nlines\n.\n",
   extensions: [breakpointGutter, basicSetup, emptyLineGutter],
-  parent: document.querySelector("#editor")
+  parent: document.querySelector("#editor") || document.body
 })
 

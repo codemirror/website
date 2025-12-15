@@ -74,7 +74,7 @@ highlighted.
 !extension
 
 If we tie all that together into an extension, it makes an editor
-behave like this:
+behave like this ([sandbox link](!!inverted-effect.ts)):
 
 <div id="editor"></div>
 <script defer src="../../codemirror.js"></script>

@@ -7,6 +7,7 @@ const {buildRef} = require("./buildref")
 const {buildLibrary, linkLibrary} = require("./library")
 const {changelog} = require("./changelog")
 const {linkMods} = require("./linkmods")
+const sucrase = require("sucrase")
 
 const {highlightTree, classHighlighter} = require("@lezer/highlight")
 const {parser: jsParser} = require("@lezer/javascript")
@@ -95,6 +96,10 @@ function injectCode(content, files) {
   return content
 }
 
+function base64(str) {
+  return btoa(str.replace(/[\xff-\uffff]/g, ch => `\xff${String.fromCharCode(ch.charCodeAt(0) & 0xff, ch.charCodeAt(0) >> 8)}`))
+}
+
 function renderMD(fullPath, name, updateContent) {
   let text = readFileSync(fullPath, "utf8")
   let meta = /^!(\{[^]*?\})\n\n/.exec(text)
@@ -104,6 +109,11 @@ function renderMD(fullPath, name, updateContent) {
     let files = Array.isArray(data.injectCode) ? data.injectCode : [data.injectCode]
     content = injectCode(content, files.map(f => join(dirname(fullPath), f)))
   }
+  content = content.replace(/\]\(!!([-\w]+\.ts)\)/g, (_, file) => {
+    let content = readFileSync(join(dirname(fullPath), file), "utf8")
+    let code = sucrase.transform(content.replace(/\/\/!.*\n\n?/g, ""), {transforms: ["typescript"]}).code
+    return `](${currentRoot}try/#c=${base64(code)})`
+  })
   if (updateContent) content = updateContent(content)
   data.content = content
   data.fileName = name

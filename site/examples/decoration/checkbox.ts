@@ -97,6 +97,6 @@ import {javascript} from "@codemirror/lang-javascript"
 new EditorView({
   doc: "let value = true\nif (!value == false)\n  console.log(\"good\")\n",
   extensions: [checkboxPlugin, basicSetup, javascript()],
-  parent: document.querySelector("#editor-checkbox")
+  parent: document.querySelector("#editor-checkbox") || document.body
 })
 

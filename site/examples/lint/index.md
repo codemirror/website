@@ -53,7 +53,7 @@ context.
 
 The result of a call to [`linter`](../../docs/ref/#lint.linter) is
 an extension that you can include in a (JavaScript) editor to get a
-result like this:
+result like this ([sandbox link](!!lint.ts)):
 
 <div id=editor></div>
 

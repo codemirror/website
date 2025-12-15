@@ -72,5 +72,5 @@ import {basicSetup} from "codemirror"
 new EditorView({
   doc: "Move through this text to\nsee your tooltip\n",
   extensions: [basicSetup, cursorTooltip()],
-  parent: document.querySelector("#editor")!
+  parent: document.querySelector("#editor") || document.body
 })

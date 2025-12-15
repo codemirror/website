@@ -89,7 +89,7 @@ use to set up a mousedown handler to toggle the breakpoint for the
 line that was clicked.
 
 This is what an editor with the breakpoint gutter before the line
-numbers and the empty line gutter after it looks like:
+numbers and the empty line gutter after it looks like ([sandbox link](!!gutters.ts)):
 
 <div id="editor"></div>
 <script defer src="../../codemirror.js"></script>

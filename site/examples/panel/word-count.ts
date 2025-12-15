@@ -46,5 +46,5 @@ import {basicSetup} from "codemirror"
 new EditorView({
   doc: "Type here and the editor will count your\nwords.",
   extensions: [basicSetup, wordCounter()],
-  parent: document.querySelector("#count-editor")
+  parent: document.querySelector("#count-editor") || document.body
 })

@@ -68,7 +68,7 @@ document or the [viewport](##view.EditorView.viewport) changes.
 
 !showStripes
 
-The result looks like this:
+The result looks like this ([sandbox link](!!zebra.ts)):
 
 <div id=editor></div>
 <script defer src="../../codemirror.js"></script>

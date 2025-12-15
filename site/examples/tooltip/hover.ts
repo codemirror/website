@@ -28,5 +28,5 @@ import {EditorView, basicSetup} from "codemirror"
 new EditorView({
   doc: "Hover over words to get tooltips\n",
   extensions: [basicSetup, wordHover],
-  parent: document.querySelector("#hover-editor")!
+  parent: document.querySelector("#hover-editor") || document.body
 })

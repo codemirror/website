@@ -61,5 +61,5 @@ import {basicSetup} from "codemirror"
 new EditorView({
   doc: "Select text and press Ctrl-h (Cmd-h) to add an underline\nto it.\n",
   extensions: [underlineKeymap, basicSetup],
-  parent: document.querySelector("#editor-underline")
+  parent: document.querySelector("#editor-underline") || document.body
 })

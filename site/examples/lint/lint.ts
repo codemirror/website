@@ -36,5 +36,5 @@ new EditorView({
     lintGutter(),
     regexpLinter
   ],
-  parent: document.querySelector("#editor")!
+  parent: document.querySelector("#editor") || document.body
 })
