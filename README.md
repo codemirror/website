@@ -1,3 +1,5 @@
+**This repository has moved to https://code.haverbeke.berlin/codemirror/website**
+
 # CodeMirror website
 
 This repository holds the sources for the [website for
