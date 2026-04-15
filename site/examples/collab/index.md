@@ -207,8 +207,8 @@ On the other side of the connection, I'm using some messy magic code
 to introduce fake latency and broken connections (the scissor controls
 in the demo above). This isn't very interesting, so I'm hiding it in a
 `Connection` class which is omitted from the code below (you can find
-the full code on
-[GitHub](https://github.com/codemirror/website/tree/master/site/examples/collab/collab.ts)).
+the full code in
+[the repository](https://code.haverbeke.berlin/codemirror/website/tree/master/site/examples/collab/collab.ts)).
 
 These wrappers interact with the worker process through messages,
 returning a promise that eventually resolves with some result (when

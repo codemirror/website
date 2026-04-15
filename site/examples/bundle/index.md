@@ -11,7 +11,7 @@ collections of NPM-distributed modules.
 (That being said, there are solutions that work around that by
 rewriting dependencies on the server side, like
 [Snowpack](https://www.snowpack.dev/) or
-[esmoduleserve](https://github.com/marijnh/esmoduleserve). I
+[esmoduleserve](https://code.haverbeke.berlin/marijn/esmoduleserve). I
 definitely recommend a solution like this during development, since it
 tends to introduce less indirection and delay when changing files, but
 for actual deployment, you'll want to do classical bundling for the

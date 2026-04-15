@@ -13,7 +13,7 @@ Autocompletion is enabled by including the
 [`autocompletion`](##autocomplete.autocompletion) extension (which is
 included in the basic setup) in your configuration. Some language
 packages come with support for proper autocompletion built in, such as
-the [HTML package](https://github.com/codemirror/lang-html/).
+the [HTML package](https://code.haverbeke.berlin/codemirror/lang-html/).
 
 <div id="editor-html"></div>
 

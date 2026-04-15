@@ -10,7 +10,7 @@ automatically pulled in through the JavaScript module system.
 
 [Themes](##view.EditorView^theme) are simply extensions that tell the
 editor to mount an additional [style
-module](https://github.com/marijnh/style-mod#documentation) and add
+module](https://code.haverbeke.berlin/marijn/style-mod#documentation) and add
 the (generated) class name that enables those styles to its outer DOM
 element.
 
@@ -110,7 +110,7 @@ the library tries to be robust when it comes to styling.
 Themes are defined with [`EditorView.theme`](##view.EditorView^theme).
 That function takes an object whose properties are CSS selectors and
 whose values are
-[styles](https://github.com/marijnh/style-mod#documentation), and
+[styles](https://code.haverbeke.berlin/marijn/style-mod#documentation), and
 returns an extension that installs the theme.
 
 ```javascript
@@ -161,7 +161,7 @@ A real theme will want to style a few more things, including elements
 created by extensions (such as [panels](##h_panels) and
 [tooltips](##h_tooltips)). You'll also usually want to include a
 [highlight style](##language.HighlightStyle) in your theme. You can
-see the [One Dark theme](https://github.com/codemirror/theme-one-dark)
+see the [One Dark theme](https://code.haverbeke.berlin/codemirror/theme-one-dark)
 for an example, and possibly copy and modify it to create your own
 theme.
 

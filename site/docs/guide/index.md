@@ -608,7 +608,7 @@ viewport, which in turn hold the document text (possibly
 ### Styles and Themes
 
 To manage editor-related styles, CodeMirror uses a
-[system](https://github.com/marijnh/style-mod) to inject styles from
+[system](https://code.haverbeke.berlin/marijn/style-mod) to inject styles from
 JavaScript. Styles can be [registered](##view.EditorView^styleModule)
 with a facet, which will cause the view to make sure they are
 available.
@@ -621,7 +621,7 @@ targeted by themes. A theme is an extension created with
 theme extension is active) and defines styles scoped by that class.
 
 A theme declaration defines any number of CSS rules using
-[style-mod](https://github.com/marijnh/style-mod) notation. This code
+[style-mod](https://code.haverbeke.berlin/marijn/style-mod) notation. This code
 creates a crude theme that makes the default text color in the editor
 orange:
 

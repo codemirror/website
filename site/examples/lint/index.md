@@ -10,7 +10,7 @@ when changes are made to the document, and display its result.
 
 The library does *not* come with a collection of lint sources. Some
 language packages (such as
-[@codemirror/lang-javascript](https://github.com/codemirror/lang-javascript/#user-content-eslint))
+[@codemirror/lang-javascript](https://code.haverbeke.berlin/codemirror/lang-javascript/#user-content-eslint))
 may include integration with lint libraries, but usually setting up a
 source is something you have to do yourself.
 
@@ -31,7 +31,7 @@ should be forbidden in the entire codebase. We want a linter that
 highlights any use of a regular expression in JavaScript code.
 
 Conveniently, the [JavaScript
-parser](https://github.com/lezer-parser/javascript) emits a specific
+parser](https://code.haverbeke.berlin/lezer/javascript) emits a specific
 node type for regular expression literals, so all we have to do is
 iterate over the parse tree and emit a warning for every node like
 that we find.

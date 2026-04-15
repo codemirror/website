@@ -30,7 +30,7 @@ which can be
 to the outer parser to manage the inner parsing.
 
 Let's pretend the
-[@codemirror/lang-html](https://github.com/codemirror/lang-html)
+[@codemirror/lang-html](https://code.haverbeke.berlin/codemirror/lang-html)
 package doesn't already provide mixed-language parsing, and implement
 parsing of `<script>` tags ourselves:
 

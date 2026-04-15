@@ -24,12 +24,12 @@ or hand-pick the core modules you need from the list provided in the
 
 Language support also lives in separate packages. There's a number of
 languages available in dedicated packages, with names like
-[`@codemirror/lang-javascript`](https://github.com/codemirror/lang-javascript)
-or [`@codemirror/lang-rust`](https://github.com/codemirror/lang-rust).
+[`@codemirror/lang-javascript`](https://code.haverbeke.berlin/codemirror/lang-javascript)
+or [`@codemirror/lang-rust`](https://code.haverbeke.berlin/codemirror/lang-rust).
 Many of the CodeMirror 5 modes have been ported to CodeMirror 6's
 [stream-parser](##language.StreamParser) interface and are available
 in the
-[`@codemirror/legacy-modes`](https://github.com/codemirror/legacy-modes)
+[`@codemirror/legacy-modes`](https://code.haverbeke.berlin/codemirror/legacy-modes)
 package.
 
 See the [bundling example](../../examples/bundle/) for a basic example
@@ -259,7 +259,7 @@ Highlighting tokens are no longer assigned stable CSS classes. Rather,
 a [highlight style](##language.HighlightStyle) produces generated
 class names for specific syntactic structures. To write or port a
 theme, see the [One Dark
-theme](https://github.com/codemirror/theme-one-dark) as an example.
+theme](https://code.haverbeke.berlin/codemirror/theme-one-dark) as an example.
 
 ```javascript
 cm.focus() → cm.focus()

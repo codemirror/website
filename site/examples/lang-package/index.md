@@ -19,7 +19,7 @@ In this example, we'll go through implementing a language package for
 a very minimal Lisp-like language. A similar project, with build tool
 configuration and such set up for you, is available as an example Git
 repository at
-[codemirror/lang-example](https://github.com/codemirror/lang-example).
+[codemirror/lang-example](https://code.haverbeke.berlin/codemirror/lang-example).
 It may be useful to start from that when building your own package.
 
 ## Parsing
@@ -46,7 +46,7 @@ for CodeMirror.
 
  * Writing a completely custom parser. This can be the only recourse
    for some awkward languages like
-   [Markdown](https://github.com/codemirror/lang-markdown), but tends
+   [Markdown](https://code.haverbeke.berlin/codemirror/lang-markdown), but tends
    to be quite a lot of work.
 
 Generally, it won't be feasible to use existing parsers, written for a
@@ -82,7 +82,7 @@ to create a JavaScript file.
 If your grammar lives in `example.grammar`, you can run
 `lezer-generator example.grammar` to create a JavaScript module
 holding the parse tables. Or, as the [example
-repository](https://github.com/codemirror/lang-example) does, include
+repository](https://code.haverbeke.berlin/codemirror/lang-example) does, include
 the [Rollup](https://rollupjs.org/) plugin provided by that tool in
 your build process, so that you can directly import the parser from
 the grammar file.
